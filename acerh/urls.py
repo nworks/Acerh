@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^login/',LoginRequest ),
     url(r'^vacantes/',vacantelist ),
     url(r'^aplicado/',aplicado ),
-    url(r'logout/$', LogoutRequest),
+    url(r'logout/', LogoutRequest, name="logout"),
     url(r'register/$', register),
     url(r'^solicitud/', solicitud, name="solicitud"),
     url(r'^remover/', remover, name="remover"),
