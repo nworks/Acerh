@@ -214,7 +214,7 @@
      
       <div class="row">
       {% for aplicado in aplicados %}
-        <div class="col-md-4 col-sm-12 col-xs-12">
+        <div id="getid{{ aplicado.aplico.id }}div" class="col-md-4 col-sm-12 col-xs-12">
          <div class="panel panel-default">
 
             <div class="panel-heading">{{aplicado.aplico.titulo}}
@@ -222,9 +222,9 @@
             </div>
             <div class="panel-wrapper collapse in" aria-expanded="true">
               <div class="panel-body">
-                <p>{{aplicado.aplico.descripcion}}</p>
-                <button id="getid{{ aplicado.aplico.id }}" value="{{ aplicado.aplico.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{ aplicado.aplico.id }}()" data-target=myFuction2()>Retirar Aplicacion</button> </div>
-              <div class="panel-footer"> {{aplicado.aplico.creatd_date}}<span class="label label-rounded label-info">{{aplicado.estatus}}</span> </div>
+                <center><p>{{aplicado.aplico.descripcion}}</p></center>
+                <center><button id="getid{{ aplicado.aplico.id }}" value="{{ aplicado.aplico.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{ aplicado.aplico.id }}()" data-target=myFuction2()>Retirar Aplicacion</button></center> </div>
+              <div class="panel-footer"> <center>{{aplicado.aplico.creatd_date}}<span class="label label-rounded label-info">{{aplicado.estatus}}</span></center> </div>
             </div>
 
           </div>
@@ -252,10 +252,8 @@
                         },
                         function(){
                           swal("Borrado!", "Su aplicacion a sido removida.", "warning");
-                          setTimeout(myFunction, 2000)
-                          function myFunction() {
-                           window.location.replace("/aplicado");
-                           }
+                          var link = document.getElementById('getid{{ aplicado.aplico.id }}div');
+                          link.style.display = 'none'; //or
                           
                         }); 
                     

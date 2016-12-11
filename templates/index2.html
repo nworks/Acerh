@@ -214,7 +214,7 @@
      
       <div class="row">
       {% for post in posts %}
-        <div class="col-md-4 col-sm-12 col-xs-12">
+        <div id="getid{{ post.id }}div" class="col-md-4 col-sm-12 col-xs-12">
          <div class="panel panel-default">
 
             <div class="panel-heading">{{post.titulo}}
@@ -244,7 +244,8 @@
             type: 'POST',
             success : function(data) {
                    swal("Haz Aplicado!", "Presiona el boton para continuar!", "success")  
-                  
+                   var link = document.getElementById('getid{{ post.id }}div');
+                   link.style.display = 'none'; //or
             },
             error : function(message) {
                    console.log(message);
