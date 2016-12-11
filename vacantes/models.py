@@ -20,7 +20,7 @@ class Vacantes(models.Model):
 	creatd_date = models.DateTimeField(auto_now_add=True, auto_now=False)
 
 	def __str__(self):
-		return self.titulo
+		return str(self.id)
 
 class Estatus(models.Model):
 	titulo = models.CharField(max_length=20)
@@ -34,5 +34,6 @@ class Aplicado(models.Model):
 	aplico = models.ForeignKey(Vacantes)
 	estatus = models.ForeignKey(Estatus)
 	
+	
 	def __str__(self):
-		return str(self.usuario)
+		return str(self.aplico)

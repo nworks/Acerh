@@ -184,7 +184,7 @@
         <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
         
         </li>
-        <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span class="label label-rouded label-info pull-right">13</span> </span></a>
+        <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span class="label label-rouded label-info pull-right">{{cantidad}}</span> </span></a>
          
         </li>
         
@@ -222,14 +222,38 @@
             </div>
             <div class="panel-wrapper collapse in" aria-expanded="true">
               <div class="panel-body">
-                <p>{{post.descripcion}}</p>
-                <a class="btn btn-danger btn-rounded">Aplicar <i class="fa fa-check-circle-o" aria-hidden="true"></i></a> </div>
-              <div class="panel-footer"> {{post.creatd_date}}<span class="label label-rounded label-info">SIN APLICAR</span> </div>
+                <center><p>{{post.descripcion}}</p></center>
+                 </div>
+                <center><button id="getid{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{ post.id }}()" data-target=myFuction2()>Aplicar(js)</button></center>
+                
+              <div class="panel-footer"><center> {{post.creatd_date}} <span class="label label-rounded label-info">SIN APLICAR</span></center> </div>
             </div>
 
           </div>
         
         </div>
+        <script type="text/javascript">
+            
+            function myFunction{{ post.id }}(p1) {
+            var ids = document.getElementById("getid{{ post.id }}").value;
+            console.log(ids)
+            $.ajax({
+            data: {'id': ids , csrfmiddlewaretoken: '{{ csrf_token }}'},
+
+            url: '{% url 'solicitud'  %}',
+            type: 'POST',
+            success : function(data) {
+                   swal("Haz Aplicado!", "Presiona el boton para continuar!", "success")  
+                  
+            },
+            error : function(message) {
+                   console.log(message);
+            }
+             });
+          
+            }
+         </script>
+ 
         
 
         {% endfor %}
@@ -328,5 +352,9 @@
 <script src="{% static 'js/dashboard2.js' %}"></script>
 <!--Style Switcher -->
 <script src="{% static 'plugins/bower_components/styleswitcher/jQuery.style.switcher.js' %}"></script>
+<script src="{% static 'js/toastr.js' %}"></script>
+<script src="{% static 'sweetalert/dist/sweetalert.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'sweetalert/dist/sweetalert.css' %}">
+
 </body>
 </html>

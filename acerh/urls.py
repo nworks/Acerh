@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from users.views import LoginRequest ,LogoutRequest, register
-from vacantes.views import vacantelist, aplicado
+from vacantes.views import vacantelist, aplicado, solicitud, remover
 from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
@@ -26,4 +26,6 @@ urlpatterns = [
     url(r'^aplicado/',aplicado ),
     url(r'logout/$', LogoutRequest),
     url(r'register/$', register),
+    url(r'^solicitud/', solicitud, name="solicitud"),
+    url(r'^remover/', remover, name="remover"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
