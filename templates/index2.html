@@ -184,7 +184,7 @@
         <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
         
         </li>
-        <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span class="label label-rouded label-info pull-right">{{cantidad}}</span> </span></a>
+        <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span id="cantidad" class="label label-rouded label-info pull-right">{{cantidad}}</span> </span></a>
          
         </li>
         
@@ -246,7 +246,9 @@
                    swal("Haz Aplicado!", "Presiona el boton para continuar!", "success")  
                    var link = document.getElementById('getid{{ post.id }}div');
                    link.style.display = 'none'; //or
-            },
+                   
+                  document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) + 1;
+                               },
             error : function(message) {
                    console.log(message);
             }
