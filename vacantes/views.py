@@ -20,7 +20,7 @@ def aplicado(request):
 def solicitud(request):
 	idview = request.POST.get('id')
 	post = Vacantes.objects.get(id=idview)
-	solicit =  Aplicado.objects.create(usuario=request.user, aplico_id=post.id, estatus_id=4)
+	solicit =  Aplicado.objects.create(usuario=request.user, aplico_id=post.id, estatus_id=1)
 	solicit.save()
 	return HttpResponse('/vacantes')
 
