@@ -66,13 +66,15 @@ def register(request):
 				login(request,usuario)
 				return HttpResponseRedirect('/vacantes')
 			else:
-				print user_form.errors, profile_form.errors
-
-			
-
-
+				profile.save()
+				registered = True
+				username = user_form.cleaned_data['username']
+				password = user_form.cleaned_data['password']
+				usuario = authenticate(username=username,password=password)
+				login(request,usuario)
+				return HttpResponseRedirect('/vacantes')
 	else:
 		user_form = UsuarioForm2()
 		profile_form = UserPr()
-
+        
 	return render (request,'register3.html',{'user_form':user_form, 'profile_form': profile_form})

@@ -46,7 +46,7 @@
     <div class="">
        <a href="javascript:void(0)" class="text-center db m-b-40"><img src="{% static 'plugins/images/eliteadmin-logo-dark.png' %}" alt="Home" /><br/><img src="{% static 'plugins/images/eliteadmin-text-dark.png' %}" alt="Home" /></a>
       <!-- multistep form -->
-        <form id="msform" role="form" action="" method="POST" class="registration-form" enctype="multipart/form-data">
+        <form id="msform" role="form" action="" method="POST" class="form-material" enctype="multipart/form-data">
         {% csrf_token %}
         <!-- progressbar -->
         <ul id="eliteregister">
@@ -58,16 +58,20 @@
         <fieldset>
         <h2 class="fs-title">Crea tu cuenta</h2>
         <h3 class="fs-subtitle">Este es el paso 1</h3>
+        <label>Username</label>
         <input type="text" name="username" class="form-control" placeholder="Username" />
+        <label>Password</label>
         <input type="password" name="password" class="form-control" placeholder="Password"/>
         <input type="button" name="next" class="next action-button" value="Next" />
         </fieldset>
         <fieldset>
         <h2 class="fs-title">Detalles Adicionales</h2>
         <h3 class="fs-subtitle">Esta Informacion no sera vendida</h3>
-        <input type="text" name="phone" placeholder="phone" />
-        <input type="text" name="lname" placeholder="Celular" />
-        
+        <label>Email</label>
+        <input type="text" name="Email" placeholder="Email" />
+        <label>Phone</label>
+        <input type="text" placeholder="" data-mask="(999) 999-9999" class="form-control" placeholder="Telefono">
+        <label>Direccion</label>
         <textarea name="address" placeholder="Direccion"></textarea>
 
         <input type="button" name="previous" class="previous action-button" value="Previous" />
@@ -80,9 +84,11 @@
         <div class="fileinput fileinput-new" data-provides="fileinput">
           <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 300px; height: 250px;"></div>
           <div>
-          <div><span class="btn btn-default btn-file"><span>Select User Photo</span>{{ profile_form.picture }}</span></div>
-        <input type="text" name="first_name" class="form-control" placeholder="Primer Nombre" />
-        <input type="text" name="last_name" class="form-control" placeholder="Segundo Nombre" />
+          <div><span class="btn btn-default btn-file"><span>Selecione Imange Usuario</span>{{ profile_form.picture }}</span></div>
+        <label>Nombres</label>
+        <input type="text" name="first_name" class="form-control" placeholder="Nombres" />
+        <label>Apellidos</label>
+        <input type="text" name="last_name" class="form-control" placeholder="Apellidos" />
         
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <button type="submit" value="Create" class="btn">Registrame</button>
@@ -109,5 +115,25 @@
 <!--Style Switcher -->
 <script src="{% static 'plugins/bower_components/styleswitcher/jQuery.style.switcher.js' %}"></script>
 <script src="{% static 'js/jasny-bootstrap.js' %}"></script>
+<script src="{% static 'js/custom.min.js' %}"></script>
+<script src="{% static 'js/mask.js' %}"></script>
+<script src="{% static 'js/validator.js' %}"></script>
+<script type="text/javascript">
+  $('#myForm').on('submit', function(e) {
+    var firstName = $('#firstname');
+
+    // Check if there is an entered value
+    if(!firstName.val()) {
+      // Add errors highlight
+      firstName.closest('.form-group').removeClass('has-success').addClass('has-error');
+
+      // Stop submission of the form
+      e.preventDefault();
+    } else {
+      // Remove the errors highlight
+      firstName.closest('.form-group').removeClass('has-error').addClass('has-success');
+    }
+  });
+</script>
 </body>
 </html>
