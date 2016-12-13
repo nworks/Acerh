@@ -53,7 +53,7 @@ body {
   color: #ffffff;
 }
 .navbar-header {
-  background: #fb9678;
+  background: #e00a14;
 }
 .navbar-top-links > li > a {
   color: #ffffff;
@@ -143,8 +143,8 @@ body {
 .customtab li.active a,
 .customtab li.active a:hover,
 .customtab li.active a:focus {
-  border-bottom: 2px solid #fb9678;
-  color: #fb9678;
+  border-bottom: 2px solid #e00a14;
+  color: #e00a14;
 }
 .tabs-vertical li.active a,
 .tabs-vertical li.active a:hover,

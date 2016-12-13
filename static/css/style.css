@@ -1183,8 +1183,8 @@ pre {
 }
 .btn-danger,
 .btn-danger.disabled {
-  background: #fb9678;
-  border: 1px solid #fb9678;
+  background: #e00a14;
+  border: 1px solid #e00a14;
 }
 .btn-danger:hover,
 .btn-danger.disabled:hover,

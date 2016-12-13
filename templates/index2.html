@@ -21,7 +21,7 @@
 <!-- Custom CSS -->
 <link href="{% static 'css/style.css' %}" rel="stylesheet">
 <!-- color CSS -->
-<link href="{% static 'css/colors/default.css' %}" id="theme"  rel="stylesheet">
+<link href="{% static 'css/colors/default-dark.css' %}" id="theme"  rel="stylesheet">
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -49,7 +49,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-default navbar-static-top m-b-0">
     <div class="navbar-header"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
-      <div class="top-left-part"><a class="logo" href="index.html"><b><img src="{% static 'plugins/images/eliteadmin-logo.png' %}" alt="home" class="dark-logo" /><img src="{% static 'plugins/images/eliteadmin-logo-dark.png' %}" alt="home" class="light-logo" /></b><span class="hidden-xs"><img src="{% static 'plugins/images/eliteadmin-text.png' %}" alt="home" class="dark-logo" /><img height="40" width="108" src="{% static 'plugins/logo2.png' %}" alt="home" class="light-logo" /></span></a></div>
+      <div class="top-left-part"><a class="logo" href="index.html"><b><img src="{% static 'plugins/images/eliteadmin-logo.png' %}" alt="home" class="dark-logo" /><img src="{% static 'plugins/images/eliteadmin-logo-dark.png' %}" alt="home" class="light-logo" /></b><span class="hidden-xs"><img height="40" width="108" src="{% static 'plugins/logo3.png' %}" alt="home" class="dark-logo" /><img height="40" width="108" src="{% static 'plugins/logo2.png' %}" alt="home" class="light-logo" /></span></a></div>
       <ul class="nav navbar-top-links navbar-left hidden-xs">
         <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a></li>
         <li>
@@ -179,12 +179,13 @@
       {% for post in posts %}
        <div id="getid{{ post.id }}div" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
           <div class="panel panel-default">
-            <div class="panel-heading"> {{post.titulo}} <button id="getid{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{ post.id }}()" data-target=myFuction2()>Aplicar(js)</button> </div>
+            <div class="panel-heading"> {{post.titulo}}  </div>
             <div class="panel-wrapper collapse in">
               <ul class="nav customtab nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#home1{{ post.id }}" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> Descripcion</span></a></li>
                 <li role="presentation" class=""><a href="#profile1{{ post.id }}" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Empresa</span></a></li>
-                <li role="presentation"><a href="#messages1{{ post.id }}" aria-controls="messages" role="tab" data-toggle="tab"><span class="visible-xs"><i class="ti-email"></i></span> <span class="hidden-xs">Requisitos</span></a></li>
+                <li role="presentation"><a href="#messages1{{ post.id }}" aria-controls="messages" role="tab" data-toggle="tab"><span class="visible-xs"><i class="ti-email"></i></span> <span class="hidden-xs">Requisitos</span></a>
+                <li><button id="getid{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{ post.id }}()" data-target=myFuction2()>Aplicar(js)</button></li></li>
 
                 
               </ul>
@@ -200,7 +201,7 @@
                   </div>
                   <div role="tabpanel" class="tab-pane fade" id="profile1{{ post.id }}">
                     <div class="col-md-6">
-                      <h5>{{post.descripcion}}</h5>
+                      <div class="user-img"> <img width="50" height="25" src="{% static 'plugins/logo1.png' %}" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span></div><h5>Acerh dominincana reclutadora</h5>
                       
                     </div>
                     
@@ -208,8 +209,8 @@
                   </div>
                   <div role="tabpanel" class="tab-pane fade" id="messages1{{ post.id }}">
                     <div >
-                      <h5>Come on you have a lot message</h5>
-                      <h4>you can use it with the small code</h4>
+                      <h5>Esperiencia laboral</h5>
+                      
                     </div>
                     
                     <div class="clearfix"></div>
