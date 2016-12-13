@@ -77,4 +77,4 @@ def register(request):
 		user_form = UsuarioForm2()
 		profile_form = UserPr()
         
-	return render (request,'register3.html',{'user_form':user_form, 'profile_form': profile_form})
+	return render (request,'register2.html',{'user_form':user_form, 'profile_form': profile_form})

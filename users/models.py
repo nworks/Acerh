@@ -10,3 +10,12 @@ class UserP(models.Model):
 	
 	def __str__(self):
 		return self.user.username
+
+class UserPC(models.Model):
+	user = models.OneToOneField(User)
+	picture = models.ImageField(upload_to='companypic/', blank=True)
+	company = models. BooleanField()
+	descripcion = models.TextField()
+	
+	def __str__(self):
+		return self.user.username
