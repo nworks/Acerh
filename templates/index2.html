@@ -177,23 +177,48 @@
      
       <div class="row">
       {% for post in posts %}
-        <div id="getid{{ post.id }}div" class="col-md-4 col-sm-12 col-xs-12">
-         <div class="panel panel-default">
+       <div id="getid{{ post.id }}div" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-heading"> {{post.titulo}} <button id="getid{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{ post.id }}()" data-target=myFuction2()>Aplicar(js)</button> </div>
+            <div class="panel-wrapper collapse in">
+              <ul class="nav customtab nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home1{{ post.id }}" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> Descripcion</span></a></li>
+                <li role="presentation" class=""><a href="#profile1{{ post.id }}" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Empresa</span></a></li>
+                <li role="presentation"><a href="#messages1{{ post.id }}" aria-controls="messages" role="tab" data-toggle="tab"><span class="visible-xs"><i class="ti-email"></i></span> <span class="hidden-xs">Requisitos</span></a></li>
 
-            <div class="panel-heading">{{post.titulo}}
-              <div class="panel-action"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> <a href="#" data-perform="panel-dismiss"><i class="ti-close"></i></a></div>
-            </div>
-            <div class="panel-wrapper collapse in" aria-expanded="true">
-              <div class="panel-body">
-                <center><p>{{post.descripcion}}</p></center>
-                 </div>
-                <center><button id="getid{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{ post.id }}()" data-target=myFuction2()>Aplicar(js)</button></center>
                 
-              <div class="panel-footer"><center> {{post.creatd_date}} <span class="label label-rounded label-info">SIN APLICAR</span></center> </div>
+              </ul>
+              <div class="panel-body">
+                <div class="tab-content m-t-0">
+                  <div role="tabpanel" class="tab-pane fade active in" id="home1{{ post.id }}">
+                    <div >
+                      <h5>{{post.descripcion}}</h5>
+                      <div class="panel-footer"><center> {{post.creatd_date}} <span class="label label-rounded label-info">SIN APLICAR</span></center> </div>
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="profile1{{ post.id }}">
+                    <div class="col-md-6">
+                      <h5>{{post.descripcion}}</h5>
+                      
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="messages1{{ post.id }}">
+                    <div >
+                      <h5>Come on you have a lot message</h5>
+                      <h4>you can use it with the small code</h4>
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  
+                </div>
+              </div>
             </div>
-
           </div>
-        
         </div>
         <script type="text/javascript">
             
@@ -227,6 +252,7 @@
       
       
     </div>
+
     <!-- /.container-fluid -->
     <footer class="footer text-center"> 2016 &copy; NworksDev Developer  </footer>
   </div>
