@@ -54,7 +54,6 @@ def register(request):
 			profile = profile_form.save(commit=False)
 			profile.user = user
 
-
 			if 'picture' in request.FILES:
 				profile.picture = request.FILES['picture']
 
@@ -77,4 +76,4 @@ def register(request):
 		user_form = UsuarioForm2()
 		profile_form = UserPr()
         
-	return render (request,'register2.html',{'user_form':user_form, 'profile_form': profile_form})
+	return render (request,'register5.html',{'user_form':user_form, 'profile_form': profile_form})
