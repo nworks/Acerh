@@ -56,6 +56,7 @@ def register(request):
 
 			if 'picture' in request.FILES:
 				profile.picture = request.FILES['picture']
+				profile.file = request.FILES['file']
 
 				profile.save()
 				registered = True
@@ -69,6 +70,8 @@ def register(request):
 				registered = True
 				username = user_form.cleaned_data['username']
 				password = user_form.cleaned_data['password']
+				profile.file = request.FILES['file']
+				profile.save()
 				usuario = authenticate(username=username,password=password)
 				login(request,usuario)
 				return HttpResponseRedirect('/vacantes')
@@ -76,4 +79,4 @@ def register(request):
 		user_form = UsuarioForm2()
 		profile_form = UserPr()
         
-	return render (request,'register5.html',{'user_form':user_form, 'profile_form': profile_form})
+	return render (request,'index.html',{'user_form':user_form, 'profile_form': profile_form})
