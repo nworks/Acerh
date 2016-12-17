@@ -66,7 +66,6 @@ def register(request):
 				login(request,usuario)
 				return HttpResponseRedirect('/vacantes')
 			else:
-				profile.save()
 				registered = True
 				username = user_form.cleaned_data['username']
 				password = user_form.cleaned_data['password']

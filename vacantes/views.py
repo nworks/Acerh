@@ -42,3 +42,27 @@ def remover(request):
 	post = Aplicado.objects.get(aplico=idview , usuario=request.user) 
 	post.delete()
 	return HttpResponse('/vacantes')
+
+def compania(request):
+	result1 = serializers.serialize("json",Aplicado.objects.all())
+	decoded_data = json.loads(result1)
+	array = []
+	for i in decoded_data:
+		print decoded_data
+		array.insert(0,i["fields"]["aplico"])
+		print array, "ARRAY"
+	post = Vacantes.objects.exclude(pk__in=array)
+	postall = post.all()
+	post2 = Aplicado.objects.all()
+	cantidad = post2.count()
+
+	context = { "post":post, "posts":post.all(),"cantidad":cantidad }
+	return render(request, 'index4.html', context)
+
+def solicitudcompania(request):
+	titulo = request.POST.get('titulo')
+	descripcion = request.POST.get('descripcion')
+	requerimientos = request.POST.get('req')
+	solicit =  Vacantes.objects.create(compania=request.user, titulo=titulo, descripcion=descripcion, area_id=1)
+	solicit.save()
+	return HttpResponse('/compania')
