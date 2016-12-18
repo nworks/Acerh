@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response,render
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate,login,logout
+from vacantes.models import Vacantes, Aplicado
 # Create your views here.
 
 @csrf_protect
@@ -79,3 +80,12 @@ def register(request):
 		profile_form = UserPr()
         
 	return render (request,'index.html',{'user_form':user_form, 'profile_form': profile_form})
+
+
+
+def userdetail(request):
+	userinfo = user.objects.get(id=request.user.id)
+	aplicado = Aplicado.objects.filter(usuario=request.user)
+	cantidad = post.count()
+	context = { "aplicado":aplicado, "aplicados":aplicado.all() ,"cantidad":cantidad}
+	return render(request, 'contact-detail.html', context)

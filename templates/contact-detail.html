@@ -160,13 +160,13 @@
           {% else %}
           <div><img src="{% static 'assets/img/user.png' %}" alt="user-img" class="img-circle"></div>
           {% endif %}
-          <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>{{request.user.first_name}} {{request.user.last_name}}</strong> <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>{{request.user.username}}</strong> <span class="caret"></span></a>
               <ul class="dropdown-menu animated flipInY">
-                <li><a href="/userdetail"><i class="ti-user"></i>Mi Perfil</a></li>
+                <li><a href="/userdetail"><i class="ti-user"></i> Mi Perfil</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="#"><i class="ti-help-alt"></i> Preguntas</a></li>
+                <li><a href="#"><i class="ti-settings"></i>Preguntas</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="{% url 'logout' %}"><i class="fa fa-power-off"></i> Logout</a></li>
+                <li><a href="{% url 'logout' %}"><i class="fa fa-power-off"></i>Logout</a></li>
               </ul>
         </div>
       </div>
@@ -190,7 +190,7 @@
         
         </li>
         <li><a href="/compania" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador<span class="fa arrow"></span></span></a>
-          
+         
         </li>
         
        
@@ -216,186 +216,170 @@
         <!-- /.col-lg-12 -->
       </div>
      
-      <!-- row -->
       <div class="row">
-          <div class="col-md-12">
-            <div class="white-box p-0"> 
-              <!-- .left-right-aside-column-->  
-                <div class="page-aside">
-                  <!-- .left-aside-column-->  
-                     <div class="left-aside">
-                        <div class="scrollable">
-                            <ul class="list-style-none">
-                               <li class="box-label"><a href="javascript:void(0)">Vacantes Publicadas <span>{{cantidad2}}</span></a></li>
-                               <li class="divider"></li> 
-                               <li><a href="javascript:void(0)">Publicadas <span>{{cantidad2}}</span></a></li>
-                               <li><a href="javascript:void(0)">Usuarios Aplicantes <span>19</span></a></li>
-                               <div id="myModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                  <div class="modal-dialog">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        <h4 class="modal-title" id="myModalLabel">Add Lable</h4>
-                                      </div>
-                                      <div class="modal-body">
-                                         <from class="form-horizontal">
-                                            <div class="form-group">
-                                              <label class="col-md-12">Name of Label</label>
-                                              <div class="col-md-12">
-                                                <input type="text" class="form-control" placeholder="type name">
-                                              </div>
-                                            </div>
-                                            <div class="form-group">
-                                              <label class="col-md-12">Select Number of people</label>
-                                              <div class="col-md-12">
-                                                  <select class="form-control">
-                                                    <option>All Contacts</option>
-                                                    <option>10</option>
-                                                    <option>20</option>
-                                                    <option>30</option>
-                                                    <option>40</option>
-                                                    <option>Custome</option>
-                                                  </select>
-                                              </div>
-                                            </div>
-                                        
-                                        </from>
-                                        
-                                      </div>
-                                      <div class="modal-footer">
-                                        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Save</button>
-                                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancel</button>
-                                      </div>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                  </div>
-                                  <!-- /.modal-dialog -->
-                               </div>
-                            </ul>
-                        </div>
-                     </div> 
-                  <!-- /.left-aside-column-->
-                    <div class="right-aside">
-                        <div class="right-page-header"><div class="pull-right"></div><h3>Vacantes / Compañia <button type="button" class="btn btn-info btn-rounded" data-toggle="modal" data-target="#add-contact">Crear Vacante</button> </h3>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="scrollable">
-                            <div id="refresh" class="table-responsive">
-                                <table id="demo-foo-addrow" class="table m-t-30 table-hover contact-list" data-page-size="10">
-                                  <thead>
-                                    <tr>
-                                      <th>No</th>
-                                      <th>Titulo</th>
-                                      <th>Descripcion</th>
-                                      <th>Fecha_Cr</th>
-                                      <th>Usuario</th>
-                                      <th>Compañia</th>
-                                      <th>Action</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {% for post in posts %}
-                                    <tr>
-                                      <td>{{post.id}}</td>
-                                      <td><a href="contact-detail.html"> {{post.titulo}}</a></td>
-                                      <td>{{post.descripcion}}</td>
-                                      <td>{{post.creatd_date}}</td>
-                                      <td><span class="label label-success">{{post.compania}}</span></td>
-                                      <td><img src="{% static 'plugins/logo2.png' %}" alt="user" class="img-circle"/></td>
-                                      <td><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="tooltip" data-original-title="Delete"><i class="ti-close" aria-hidden="true"></i></button></td>
-                                   
-                                      
-                                    </tr>
-                                  </tbody>
-                                  <tfoot>
-                                      
-                                    {% endfor %}
-      
-                                        
-                                          
-                                             <div id="add-contact" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                  <div class="modal-content">
-                                                    <div class="modal-header">
-                                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                    </div>
-                                                <h4 class="modal-title" id="myModalLabel"><center><font color="red">Nueva Vacante</font> </center></h4>
-                                                          <div class="modal-body">
-                                                       <from class="form-horizontal form-material" action="/solicitudcompania/" >
-                                                       {% csrf_token %}
-                                                          <div class="form-group">
-                                                            <div class="col-md-12 m-b-20">
-                                                              <input type="text" id="titulo" name="titulo" class="form-control" placeholder="Ingrese el titulo">
-                                                            </div>
-                                                            <div class="col-md-12 m-b-20">
-                                                              <textarea  class="form-control" id="descripcion" name="descripcion" rows="4" cols="50" placeholder="Ingrese la descripcion"></textarea>
-                                                            </div>
-                                                          
-                                                            <div class="col-md-12 m-b-20">
-                                                            
-                                                            </div>
-                                                           
-                                                             
-                                                            
-                                                            
-                                                          </div>
-                                                          
-                                                      
-                                                      </from>
-                                                      
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                      <button type="submit" onclick="myFunction()" class="btn btn-info waves-effect" data-dismiss="modal">Save</button>
-                                                      <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancel</button>
-                                                      <script type="text/javascript">
+        <div class="col-md-4 col-xs-12">
+          <div class="white-box">
+            <div class="user-bg">
+              <img width="100%" alt="user" src="{{request.user.userp.picture.url}}">
+            </div>
             
-            function myFunction(){
-            var titulo = document.getElementById("titulo").value;
-            var descripcion = document.getElementById("descripcion").value;
-            $.ajax({
-            data: {'descripcion': descripcion ,'titulo': titulo , csrfmiddlewaretoken: '{{ csrf_token }}',},
+            <div class="user-btm-box">
+            <!-- .row -->
+            <div class="row text-center m-t-10">
+                <div class="col-md-6 b-r"><strong>Nombre</strong><p>{{request.user.first_name}}</p></div>
+                <div class="col-md-6"><strong>Apellidos</strong><p>{{request.user.last_name}}</p></div>
+            </div>
+            <!-- /.row -->
+            <hr>
+            <!-- .row -->
+            <div class="row text-center m-t-10">
+                <div class="col-md-6 b-r"><strong>Email ID</strong><p>{{request.user.email}}</p></div>
+                <div class="col-md-6"><strong>Telefonos</strong><p>No Disponible</p></div>
+            </div>
+            <!-- /.row -->
+            <hr>
+            <!-- .row -->
+            <div class="row text-center m-t-10">
 
-            url: '{% url 'solicitudcompania'  %}',
-            type: 'POST',
-            success : function(data) {
-                   swal("Creacion correcta!", "Presiona el boton para continuar!", "success") 
-                   document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) + 1;
-                   window.location.reload();
-                   
-                               },
-            error : function(message) {
-                   console.log(message);
-            }
-             });
-          
-            }
-         </script>
-                                                    </div>
-                                                  </div>
-                                                  <!-- /.modal-content -->
-                                                </div>
-                                                <!-- /.modal-dialog -->
-                                             </div>
-                                        
-                                            <ul class="pagination">
-                                            </ul>
-                                          </div></td>
-                                      </tr>
-                                    </tfoot>
-                                </table>
-                                
-                            </div>
-                        </div>
-                    </div>
-                  <!-- .left-aside-column-->  
+                <div class="col-md-12"><strong>CV</strong><p><a class="btn btn-danger btn-rounded" href="{{request.user.userp.file.url}}">Ver CV</a><br/></p></div>
 
-
-                </div>
-              <!-- /.left-right-aside-column-->  
-            </div>  
+                
+            </div>
+            <hr>
+            <!-- /.row -->
+              <div class="col-md-4 col-sm-4 text-center">
+                
+              </div>
+              <div class="col-md-4 col-sm-4 text-center">
+                <p class="text-blue"><i class="ti-clipboard"></i></p>
+                <h1>125</h1>
+              </div>
+              <div class="col-md-4 col-sm-4 text-center">
+                <p class="text-danger"><i class="ti-comment-alt"></i></p>
+                <h1>556</h1>
+              </div>
+            </div>
           </div>
-      </div> 
-
+        </div>
+        <div class="col-md-8 col-xs-12">
+          <div class="white-box">
+            <!-- .tabs -->  
+            <ul class="nav nav-tabs tabs customtab">
+              <li class="active tab"><a href="#home" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Actividad</span> </a> </li>
+              
+              <li class="tab"><a href="#settings" data-toggle="tab" aria-expanded="false"> <span class="visible-xs"><i class="fa fa-cog"></i></span> <span class="hidden-xs">Edit Detail</span> </a> </li>
+            </ul>
+            <!-- /.tabs --> 
+            <div class="tab-content">
+               <!-- .tabs 1 --> 
+              <div class="tab-pane active" id="home">
+                <div class="steamline">
+                {% for aplicado in aplicados %}
+                  <div class="sl-item">
+                    <div class="sl-left"> <img src="{{aplicado.usuario.userp.picture.url}}" alt="user" class="img-circle"/> </div>
+                    <div class="sl-right">
+                      <div class="m-l-40"><a href="#" class="text-info">{{aplicado.user.username}}</a> <span  class="sl-date">Aplico</span>
+                        <p>{{aplicado.aplico.titulo}} <a href="#"> Acerh</a></p>
+                        <div class="m-t-20 row"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                   {% endfor %}
+                  
+                  
+                  
+                </div>
+              </div>
+              <!-- /.tabs1 -->
+              <!-- .tabs2 -->
+              <div class="tab-pane" id="profile">
+                <div class="row">
+                  <div class="col-md-3 col-xs-6 b-r"> <strong>Full Name</strong> <br>
+                    <p class="text-muted">Johnathan Deo</p>
+                  </div>
+                  <div class="col-md-3 col-xs-6 b-r"> <strong>Mobile</strong> <br>
+                    <p class="text-muted">(123) 456 7890</p>
+                  </div>
+                  <div class="col-md-3 col-xs-6 b-r"> <strong>Email</strong> <br>
+                    <p class="text-muted">johnathan@admin.com</p>
+                  </div>
+                  <div class="col-md-3 col-xs-6"> <strong>Location</strong> <br>
+                    <p class="text-muted">London</p>
+                  </div>
+                </div>
+                <hr>
+                <p class="m-t-30">Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries </p>
+                <p>It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                <h4 class="font-bold m-t-30">Skill Set</h4>
+                <hr>
+                <h5>Wordpress <span class="pull-right">80%</span></h5>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:80%;"> <span class="sr-only">50% Complete</span> </div>
+                </div>
+                <h5>HTML 5 <span class="pull-right">90%</span></h5>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-custom" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width:90%;"> <span class="sr-only">50% Complete</span> </div>
+                </div>
+                <h5>jQuery <span class="pull-right">50%</span></h5>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%;"> <span class="sr-only">50% Complete</span> </div>
+                </div>
+                <h5>Photoshop <span class="pull-right">70%</span></h5>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%;"> <span class="sr-only">50% Complete</span> </div>
+                </div>
+              </div>
+              <!-- /.tabs2 -->
+              <!-- .tabs3 -->
+              <div class="tab-pane" id="settings">
+                <form class="form-horizontal form-material">
+                  <div class="form-group">
+                    <label class="col-md-12">Full Name</label>
+                    <div class="col-md-12">
+                      <input type="text" placeholder="Johnathan Doe" class="form-control form-control-line">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="example-email" class="col-md-12">Email</label>
+                    <div class="col-md-12">
+                      <input type="email" placeholder="johnathan@admin.com" class="form-control form-control-line" name="example-email" id="example-email">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-12">Password</label>
+                    <div class="col-md-12">
+                      <input type="password" value="password" class="form-control form-control-line">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-12">Telefono</label>
+                    <div class="col-md-12">
+                      <input type="text" placeholder="123 456 7890" class="form-control form-control-line">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-12">Mensaje</label>
+                    <div class="col-md-12">
+                      <textarea rows="5" class="form-control form-control-line"></textarea>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <div class="col-sm-12">
+                      <button class="btn btn-success">Update Profile</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <!-- /.tabs3 -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+      
     <!-- /.container-fluid -->
     <footer class="footer text-center"> 2016 &copy; NworksDev Developer  </footer>
   </div>

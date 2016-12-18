@@ -4,9 +4,10 @@ from django.db import models
 from django.http import HttpResponseRedirect ,HttpResponse
 from django.core import serializers
 import json
+from django.db.models import Q
 # Create your views here.
 def vacantelist(request):
-	result1 = serializers.serialize("json",Aplicado.objects.all())
+	result1 = serializers.serialize("json",Aplicado.objects.filter(usuario=request.user))
 	decoded_data = json.loads(result1)
 	array = []
 	for i in decoded_data:
@@ -17,6 +18,7 @@ def vacantelist(request):
 	postall = post.all()
 	post2 = Aplicado.objects.all()
 	cantidad = post2.count()
+	
 
 	
 	context = { "post":post, "posts":post.all(),"cantidad":cantidad }
@@ -55,8 +57,9 @@ def compania(request):
 	postall = post.all()
 	post2 = Aplicado.objects.all()
 	cantidad = post2.count()
-
-	context = { "post":post, "posts":post.all(),"cantidad":cantidad }
+	cantidad2 = Vacantes.objects.filter(compania=request.user).count()
+	cantidad3 = Aplicado.objects.all().count()
+	context = { "post":post, "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3}
 	return render(request, 'index4.html', context)
 
 def solicitudcompania(request):
@@ -66,3 +69,9 @@ def solicitudcompania(request):
 	solicit =  Vacantes.objects.create(compania=request.user, titulo=titulo, descripcion=descripcion, area_id=1)
 	solicit.save()
 	return HttpResponse('/compania')
+
+def userdetail(request):
+	post = Aplicado.objects.all()
+	cantidad = post.count()
+	context = { "aplicado":post, "aplicados":post.all() ,"cantidad":cantidad}
+	return render(request, 'contact-detail.html', context)
