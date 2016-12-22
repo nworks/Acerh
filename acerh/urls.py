@@ -16,7 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from users.views import LoginRequest ,LogoutRequest, register
-from vacantes.views import vacantelist, aplicado, solicitud, remover, compania, solicitudcompania, userdetail
+from vacantes.views import vacantelist, aplicado, solicitud, remover, compania, solicitudcompania
+from users.views import userdetail
 from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [

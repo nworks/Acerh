@@ -6,10 +6,15 @@ from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate,login,logout
 from vacantes.models import Vacantes, Aplicado
+from django.db import models
+from users.models import UserPC, UserP
+from django.contrib.auth.models import User
+
 # Create your views here.
 
 @csrf_protect
 def LoginRequest(request):
+	message = "Credenciales invalidas o No registradas"
 	# Si el usuario ya ha iniciado sesion anteriormente.
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('/vacantes')
@@ -26,10 +31,11 @@ def LoginRequest(request):
 			# De lo contrario devolver al Login
 			else:
 				render(request, "login2.html", {'form':form})
-				return render(request, "login2.html", {'form':form})
+				return render(request, "login2.html", {'form':form, 'message':message})
 		# Si el formulario es invalido devolver al login
 		else:
-			return render(request, "login2.html", {'form':form})
+			
+			return render(request, "login2.html", {'form':form } )
 	else:
 		form = LoginForm()
 		context = {'form':form}
@@ -84,8 +90,8 @@ def register(request):
 
 
 def userdetail(request):
-	userinfo = user.objects.get(id=request.user.id)
+	userinfo = User.objects.get(id=request.user.id)
 	aplicado = Aplicado.objects.filter(usuario=request.user)
-	cantidad = post.count()
+	cantidad = aplicado.count()
 	context = { "aplicado":aplicado, "aplicados":aplicado.all() ,"cantidad":cantidad}
 	return render(request, 'contact-detail.html', context)

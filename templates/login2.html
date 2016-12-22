@@ -8,7 +8,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="icon" type="image/png" sizes="16x16" href="{% static 'plugins/images/favicon.png' %}">
-<title>Elite Admin Template - The Ultimate Multipurpose admin template</title>
+<title>ACERH - LOGIN</title>
 <!-- Bootstrap Core CSS -->
 <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
 <!-- animation CSS -->
@@ -57,7 +57,9 @@
           </div>
         </div>
         <div class="row">
-          
+        {% if message %}
+          <div class="alert alert-danger">{{message}}</div>
+        {% endif %}
         </div>
         <div class="form-group m-b-0">
           <div class="col-sm-12 text-center">

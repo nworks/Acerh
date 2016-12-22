@@ -5,7 +5,9 @@ from django.http import HttpResponseRedirect ,HttpResponse
 from django.core import serializers
 import json
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+@login_required
 def vacantelist(request):
 	result1 = serializers.serialize("json",Aplicado.objects.filter(usuario=request.user))
 	decoded_data = json.loads(result1)
@@ -24,13 +26,14 @@ def vacantelist(request):
 	context = { "post":post, "posts":post.all(),"cantidad":cantidad }
 	return render(request, 'index2.html', context)
 
+@login_required
 def aplicado(request):
 	post = Aplicado.objects.all()
 	cantidad = post.count()
 	context = { "aplicado":post, "aplicados":post.all() ,"cantidad":cantidad}
 	return render(request, 'index3.html', context)
 
-
+@login_required
 def solicitud(request):
 	idview = request.POST.get('id')
 	post = Vacantes.objects.get(id=idview)
@@ -38,6 +41,7 @@ def solicitud(request):
 	solicit.save()
 	return HttpResponse('/vacantes')
 
+@login_required
 def remover(request):
 	idview = request.POST.get('id')
 	print idview
@@ -45,6 +49,7 @@ def remover(request):
 	post.delete()
 	return HttpResponse('/vacantes')
 
+@login_required
 def compania(request):
 	result1 = serializers.serialize("json",Aplicado.objects.all())
 	decoded_data = json.loads(result1)
@@ -62,6 +67,7 @@ def compania(request):
 	context = { "post":post, "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3}
 	return render(request, 'index4.html', context)
 
+@login_required
 def solicitudcompania(request):
 	titulo = request.POST.get('titulo')
 	descripcion = request.POST.get('descripcion')
@@ -70,8 +76,3 @@ def solicitudcompania(request):
 	solicit.save()
 	return HttpResponse('/compania')
 
-def userdetail(request):
-	post = Aplicado.objects.all()
-	cantidad = post.count()
-	context = { "aplicado":post, "aplicados":post.all() ,"cantidad":cantidad}
-	return render(request, 'contact-detail.html', context)
