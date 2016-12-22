@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from users.views import LoginRequest ,LogoutRequest, register
-from vacantes.views import vacantelist, aplicado, solicitud, remover, compania, solicitudcompania
+from vacantes.views import vacantelist, aplicado, solicitud, remover,removerc, compania, solicitudcompania
 from users.views import userdetail
 from django.conf import settings
 from django.conf.urls.static import static
@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'register/$', register),
     url(r'^solicitud/', solicitud, name="solicitud"),
     url(r'^remover/', remover, name="remover"),
+    url(r'^removerc/', removerc, name="removerc"),
     url(r'^compania/',compania ),
     url(r'^solicitudcompania/',solicitudcompania ,name="solicitudcompania" ),
     url(r'^userdetail/',userdetail ,name="userdetail" ),

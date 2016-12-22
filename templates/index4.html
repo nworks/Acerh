@@ -226,9 +226,9 @@
                      <div class="left-aside">
                         <div class="scrollable">
                             <ul class="list-style-none">
-                               <li class="box-label"><a href="javascript:void(0)">Vacantes Publicadas <span>{{cantidad2}}</span></a></li>
+                               <li class="box-label" ><a href="javascript:void(0)">Vacantes Publicadas <span id="cantidad2">{{cantidad2}}</span></a></li>
                                <li class="divider"></li> 
-                               <li><a href="javascript:void(0)">Publicadas <span>{{cantidad2}}</span></a></li>
+                               <li><a href="javascript:void(0)" >Publicadas <span id="cantidad2">{{cantidad2}}</span></a></li>
                                <li><a href="javascript:void(0)">Usuarios Aplicantes <span>19</span></a></li>
                                <div id="myModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                   <div class="modal-dialog">
@@ -295,20 +295,55 @@
                                   </thead>
                                   <tbody>
                                     {% for post in posts %}
-                                    <tr>
+                                    <tr id="getid{{ post.id }}div">
                                       <td>{{post.id}}</td>
                                       <td><a href="contact-detail.html"> {{post.titulo}}</a></td>
                                       <td>{{post.descripcion}}</td>
                                       <td>{{post.creatd_date}}</td>
                                       <td><span class="label label-success">{{post.compania}}</span></td>
                                       <td><img src="{% static 'plugins/logo2.png' %}" alt="user" class="img-circle"/></td>
-                                      <td><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="tooltip" data-original-title="Delete"><i class="ti-close" aria-hidden="true"></i></button></td>
+                                      <td><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" id="getid{{ post.id }}" value="{{ post.id }}" onclick="myFunction{{ post.id }}()"><i class="ti-close" aria-hidden="true"></i></button></td>
                                    
                                       
                                     </tr>
                                   </tbody>
                                   <tfoot>
-                                      
+                                      <script type="text/javascript">
+            
+            function myFunction{{ post.id }}(p1) {
+            var ids = document.getElementById("getid{{ post.id }}").value;
+            console.log(ids)
+            $.ajax({
+            data: {'id': ids , csrfmiddlewaretoken: '{{ csrf_token }}'},
+
+            url: '{% url 'removerc'  %}',
+            type: 'POST',
+            success : function(data) {
+                    swal({
+                          title: "Estas seguro?",
+                          text: "Eliminaras una vacante!",
+                          type: "error",
+                          showCancelButton: true,
+                          confirmButtonColor: "#DD6B55",
+                          confirmButtonText: "Si, Borralo!",
+                          closeOnConfirm: false
+                        },
+                        function(){
+                          swal("Borrado!", "Su vacante a sido removida.", "warning");
+                          var link = document.getElementById('getid{{ post.id }}div');
+                          link.style.display = 'none'; //or
+                          document.getElementById("cantidad2").innerHTML = parseInt(document.getElementById("cantidad2").textContent) - 1;
+                        }); 
+                    
+                  
+            },
+            error : function(message) {
+                   console.log(message);
+            }
+             });
+          
+            }
+         </script>
                                     {% endfor %}
       
                                         

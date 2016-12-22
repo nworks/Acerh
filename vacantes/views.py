@@ -76,3 +76,11 @@ def solicitudcompania(request):
 	solicit.save()
 	return HttpResponse('/compania')
 
+
+@login_required
+def removerc(request):
+	idview = request.POST.get('id')
+	print idview
+	post = Vacantes.objects.get(id=idview , compania=request.user) 
+	post.delete()
+	return HttpResponse('/vacantes')
