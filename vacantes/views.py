@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required
 def vacantelist(request):
-	result1 = serializers.serialize("json",Aplicado.objects.filter(usuario=request.user))
+	result1 = serializers.serialize("json",Aplicado.objects.filter(usuario=request.user.id))
 	decoded_data = json.loads(result1)
 	array = []
 	for i in decoded_data:
@@ -19,7 +19,7 @@ def vacantelist(request):
 	post = Vacantes.objects.exclude(pk__in=array)
 	postall = post.all()
 	post2 = Aplicado.objects.all()
-	cantidad = post2.count()
+	cantidad = Aplicado.objects.filter(usuario=request.user.id).count()
 	
 
 	
@@ -28,7 +28,7 @@ def vacantelist(request):
 
 @login_required
 def aplicado(request):
-	post = Aplicado.objects.all()
+	post = Aplicado.objects.filter(usuario=request.user.id)
 	cantidad = post.count()
 	context = { "aplicado":post, "aplicados":post.all() ,"cantidad":cantidad}
 	return render(request, 'index3.html', context)
