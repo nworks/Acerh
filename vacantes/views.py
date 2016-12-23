@@ -84,3 +84,9 @@ def removerc(request):
 	post = Vacantes.objects.get(id=idview , compania=request.user) 
 	post.delete()
 	return HttpResponse('/vacantes')
+
+@login_required
+def companiass(request):
+	app = Aplicado.objects.all()
+	context = { "app":app,"apps":app.all()}
+	return render(request, 'index5.html', context)
