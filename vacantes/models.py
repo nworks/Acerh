@@ -23,23 +23,6 @@ class Vacantes(models.Model):
 	def __str__(self):
 		return str(self.id)
 
-class Estatus(models.Model):
-	titulo = models.CharField(max_length=20)
-	descripcion = models.TextField()
-	
-	def __str__(self):
-		return self.titulo
-
-class Aplicado(models.Model):
-	usuario = models.ForeignKey(User)
-	aplico = models.ForeignKey(Vacantes)
-	estatus = models.ForeignKey(Estatus)
-	
-	
-	def __str__(self):
-		return str(self.aplico)
-
-
 class Vacante(models.Model):
 	titulo = models.CharField(max_length=100)
 	area = models.ForeignKey(Area)
@@ -54,3 +37,21 @@ class Vacante(models.Model):
 
 	def __str__(self):
 		return str(self.id )
+
+class Estatus(models.Model):
+	titulo = models.CharField(max_length=20)
+	descripcion = models.TextField()
+	
+	def __str__(self):
+		return self.titulo
+
+class Aplicado(models.Model):
+	usuario = models.ForeignKey(User)
+	aplico = models.ForeignKey(Vacante)
+	estatus = models.ForeignKey(Estatus)
+	
+	
+	def __str__(self):
+		return str(self.aplico)
+
+
