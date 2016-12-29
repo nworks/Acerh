@@ -189,10 +189,14 @@
         <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span id="cantidad" class="label label-rouded label-info pull-right">{{cantidad}}</span> </span></a>
         
         </li>
-        <li><a href="/compania" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador<span class="fa arrow"></span></span></a>
+        {% if request.user.userpc.company %}
+        <li><a href="/compania" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Va)<span class="fa arrow"></span></span></a>
          
         </li>
-        
+        <li><a href="/companiass" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Ap)<span class="fa arrow"></span></span></a>
+         
+        </li>
+        {% endif %}
        
         
       </ul>
@@ -220,7 +224,12 @@
         <div class="col-md-4 col-xs-12">
           <div class="white-box">
             <div class="user-bg">
-              <img width="100%" alt="user" src="{{request.user.userp.picture.url}}">
+             {% if request.user.userp.picture %}
+          <img width="100%" alt="user" src="{{request.user.userp.picture.url}}">l}}" alt="user-img" class="img-circle"></div>
+          {% else %}
+          <div><img src="{% static 'assets/img/user.png' %}" alt="user-img" class="img-circle"></div>
+          {% endif %}
+              
             </div>
             
             <div class="user-btm-box">
@@ -267,7 +276,7 @@
             <ul class="nav nav-tabs tabs customtab">
               <li class="active tab"><a href="#home" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Actividad</span> </a> </li>
               
-              <li class="tab"><a href="#settings" data-toggle="tab" aria-expanded="false"> <span class="visible-xs"><i class="fa fa-cog"></i></span> <span class="hidden-xs">Edit Detail</span> </a> </li>
+              <li class="tab"><a href="#settings" data-toggle="tab" aria-expanded="false"> <span class="visible-xs"><i class="fa fa-cog"></i></span> <span class="hidden-xs">Editar Perfil</span> </a> </li>
             </ul>
             <!-- /.tabs --> 
             <div class="tab-content">
@@ -296,7 +305,7 @@
               <div class="tab-pane" id="profile">
                 <div class="row">
                   <div class="col-md-3 col-xs-6 b-r"> <strong>Full Name</strong> <br>
-                    <p class="text-muted">Johnathan Deo</p>
+                    <p class="text-muted">Tiepe</p>
                   </div>
                   <div class="col-md-3 col-xs-6 b-r"> <strong>Mobile</strong> <br>
                     <p class="text-muted">(123) 456 7890</p>
@@ -336,15 +345,22 @@
               <div class="tab-pane" id="settings">
                 <form class="form-horizontal form-material">
                   <div class="form-group">
-                    <label class="col-md-12">Full Name</label>
+                    <label class="col-md-12">Nombres</label>
                     <div class="col-md-12">
-                      <input type="text" placeholder="Johnathan Doe" class="form-control form-control-line">
+                      <input type="text" placeholder="Ingresa tus nombres" class="form-control form-control-line">
                     </div>
                   </div>
                   <div class="form-group">
+                    <label class="col-md-12">Apellidos</label>
+                    <div class="col-md-12">
+                      <input type="text" placeholder="Ingresa tus apellidos" class="form-control form-control-line">
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
                     <label for="example-email" class="col-md-12">Email</label>
                     <div class="col-md-12">
-                      <input type="email" placeholder="johnathan@admin.com" class="form-control form-control-line" name="example-email" id="example-email">
+                      <input type="email" placeholder="tuemail@dominio.com" class="form-control form-control-line" name="example-email" id="example-email">
                     </div>
                   </div>
                   <div class="form-group">
@@ -356,19 +372,36 @@
                   <div class="form-group">
                     <label class="col-md-12">Telefono</label>
                     <div class="col-md-12">
-                      <input type="text" placeholder="123 456 7890" class="form-control form-control-line">
+                      <input type="text" placeholder="8X9-XXX-XXXX" class="form-control form-control-line">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-12">Mensaje</label>
                     <div class="col-md-12">
-                      <textarea rows="5" class="form-control form-control-line"></textarea>
+                      <input type="text" value="" class="form-control form-control-line">
                     </div>
                   </div>
-                  
+                  <div class="form-group">
+                    <label class="col-md-12">Localidad</label>
+                    <div class="col-md-12">
+                      <input type="text" value="" class="form-control form-control-line">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-12">Experiencia laboral</label>
+                    <div class="col-md-12">
+                      <input type="text" value="" class="form-control form-control-line">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-12">Otros</label>
+                    <div class="col-md-12">
+                      <input type="text" value="" class="form-control form-control-line">
+                    </div>
+                  </div>
                   <div class="form-group">
                     <div class="col-sm-12">
-                      <button class="btn btn-success">Update Profile</button>
+                      <button class="btn btn-success">Actualizar Perfil</button>
                     </div>
                   </div>
                 </form>

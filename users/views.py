@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response,render
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate,login,logout
-from vacantes.models import Vacantes, Aplicado
+from vacantes.models import Vacante, Aplicado
 from django.db import models
 from users.models import UserPC, UserP
 from django.contrib.auth.models import User

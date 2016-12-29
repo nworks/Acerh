@@ -144,19 +144,29 @@
         
         <li class="nav-small-cap m-t-10">--- Main Menu</li>
         
+     
+         
+        </li>
+        {% if request.user.is_staff %}
+
         <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
         
         </li>
         <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span id="cantidad" class="label label-rouded label-info pull-right">{{cantidad}}</span> </span></a>
-         
-        </li>
+        {% endif %}
         {% if request.user.userpc.company %}
+        
         <li><a href="/compania" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Va)<span class="fa arrow"></span></span></a>
          
         </li>
         <li><a href="/companiass" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Ap)<span class="fa arrow"></span></span></a>
          
         </li>
+        {% else %}
+           <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
+        
+        </li>
+        <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span id="cantidad" class="label label-rouded label-info pull-right">{{cantidad}}</span> </span></a>
         {% endif %}
         
       </ul>
@@ -217,7 +227,7 @@
                   </div>
                   <div role="tabpanel" class="tab-pane fade" id="messages1{{ post.id }}">
                     <div >
-                      <h5>Experiencia laboral 2 años en el puesto o derivados</h5>
+                      <h5>{{post.requisitos}}</h5>
                       
                     </div>
                     

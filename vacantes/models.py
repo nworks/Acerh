@@ -19,6 +19,7 @@ class Vacantes(models.Model):
 	compania = models.ForeignKey(User)
 	creatd_date = models.DateTimeField(auto_now_add=True, auto_now=False)
 
+
 	def __str__(self):
 		return str(self.id)
 
@@ -37,3 +38,19 @@ class Aplicado(models.Model):
 	
 	def __str__(self):
 		return str(self.aplico)
+
+
+class Vacante(models.Model):
+	titulo = models.CharField(max_length=100)
+	area = models.ForeignKey(Area)
+	descripcion = models.TextField()
+	picturep = models.ImageField(upload_to='vacantes/', blank=True)
+	compania = models.ForeignKey(User)
+	creatd_date = models.DateTimeField(auto_now_add=True, auto_now=False)
+	vigencia = models.CharField(max_length=100)
+	requisitos = models.TextField()
+	pregunta = models.CharField(max_length=100)
+
+
+	def __str__(self):
+		return str(self.id )

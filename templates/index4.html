@@ -67,28 +67,14 @@
             <li>
               <div class="drop-title">You have 4 new messages</div>
             </li>
-            <li>
+           <li>
               <div class="message-center"> <a href="#">
-                <div class="user-img"> <img src="../plugins/images/users/pawandeep.jpg" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
+                <div class="user-img"> <img src="{% static 'plugins/logo1.png' %}" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
                 <div class="mail-contnet">
-                  <h5>Pavan kumar</h5>
-                  <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span> </div>
+                  <h5>Acerh</h5>
+                  <span class="mail-desc">Felicidades, y bienvenido a nuestra aplicacion!</span> <span class="time">9:30 AM</span> </div>
                 </a> <a href="#">
-                <div class="user-img"> <img src="../plugins/images/users/sonu.jpg" alt="user" class="img-circle"> <span class="profile-status busy pull-right"></span> </div>
-                <div class="mail-contnet">
-                  <h5>Sonu Nigam</h5>
-                  <span class="mail-desc">I've sung a song! See you at</span> <span class="time">9:10 AM</span> </div>
-                </a> <a href="#">
-                <div class="user-img"> <img src="../plugins/images/users/arijit.jpg" alt="user" class="img-circle"> <span class="profile-status away pull-right"></span> </div>
-                <div class="mail-contnet">
-                  <h5>Arijit Sinh</h5>
-                  <span class="mail-desc">I am a singer!</span> <span class="time">9:08 AM</span> </div>
-                </a> <a href="#">
-                <div class="user-img"> <img src="../plugins/images/users/pawandeep.jpg" alt="user" class="img-circle"> <span class="profile-status offline pull-right"></span> </div>
-                <div class="mail-contnet">
-                  <h5>Pavan kumar</h5>
-                  <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span> </div>
-                </a> </div>
+                
             </li>
             <li> <a class="text-center" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="fa fa-angle-right"></i> </a></li>
           </ul>
@@ -180,21 +166,28 @@
             </span> </div>
           <!-- /input-group -->
         </li>
-        
         <li class="nav-small-cap m-t-10">--- Main Menu</li>
-        
+         {% if request.user.is_staff %}
+
         <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
-         
+        
         </li>
         <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span id="cantidad" class="label label-rouded label-info pull-right">{{cantidad}}</span> </span></a>
+        {% endif %}
+        {% if request.user.userpc.company %}
         
-        </li>
         <li><a href="/compania" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Va)<span class="fa arrow"></span></span></a>
-          
+         
         </li>
         <li><a href="/companiass" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Ap)<span class="fa arrow"></span></span></a>
          
         </li>
+        {% else %}
+           <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
+        
+        </li>
+        <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span id="cantidad" class="label label-rouded label-info pull-right">{{cantidad}}</span> </span></a>
+        {% endif %}
        
         
       </ul>
@@ -367,6 +360,22 @@
                                                             <div class="col-md-12 m-b-20">
                                                               <textarea  class="form-control" id="descripcion" name="descripcion" rows="4" cols="50" placeholder="Ingrese la descripcion"></textarea>
                                                             </div>
+                                                            <div class="col-md-12 m-b-20">
+                                                              <input type="text" id="requisitos" name="requisitos" class="form-control" placeholder="Requisitos">
+                                                            </div>
+                                                            <div class="col-md-12 m-b-20">
+                                                              <input id="pregunta" type="text" id="titulo" name="pregunta" class="form-control" placeholder="Pregunta opcional">
+                                                            </div>
+                                                            <div class="col-md-12 m-b-20">
+                                                            
+                                                              <label>Area</label>
+                                        <select id="area" name="area" class="form-control"> 
+                                         {% for area in areas %}                                       
+
+                                         <option value="{{area.titulo}}">{{area.titulo}}</option>
+                                         {% endfor %}
+                                         </select>
+                                                            </div>
                                                           
                                                             <div class="col-md-12 m-b-20">
                                                             
@@ -382,15 +391,18 @@
                                                       
                                                     </div>
                                                     <div class="modal-footer">
-                                                      <button type="submit" onclick="myFunction()" class="btn btn-info waves-effect" data-dismiss="modal">Save</button>
-                                                      <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancel</button>
+                                                      <button type="submit" onclick="myFunction()" class="btn btn-info waves-effect" data-dismiss="modal">Publicar</button>
+                                                      <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancelar</button>
                                                       <script type="text/javascript">
             
             function myFunction(){
             var titulo = document.getElementById("titulo").value;
             var descripcion = document.getElementById("descripcion").value;
+            var requisitos = document.getElementById("requisitos").value;
+            var pregunta = document.getElementById("pregunta").value;
+            var area = document.getElementById("area").value;
             $.ajax({
-            data: {'descripcion': descripcion ,'titulo': titulo , csrfmiddlewaretoken: '{{ csrf_token }}',},
+            data: {'descripcion': descripcion ,'titulo': titulo ,'requisitos': requisitos ,'pregunta': pregunta ,'area': area , csrfmiddlewaretoken: '{{ csrf_token }}',},
 
             url: '{% url 'solicitudcompania'  %}',
             type: 'POST',
