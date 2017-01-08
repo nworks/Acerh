@@ -12,7 +12,12 @@ class UserP(models.Model):
 	user = models.OneToOneField(User)
 	picture = models.ImageField(upload_to='userpic/', blank=True)
 	file = models.FileField(upload_to=upload_location)
-	
+	localidad = models.CharField(max_length=100)
+	otros = models.CharField(max_length=100)
+	mensaje = models.CharField(max_length=100)
+	telefono = models.CharField(max_length=15)
+	exp = models.CharField(max_length=500)
+
 	def __str__(self):
 		return self.user.username
 

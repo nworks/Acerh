@@ -28,10 +28,22 @@
           <tr>
             <td style="padding:10px 0 30px 0;"><p>Por favor ingrese su direccion de correo electronico y en breve recibira en su correo las instrucciones para recuperar su cuenta</p>
               <center>
-              <input type="email" placeholder="tuemail@dominio.com" class="form-control form-control-line" name="example-email" id="example-email"> </br>
-                <a href="javascript: void(0);" style="display: inline-block; padding: 11px 30px; margin: 20px 0px 30px; font-size: 15px; color: #fff; background: #00c0c8; border-radius: 60px; text-decoration:none;">Reiniciar Password</a>
-              </center>
-              <b>- Gracias (ACERH)</b> </td>
+              
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        {% endfor %}
+        {% endif %}
+    </ul>
+
+    <!-- Form rendering code for template -->
+    <form action="" method="post">
+
+
+        
+    </form>              </center>
+              <H1>- Gracias (ACERH)</H1> </td>
+              <H2>Dirigase al login aqui</H2> 
           </tr>
           <tr>
             <td  style="border-top:1px solid #f6f6f6; padding-top:20px; color:#777">
