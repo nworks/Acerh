@@ -14,6 +14,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from smtplib import SMTPRecipientsRefused
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail.message import EmailMessage
+from django.template import Library
+from django.template.defaulttags import cycle as cycle_original
 
 # Create your views here.
 
