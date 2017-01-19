@@ -29,3 +29,11 @@ class UserPC(models.Model):
 	
 	def __str__(self):
 		return self.user.username
+
+class notify(models.Model):
+	user = models.OneToOneField(User)
+	message = models.TextField()
+	company = models.OneToOneField(User, related_name='company')
+	
+	def __str__(self):
+		return self.user.username

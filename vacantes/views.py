@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from vacantes.models import Vacante, Aplicado, Area
 from django.db import models
+from users.models import notify
 from django.http import HttpResponseRedirect ,HttpResponse
 from django.core import serializers
 import json
@@ -21,10 +22,10 @@ def vacantelist(request):
 	post2 = Aplicado.objects.all()
 	cantidad = Aplicado.objects.filter(usuario=request.user.id).count()
 	area = Area.objects.all()
-	
+	noficacion = notify.objects.all()
 
 	
-	context = { "post":post, "posts":post.all(),"cantidad":cantidad,"area":area,"areas":area.all() }
+	context = { "noficacion":noficacion,"noficaciones":noficacion.all(),"post":post, "posts":post.all(),"cantidad":cantidad,"area":area,"areas":area.all() }
 	return render(request, 'index2.html', context)
 
 @login_required
