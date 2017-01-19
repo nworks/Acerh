@@ -120,7 +120,7 @@ def userdetail(request):
 			profile.user = user
 			profile.save()
 			registered = True
-	return render(request, 'contact-detail.html', context)
+	return render(request, 'profile.html', context)
 
 
 def register(request):
