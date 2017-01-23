@@ -100,7 +100,8 @@ def userdetail(request):
 	userinfo = User.objects.get(id=request.user.id)
 	aplicado = Aplicado.objects.filter(usuario=request.user)
 	cantidad = aplicado.count()
-	context = { "aplicado":aplicado, "aplicados":aplicado.all() ,"cantidad":cantidad}
+	userdetalle = UserP.objects.filter(user=request.user)
+	context = { "aplicado":aplicado, "aplicados":aplicado.all() ,"cantidad":cantidad,"userdetalle":userdetalle,"userdetalles":userdetalle.all()}
 	context2 = RequestContext(request)
 	registered = False
 	if request.method == 'POST':
@@ -108,7 +109,6 @@ def userdetail(request):
 		profile_form = UserPr(data=request.POST)
 		if user_form.is_valid() and profile_form.is_valid():
 			user = user_form.save()
-			user.set_password(user.password)
 			user.save()
 			profile.mensaje = request.POST['mensaje']
 			profile.localidad = request.POST['localidad']
@@ -127,7 +127,7 @@ def register(request):
 	context = RequestContext(request)
 	registered = False
 	if request.method == 'POST':
-		user_form = UsuarioForm2(data=request.POST)
+		user_form = UsuarioForm(data=request.POST)
 		profile_form = UserPr(data=request.POST)
 		if user_form.is_valid() and profile_form.is_valid():
 			user = user_form.save()
