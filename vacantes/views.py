@@ -39,7 +39,7 @@ def aplicado(request):
 def solicitud(request):
 	idview = request.POST.get('id')
 	post = Vacante.objects.get(id=idview)
-	solicit =  Aplicado.objects.create(usuario=request.user, aplico_id=post.id, estatus_id=1)
+	solicit =  Aplicado.objects.create(usuario=request.user, aplico_id=post.id, estatus_id=2)
 	solicit.save()
 	return HttpResponse('/vacantes')
 
@@ -102,3 +102,16 @@ def passwordrecovery(request):
 	app = Aplicado.objects.all()
 	context = { "app":app,"apps":app.all()}
 	return render(request, 'password-reset.html', context)
+
+from django.shortcuts import get_object_or_404
+@login_required
+def proceso(request):
+	idview = request.POST.get('id')
+	print idview
+	post = Aplicado.objects.get(pk=idview)
+	print post
+	post["estatus2"] = "Procesado"
+	post["comentario"] ="Esto fue procesado por"
+	post.update()
+
+	return HttpResponse('/companiass')

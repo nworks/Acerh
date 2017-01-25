@@ -34,7 +34,6 @@ class Vacante(models.Model):
 	requisitos = models.TextField()
 	pregunta = models.CharField(max_length=100)
 
-
 	def __str__(self):
 		return str(self.id )
 
@@ -49,9 +48,11 @@ class Aplicado(models.Model):
 	usuario = models.ForeignKey(User)
 	aplico = models.ForeignKey(Vacante)
 	estatus = models.ForeignKey(Estatus)
-	
+	comentario = models.TextField()
+	estatus2 = models.CharField(max_length=15)
+
 	
 	def __str__(self):
-		return str(self.aplico)
+		return str(self.id)
 
 

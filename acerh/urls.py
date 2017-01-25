@@ -60,6 +60,7 @@ except:
     url(r'logout/', LogoutRequest, name="logout"),
     url(r'register/$', register),
     url(r'^solicitud/', solicitud, name="solicitud"),
+    url(r'^proceso/', solicitud, name="proceso"),
     url(r'^remover/', remover, name="remover"),
     url(r'^removerc/', removerc, name="removerc"),
     url(r'^compania/',compania ),
