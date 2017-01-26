@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from users.views import LoginRequest ,LogoutRequest, register,email, ResetPasswordRequestView,PasswordResetConfirmView
-from vacantes.views import vacantelist, aplicado, solicitud, remover,removerc, compania,companiass, solicitudcompania, passwordrecovery
+from vacantes.views import vacantelist, aplicado, solicitud, remover,removerc, compania,companiass, solicitudcompania, passwordrecovery, proceso
 from users.views import userdetail
 from django.conf import settings
 from django.conf.urls.static import static
@@ -60,7 +60,7 @@ except:
     url(r'logout/', LogoutRequest, name="logout"),
     url(r'register/$', register),
     url(r'^solicitud/', solicitud, name="solicitud"),
-    url(r'^proceso/', solicitud, name="proceso"),
+    url(r'^proceso/', proceso, name="proceso"),
     url(r'^remover/', remover, name="remover"),
     url(r'^removerc/', removerc, name="removerc"),
     url(r'^compania/',compania ),

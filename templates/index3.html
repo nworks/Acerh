@@ -223,7 +223,13 @@
             <div class="panel-wrapper collapse in" aria-expanded="true">
               <div class="panel-body">
                 <center><p>{{aplicado.aplico.descripcion}}</p></center>
-                <center><button id="getid{{ aplicado.aplico.id }}" value="{{ aplicado.aplico.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{ aplicado.aplico.id }}()" data-target=myFuction2()>Retirar Aplicacion</button></center> </div>
+                <center><button id="getid{{ aplicado.aplico.id }}" value="{{ aplicado.aplico.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{ aplicado.aplico.id }}()" data-target=myFuction2()>Retirar Aplicacion</button>{% if aplicado.estatus2 %}
+                <button  class="btn btn-success btn-rounded" data-target=myFuction2()>Ver Resultado</button></center>
+                </br>
+                {% endif %}</center> </div>
+
+
+
               <div class="panel-footer"> <center>{{aplicado.aplico.creatd_date}}<span class="label label-rounded label-info">{{aplicado.estatus}}</span></center> </div>
             </div>
 

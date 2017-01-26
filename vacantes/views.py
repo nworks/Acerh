@@ -94,7 +94,7 @@ def removerc(request):
 
 @login_required
 def companiass(request):
-	app = Aplicado.objects.all()
+	app = Aplicado.objects.filter(~Q(estatus2='Procesado'))
 	context = { "app":app,"apps":app.all()}
 	return render(request, 'index5.html', context)
 
@@ -108,10 +108,13 @@ from django.shortcuts import get_object_or_404
 def proceso(request):
 	idview = request.POST.get('id')
 	print idview
+	print request.POST.get('comentario')
 	post = Aplicado.objects.get(pk=idview)
 	print post
-	post["estatus2"] = "Procesado"
-	post["comentario"] ="Esto fue procesado por"
-	post.update()
+	post.estatus2 = "Procesado"
+	post.comentario = request.POST.get('comentario')
+
+
+	post.save()
 
 	return HttpResponse('/companiass')

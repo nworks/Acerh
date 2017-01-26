@@ -249,6 +249,8 @@
                     <center><h4 class="modal-title">Procesar Aplicacion <strong>{{app.usuario.first_name}} {{app.usuario.last_name}} #ID {{app.pk}}</strong> </h4></center>
                   </div>
                   <div class="modal-body">
+                  <form id="msform" role="form" method="POST" class="form-material" enctype="multipart/form-data">
+                  {% csrf_token %}
                     <center>
                     <img src="{{request.user.userp.picture.url}}" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
                     <h3 class="media-heading"><strong>{{app.usuario.first_name}} {{app.usuario.last_name}}</strong></h3>
@@ -261,7 +263,7 @@
                         
                                 <div class="form-group">
                                     <label class="sr-only" for="f1-email">Comentario</label>
-                                    <textarea id="comentario" name="comentario" placeholder="Comentario" class="form-control"></textarea>
+                                    <textarea id="comentario{{ app.id }}" name="comentario" placeholder="Comentario" class="form-control"></textarea>
                                 </div>
                     <br>
                     </center>
@@ -270,6 +272,7 @@
                     <button type="button" class="btn btn-default btn-rounded" data-dismiss="modal">Cerrar</button>
                     <button id="getid{{ app.id }}" value="{{ app.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{app.id}}()" data-target=myFuction2()>Procesar solicitud</button>
                   </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -277,10 +280,11 @@
             
             function myFunction{{ app.id }}(p1) {
             var ids = document.getElementById("getid{{ app.id }}").value;
-            var comentario = document.getElementById("comentario").value;
+            var comentario = document.getElementById('comentario{{ app.id }}').value;
+            console.log(comentario)
             console.log(ids)
             $.ajax({
-            data: {'id': ids , csrfmiddlewaretoken: '{{ csrf_token }}'},
+            data: {'id': ids,'comentario':comentario, csrfmiddlewaretoken: '{{ csrf_token }}'},
 
             url: '{% url 'proceso'  %}',
             type: 'POST',
