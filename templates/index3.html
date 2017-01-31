@@ -224,7 +224,7 @@
               <div class="panel-body">
                 <center><p>{{aplicado.aplico.descripcion}}</p></center>
                 <center><button id="getid{{ aplicado.aplico.id }}" value="{{ aplicado.aplico.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{ aplicado.aplico.id }}()" data-target=myFuction2()>Retirar Aplicacion</button>{% if aplicado.estatus2 %}
-                <button  class="btn btn-success btn-rounded" data-target=myFuction2()>Ver Resultado</button></center>
+                <button type="button" href="#{{app.pk}}" class="btn btn-success btn-rounded" data-toggle="modal" data-target="#delete{{aplicado.id}}"><i class="fa fa-check-square"></i>Ver Resultado</button></center>
                 </br>
                 {% endif %}</center> </div>
 
@@ -236,6 +236,41 @@
           </div>
         
         </div>
+
+        <div id="delete{{aplicado.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <center><h4 class="modal-title">Resultados <strong>{{aplicado.usuario.first_name}} {{aplicado.usuario.last_name}} #ID {{aplicado.pk}}</strong> </h4></center>
+                  </div>
+                  <div class="modal-body">
+                  <form id="msform" role="form" method="POST" class="form-material" enctype="multipart/form-data">
+                  {% csrf_token %}
+                    <center>
+                    {%if aplicado.usuario.userp.picture %}
+                    <img src="{{aplicado.usuario.userp.picture.url}}" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
+                    {% else %}
+                    <img src="{% static 'assets/img/user.png' %}" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
+                    {% endif %}
+                    <h3 class="media-heading"><strong>{{app.usuario.first_name}} {{app.usuario.last_name}}</strong></h3>
+                    <span><strong>Aplico para: </strong></span>
+                        <span class="label label-success">{{aplicado.aplico.titulo}}</span>
+                    </center>
+                    <hr>
+                    <center>
+                    <h2>{{aplicado.comentario}}</h2>
+                    
+                    <br>
+                    </center>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-rounded" data-dismiss="modal">Cerrar</button>
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>
           <script type="text/javascript">
             
             function myFunction{{ aplicado.aplico.id }}(p1) {

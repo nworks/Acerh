@@ -252,7 +252,11 @@
                   <form id="msform" role="form" method="POST" class="form-material" enctype="multipart/form-data">
                   {% csrf_token %}
                     <center>
-                    <img src="{{request.user.userp.picture.url}}" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
+                    {%if app.usuario.userp.picture %}
+                    <img src="{{app.usuario.userp.picture.url}}" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
+                    {% else %}
+                    <img src="{% static 'assets/img/user.png' %}" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
+                    {% endif %}
                     <h3 class="media-heading"><strong>{{app.usuario.first_name}} {{app.usuario.last_name}}</strong></h3>
                     <span><strong>Aplico para: </strong></span>
                         <span class="label label-success">{{app.aplico.titulo}}</span>
