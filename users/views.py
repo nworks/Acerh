@@ -75,6 +75,10 @@ def register(request):
 				profile.user = user
 				profile.picture = request.FILES['picture']
 				profile.file = request.FILES['file']
+				profile.localidad = request.POST['localidad']
+				profile.estudio = request.POST['estudio']
+				profile.edad = request.POST['edad']
+				profile.experiencia = request.POST['experiencia']
 			
 				 
 				profile.save()
@@ -94,6 +98,11 @@ def register(request):
 				username = user_form.cleaned_data['username']
 				password = user_form.cleaned_data['password']
 				profile.file = request.FILES['file']
+				profile.localidad = request.POST['localidad']
+				profile.estudio = request.POST['estudio']
+				profile.edad = request.POST['edad']
+				profile.experiencia = request.POST['experiencia']
+			
 				profile.save()
 				usuario = authenticate(username=username,password=password)
 				login(request,usuario)

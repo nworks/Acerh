@@ -17,7 +17,7 @@ class LoginForm(forms.Form):
 class UserPr(forms.ModelForm):
 		class Meta:
 			model = UserP
-			fields = ["picture","file"]
+			fields = ["picture","file","localidad","estudio","edad","experiencia"]
 
 
 				

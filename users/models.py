@@ -12,6 +12,10 @@ class UserP(models.Model):
 	user = models.OneToOneField(User)
 	picture = models.ImageField(upload_to='userpic/', blank=True)
 	file = models.FileField(upload_to=upload_location, blank=True)
+	localidad = models.CharField(max_length=50, blank=True)
+	estudio = models.CharField(max_length=100, blank=True)
+	edad = models.CharField(max_length=50, blank=True)
+	experiencia = models.CharField(max_length=50, blank=True)
 
 	def __str__(self):
 		return self.user.username
@@ -32,3 +36,5 @@ class notify(models.Model):
 	
 	def __str__(self):
 		return self.user.username
+
+
