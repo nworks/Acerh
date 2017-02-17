@@ -124,18 +124,20 @@ def userdetail(request):
 	context2 = RequestContext(request)
 	registered = False
 	if request.method == 'POST':
-		user_form = UsuarioForm2(data=request.POST)
-		profile_form = UserPr(data=request.POST)
+		user_form = UsuarioForm(data=request.POST)
+		profile_form = UserPr(data=request.FILES)
 		if user_form.is_valid() and profile_form.is_valid():
+			
 			user = user_form.save()
+			user.username = request.user.username
 			user.save()
-			profile.mensaje = request.POST['mensaje']
-			profile.localidad = request.POST['localidad']
-			profile.otros = request.POST['otros']
-			profile.telefono = request.POST['telefono']
-			profile.exp = request.POST['exp']
-
 			profile = profile_form.save(commit=False)
+			profile.file = request.FILES['file']
+			profile.localidad = request.POST['localidad']
+			profile.estudio = request.POST['estudio']
+			profile.edad = request.POST['edad']
+			profile.experiencia = request.POST['experiencia']
+			
 			profile.user = user
 			profile.save()
 			registered = True

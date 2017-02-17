@@ -259,16 +259,17 @@
                     {% endif %}
                     <h3 class="media-heading"><strong>{{app.usuario.first_name}} {{app.usuario.last_name}}</strong></h3>
                     <span><strong>Aplico para: </strong></span>
-                        <span class="label label-success">{{app.aplico.titulo}}</span>
+                        <span class="label label-success">{{app.aplico.titulo}}</span><p class="text-left"><strong><center><a href="{{app.usuario.userp.file.url}}"><span class="label label-danger">Ver su CV</span></a></center></strong>
                     </center>
                     <hr>
                     <center>
-                    <p class="text-left"><strong><center><a href="{{app.usuario.userp.file.url}}"><span class="label label-danger">Ver su CV</span></a></center></strong><br>
+                    <br>
                         
                                 <div class="form-group">
                                     <label class="sr-only" for="f1-email">Comentario</label>
                                     <textarea id="comentario{{ app.id }}" name="comentario" placeholder="Comentario" class="form-control"></textarea>
                                 </div>
+                                <p class="text-left"><strong><center><a><span class="label label-danger"><input name="file" type="file">Agregar archivo entrevista</span></a></center></strong>
                     <br>
                     </center>
                   </div>

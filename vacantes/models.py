@@ -3,6 +3,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from django.db import models
 
+
+
+def upload_location(instancia, filename):
+	return "CV/%s/%s" %(instancia.id, filename)
 # Create your models here.
 class Area(models.Model):
 	titulo = models.CharField(max_length=100)
@@ -50,6 +54,7 @@ class Aplicado(models.Model):
 	estatus = models.ForeignKey(Estatus)
 	comentario = models.TextField()
 	estatus2 = models.CharField(max_length=15)
+	entrevista = models.FileField(upload_to=upload_location, blank=True)
 
 	
 	def __str__(self):

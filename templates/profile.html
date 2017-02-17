@@ -296,7 +296,7 @@
                
               </div>
                <div class="tab-pane" id="settings">
-                <form class="form-horizontal form-material" role="form" action="" method="post">{% csrf_token %}
+                <form class="form-horizontal form-material" role="form" action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
                   <div class="form-group">
                     <label class="col-md-12">Primer Nombre</label>
                     <div class="col-md-12">
@@ -316,15 +316,11 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-12">Telefono</label>
-                    <div class="col-md-12">
-                      <input name="telefono" type="text" placeholder="8XX-XXX-XXXX" class="form-control form-control-line">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-12">Mensaje</label>
-                    <div class="col-md-12">
-                      <textarea rows="5" name="mensaje" class="form-control form-control-line"></textarea>
+                    <label class="col-sm-12">Edad</label>
+                    <div class="col-sm-12">
+                      <select name="edad" class="form-control form-control-line">
+                        <option>21-50</option>
+                      </select>
                     </div>
                   </div>
                   <div class="form-group">
@@ -335,18 +331,33 @@
                       </select>
                     </div>
                   </div>
+                    <div class="form-group">
+                    <label class="col-sm-12">Preparacion</label>
+                    <div class="col-sm-12">
+                      <select name="estudio" class="form-control form-control-line">
+                        <option disabled="" selected=""></option>
+                            <option value="Basico">Basico </option>
+                            <option value="Bachillerato"> Bachillerato </option>
+                            <option value="Universitario(incompleto)"> Universitario(incompleto) </option>
+                            <option value="Profesional"> Profesional </option>
+                      </select>
+                    </div>
+                  </div>
                    <div class="form-group">
                     <label class="col-md-12">Experiencia laboral</label>
                     <div class="col-md-12">
-                      <input type="text" name="exp" value="" class="form-control form-control-line">
+                    <select name="experiencia" class="form-control">
+                        <option disabled="" selected=""></option>
+                        <option value="1-2"> 1-2 </option>
+                        <option value="2-5"> 2-5 </option>
+                        <option value="5-10"> 5-10 </option>
+                        <option value="10-15"> 10-15 </option>
+                        <option value="15+"> 15+ </option>
+                    </select>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label class="col-md-12">Otros</label>
-                    <div class="col-md-12">
-                      <input type="text" name="otros" value="" class="form-control form-control-line">
-                    </div>
-                  </div>
+                  <span class="btn btn-default btn-file"><input name="file" type="file"><span>Seleccione su CV</span></span>
+                  </br>
                   <div class="form-group">
                     <div class="col-sm-12">
                       <button class="btn btn-success">Actualizar perfil</button>
