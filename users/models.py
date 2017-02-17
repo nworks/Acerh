@@ -11,7 +11,7 @@ def upload_location(instancia, filename):
 class UserP(models.Model):
 	user = models.OneToOneField(User)
 	picture = models.ImageField(upload_to='userpic/', blank=True)
-	file = models.FileField(upload_to=upload_location)
+	file = models.FileField(upload_to=upload_location, blank=True)
 
 	def __str__(self):
 		return self.user.username

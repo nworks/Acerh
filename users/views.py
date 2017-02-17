@@ -62,19 +62,21 @@ def register(request):
 	registered = False
 	if request.method == 'POST':
 		user_form = UsuarioForm2(data=request.POST)
-		profile_form = UserPr(data=request.POST)
+		profile_form = UserPr(data=request.FILES)
 		if user_form.is_valid() and profile_form.is_valid():
 			user = user_form.save()
 			user.set_password(user.password)
 			user.save()
 
-			profile = profile_form.save(commit=False)
-			profile.user = user
+			
 
 			if 'picture' in request.FILES:
+				profile = profile_form.save(commit=False)
+				profile.user = user
 				profile.picture = request.FILES['picture']
 				profile.file = request.FILES['file']
-  
+			
+				 
 				profile.save()
 				registered = True
 				username = user_form.cleaned_data['username']
@@ -83,10 +85,15 @@ def register(request):
 				login(request,usuario)
 				return HttpResponseRedirect('/vacantes')
 			else:
+				print user_form.errors, profile_form.errors
+
+				profile = profile_form.save(commit=False)
+				profile.user = user
 				profile.save()
 				registered = True
 				username = user_form.cleaned_data['username']
 				password = user_form.cleaned_data['password']
+				profile.picture = request.FILES['picture']
 				profile.file = request.FILES['file']
 				profile.save()
 				usuario = authenticate(username=username,password=password)
