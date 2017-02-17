@@ -93,7 +93,6 @@ def register(request):
 				registered = True
 				username = user_form.cleaned_data['username']
 				password = user_form.cleaned_data['password']
-				profile.picture = request.FILES['picture']
 				profile.file = request.FILES['file']
 				profile.save()
 				usuario = authenticate(username=username,password=password)
