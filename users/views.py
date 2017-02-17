@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect ,HttpResponse
-from users.forms import LoginForm ,UserP, UsuarioForm2, UserPr,PasswordResetRequestForm,SetPasswordForm
+from users.forms import LoginForm ,UserP, UsuarioForm2, UserPr,PasswordResetRequestForm,SetPasswordForm, UsuarioForm
 from django.shortcuts import render_to_response,render
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
@@ -34,7 +34,10 @@ def LoginRequest(request):
 			usuario = authenticate(username=username,password=password)
 			if usuario is not None:
 				login(request,usuario)
-				return HttpResponseRedirect('/vacantes')
+				if request.user.userpc.company:
+					return HttpResponseRedirect('/compania')
+				else:
+					return HttpResponseRedirect('/vacantes')
 			# De lo contrario devolver al Login
 			else:
 				render(request, "login2.html", {'form':form})
@@ -71,7 +74,7 @@ def register(request):
 			if 'picture' in request.FILES:
 				profile.picture = request.FILES['picture']
 				profile.file = request.FILES['file']
-
+  
 				profile.save()
 				registered = True
 				username = user_form.cleaned_data['username']
@@ -80,6 +83,7 @@ def register(request):
 				login(request,usuario)
 				return HttpResponseRedirect('/vacantes')
 			else:
+				profile.save()
 				registered = True
 				username = user_form.cleaned_data['username']
 				password = user_form.cleaned_data['password']
@@ -92,7 +96,7 @@ def register(request):
 		user_form = UsuarioForm2()
 		profile_form = UserPr()
 		
-	return render (request,'index.html',{'user_form':user_form, 'profile_form': profile_form})
+	return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form})
 
 
 
@@ -123,45 +127,8 @@ def userdetail(request):
 	return render(request, 'profile.html', context)
 
 
-def register(request):
-	context = RequestContext(request)
-	registered = False
-	if request.method == 'POST':
-		user_form = UsuarioForm(data=request.POST)
-		profile_form = UserPr(data=request.POST)
-		if user_form.is_valid() and profile_form.is_valid():
-			user = user_form.save()
-			user.set_password(user.password)
-			user.save()
 
-			profile = profile_form.save(commit=False)
-			profile.user = user
 
-			if 'picture' in request.FILES:
-				profile.picture = request.FILES['picture']
-				profile.file = request.FILES['file']
-
-				profile.save()
-				registered = True
-				username = user_form.cleaned_data['username']
-				password = user_form.cleaned_data['password']
-				usuario = authenticate(username=username,password=password)
-				login(request,usuario)
-				return HttpResponseRedirect('/vacantes')
-			else:
-				registered = True
-				username = user_form.cleaned_data['username']
-				password = user_form.cleaned_data['password']
-				profile.file = request.FILES['file']
-				profile.save()
-				usuario = authenticate(username=username,password=password)
-				login(request,usuario)
-				return HttpResponseRedirect('/vacantes')
-	else:
-		user_form = UsuarioForm2()
-		profile_form = UserPr()
-		
-	return render (request,'index.html',{'user_form':user_form, 'profile_form': profile_form})
 
 def email(request):
 	email = EmailMessage()
@@ -284,34 +251,34 @@ class ResetPasswordRequestView(FormView):
 		return self.form_invalid(form)
 
 class PasswordResetConfirmView(FormView):
-    template_name = "test_template.html"
-    success_url = '/admin/'
-    form_class = SetPasswordForm
+	template_name = "test_template.html"
+	success_url = '/admin/'
+	form_class = SetPasswordForm
 
-    def post(self, request, uidb64=None, token=None, *arg, **kwargs):
-        """
-        View that checks the hash in a password reset link and presents a
-        form for entering a new password.
-        """
-        UserModel = get_user_model()
-        form = self.form_class(request.POST)
-        assert uidb64 is not None and token is not None  # checked by URLconf
-        try:
-            uid = urlsafe_base64_decode(uidb64)
-            user = UserModel._default_manager.get(pk=uid)
-        except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
-            user = None
+	def post(self, request, uidb64=None, token=None, *arg, **kwargs):
+		"""
+		View that checks the hash in a password reset link and presents a
+		form for entering a new password.
+		"""
+		UserModel = get_user_model()
+		form = self.form_class(request.POST)
+		assert uidb64 is not None and token is not None  # checked by URLconf
+		try:
+			uid = urlsafe_base64_decode(uidb64)
+			user = UserModel._default_manager.get(pk=uid)
+		except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+			user = None
 
-        if user is not None and default_token_generator.check_token(user, token):
-            if form.is_valid():
-                new_password= form.cleaned_data['new_password2']
-                user.set_password(new_password)
-                user.save()
-                messages.success(request, 'Password fue reiniciado.')
-                return self.form_valid(form)
-            else:
-                messages.error(request, 'Password no pudo cambiarse.')
-                return self.form_invalid(form)
-        else:
-            messages.error(request,'El enlace de reinicio ya no es valido.')
-            return self.form_invalid(form)
+		if user is not None and default_token_generator.check_token(user, token):
+			if form.is_valid():
+				new_password= form.cleaned_data['new_password2']
+				user.set_password(new_password)
+				user.save()
+				messages.success(request, 'Password fue reiniciado.')
+				return self.form_valid(form)
+			else:
+				messages.error(request, 'Password no pudo cambiarse.')
+				return self.form_invalid(form)
+		else:
+			messages.error(request,'El enlace de reinicio ya no es valido.')
+			return self.form_invalid(form)

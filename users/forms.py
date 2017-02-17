@@ -17,14 +17,14 @@ class LoginForm(forms.Form):
 class UserPr(forms.ModelForm):
 		class Meta:
 			model = UserP
-			fields = ["localidad","mensaje","otros","telefono","exp"]
+			fields = ["picture","file"]
 
 
 				
 class UsuarioForm2(forms.ModelForm):
 	class Meta:
 		model = User
-		fields = ["username","first_name","last_name","email"]
+		fields = ["username","first_name","last_name","email","password"]
 
 				
 		
