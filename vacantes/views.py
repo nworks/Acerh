@@ -111,10 +111,14 @@ def proceso(request):
 	print request.POST.get('comentario')
 	post = Aplicado.objects.get(pk=idview)
 	print post
-	post.estatus2 = "Procesado"
-	post.comentario = request.POST.get('comentario')
-
-
-	post.save()
+	if 'entre' in request.FILES:
+		post.entrevista = request.FILES['entre']
+		post.estatus2 = "Procesado"
+		post.comentario = request.POST.get('comentario')
+		post.save()
+	else:
+		post.estatus2 = "Procesado"
+		post.comentario = request.POST.get('comentario')
+		post.save()
 
 	return HttpResponse('/companiass')

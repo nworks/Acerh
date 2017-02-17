@@ -269,7 +269,9 @@
                                     <label class="sr-only" for="f1-email">Comentario</label>
                                     <textarea id="comentario{{ app.id }}" name="comentario" placeholder="Comentario" class="form-control"></textarea>
                                 </div>
-                                <p class="text-left"><strong><center><a><span class="label label-danger"><input name="file" type="file">Agregar archivo entrevista</span></a></center></strong>
+                                <div class="fileupload btn btn-danger btn-rounded waves-effect waves-light"><span><i class="ion-upload m-r-5"></i>Upload</span>
+                <input type="file" name="entre{{app.id}}" class="upload">
+              </div>
                     <br>
                     </center>
                   </div>

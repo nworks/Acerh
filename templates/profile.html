@@ -227,7 +227,11 @@
           <img src="{% static 'assets/img/user.png' %}" alt="user-img" class="img-circle">
           {% endif %}
               <div class="overlay-box">
-                <div class="user-content"> <a href="javascript:void(0)"><img width="100%" height="100%" alt="user" src="{{request.user.userp.picture.url}}" class="thumb-lg img-circle" alt="img"></a>
+                <div class="user-content"> <a href="javascript:void(0)"> {% if request.user.userp.picture %}
+          <div><img src="{{request.user.userp.picture.url}}" alt="user-img" class="thumb-lg img-circle" alt="img"></div>
+          {% else %}
+          <div><img src="{% static 'assets/img/user.png' %}" alt="user-img" class="thumb-lg img-circle" alt="img"></div>
+          {% endif %}</a>
                   <h4 class="text-white">{{request.user.first_name}} {{request.user.last_name}} </h4>
                   <h5 class="text-white">{{request.user.email}}</h5>
                   
