@@ -5,9 +5,13 @@ from users.models import notify
 from django.http import HttpResponseRedirect ,HttpResponse
 from django.core import serializers
 import json
+from vacantes.forms import EntrevistaForm
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 # Create your views here.
+from django.views.decorators.csrf import csrf_exempt
+
+
 @login_required
 def vacantelist(request):
 	result1 = serializers.serialize("json",Aplicado.objects.filter(usuario=request.user.id))
@@ -95,8 +99,22 @@ def removerc(request):
 @login_required
 def companiass(request):
 	app = Aplicado.objects.filter(~Q(estatus2='Procesado'))
-	context = { "app":app,"apps":app.all()}
-	return render(request, 'index5.html', context)
+	entreform = EntrevistaForm(data=request.FILES)
+	if request.method == 'POST':
+		entreform = EntrevistaForm(data=request.POST)
+		if entreform.is_valid():
+			idview = request.POST.get('id')
+			post = Aplicado.objects.get(pk=idview)
+			print idview
+			post.entrevista = request.FILES["entrevista"]
+			post.comentario = request.POST["comentario"]
+			post.estatus2 = 'Procesado'
+			post.save()
+			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform})
+		else:
+			entreform = EntrevistaForm(data=request.FILES)
+
+	return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform})
 
 def passwordrecovery(request):
 	app = Aplicado.objects.all()
@@ -108,15 +126,17 @@ from django.shortcuts import get_object_or_404
 def proceso(request):
 	idview = request.POST.get('id')
 	print idview
-	print request.POST.get('comentario')
 	post = Aplicado.objects.get(pk=idview)
-	print post
-	if 'entre' in request.FILES:
-		post.entrevista = request.FILES['entre']
+	
+	if 'entrevista' in request.FILES:
+		entreform.entrevista = request.FILES['entrevista']
+		entreform.save()
 		post.estatus2 = "Procesado"
 		post.comentario = request.POST.get('comentario')
 		post.save()
 	else:
+		entreform.entrevista = request.FILES['entrevista']
+		entreform.save()
 		post.estatus2 = "Procesado"
 		post.comentario = request.POST.get('comentario')
 		post.save()

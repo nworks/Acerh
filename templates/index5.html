@@ -1,6 +1,7 @@
 <!DOCTYPE html>  
 <html lang="en">
 <head>
+{% load widget_tweaks %}
  {% load staticfiles %}
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -249,7 +250,7 @@
                     <center><h4 class="modal-title">Procesar Aplicacion <strong>{{app.usuario.first_name}} {{app.usuario.last_name}} #ID {{app.pk}}</strong> </h4></center>
                   </div>
                   <div class="modal-body">
-                  <form id="msform" role="form" method="POST" class="form-material" enctype="multipart/form-data">
+                  <form id="msform{{app.id}}" role="form" method="POST" class="form-material" enctype="multipart/form-data">
                   {% csrf_token %}
                     <center>
                     {%if app.usuario.userp.picture %}
@@ -266,49 +267,30 @@
                     <br>
                         
                                 <div class="form-group">
-                                    <label class="sr-only" for="f1-email">Comentario</label>
-                                    <textarea id="comentario{{ app.id }}" name="comentario" placeholder="Comentario" class="form-control"></textarea>
+                                <input name="id" type="hidden" class="form-control" value="{{ app.id }}" style="display: none;">                             
                                 </div>
-                                <div class="fileupload btn btn-danger btn-rounded waves-effect waves-light"><span><i class="ion-upload m-r-5"></i>Upload</span>
-                <input type="file" name="entre{{app.id}}" class="upload">
-              </div>
-                    <br>
+                                
+                   {%if entreform %}
+                   <div class="form-group">
+                   {{ entreform.comentario|add_class:'form-control'  }}
+                   {{ entreform.entrevista|add_class:'btn btn-danger btn-rounded' }}
+                   </div>
+                   {% endif %}
+                  
+                 
+
                     </center>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-rounded" data-dismiss="modal">Cerrar</button>
-                    <button id="getid{{ app.id }}" value="{{ app.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{app.id}}()" data-target=myFuction2()>Procesar solicitud</button>
+                    <button type="submit" class="btn btn-danger btn-rounded">Procesar Solicitud</button>
+                    
                   </div>
                   </form>
                 </div>
               </div>
             </div>
-        <script type="text/javascript">
-            
-            function myFunction{{ app.id }}(p1) {
-            var ids = document.getElementById("getid{{ app.id }}").value;
-            var comentario = document.getElementById('comentario{{ app.id }}').value;
-            console.log(comentario)
-            console.log(ids)
-            $.ajax({
-            data: {'id': ids,'comentario':comentario, csrfmiddlewaretoken: '{{ csrf_token }}'},
-
-            url: '{% url 'proceso'  %}',
-            type: 'POST',
-            success : function(data) {
-                   swal("Haz Procesado la solicitud!", "Presiona el boton para continuar!", "success") 
-                   $('#delete{{app.id}}').modal('hide'); 
-                   var link = document.getElementById('getid{{ app.id }}div');
-                   link.style.display = 'none'; //or
-                   
-                                                },
-            error : function(message) {
-                   console.log(message);
-            }
-             });
-          
-            }
-         </script>
+        
  
 {% endfor %}
           

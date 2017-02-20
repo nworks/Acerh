@@ -257,13 +257,22 @@
                     <span><strong>Aplico para: </strong></span>
                         <span class="label label-success">{{aplicado.aplico.titulo}}</span>
                     </center>
+
                     <hr>
                     <center>
                     <h2>{{aplicado.comentario}}</h2>
-                    
+
                     <br>
+                    {%if aplicado.entrevista%}
+                     <span class="label label-success"></span><p class="text-left"><strong><center><a href="{{aplicado.entrevista.url}}"><span class="label label-success">Resultado Entrevista</span></a></center></strong>
+                    {%else%}
+                     <span class="label label-success"></span><p class="text-left"><strong><center><a href=""><span class="label label-danger">No tiene entrevista registrada</span></a></center></strong>
+                    {%endif%}
+                    
                     </center>
                   </div>
+
+                    
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-rounded" data-dismiss="modal">Cerrar</button>
                   </div>

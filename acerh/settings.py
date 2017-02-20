@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vacantes',
     'users',
+    'widget_tweaks',
     
 ]
 

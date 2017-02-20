@@ -6,7 +6,7 @@ from django.db import models
 
 
 def upload_location(instancia, filename):
-	return "CV/%s/%s" %(instancia.id, filename)
+	return "EN/%s/%s" %(instancia.id, filename)
 # Create your models here.
 class Area(models.Model):
 	titulo = models.CharField(max_length=100)
