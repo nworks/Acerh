@@ -142,3 +142,23 @@ def proceso(request):
 		post.save()
 
 	return HttpResponse('/companiass')
+
+from smtplib import SMTPRecipientsRefused
+from django.core.mail import EmailMultiAlternatives
+from django.core.mail.message import EmailMessage
+
+@login_required
+def preguntas(request):
+	post = Aplicado.objects.filter(usuario=request.user.id)
+	cantidad = post.count()
+	context = { "aplicado":post, "aplicados":post.all() ,"cantidad":cantidad}
+	if request.method == 'POST':
+		titulo = request.POST.get('titulo')
+		mensaje = "El usuario"+ " " +request.user.username + " " + "ha realizado la siguiente pregunta: "+ " " + request.POST.get('mensaje') + ", " + "Favor responder este correo a esta direccion:" + " " + request.user.email
+		email = EmailMessage()
+		email.subject = titulo
+		email.body = mensaje
+		email.to = [ "comercial@acerhempleos.com"]
+		email.send()
+
+	return render(request, 'preguntas.html', context)
