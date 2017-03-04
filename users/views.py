@@ -16,6 +16,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.core.mail.message import EmailMessage
 from django.template import Library
 from django.template.defaulttags import cycle as cycle_original
+from django.core.urlresolvers import reverse
 
 # Create your views here.
 
@@ -63,55 +64,65 @@ def register(request):
 	if request.method == 'POST':
 		user_form = UsuarioForm2(data=request.POST)
 		profile_form = UserPr(data=request.FILES)
-		if user_form.is_valid() and profile_form.is_valid():
-			user = user_form.save()
-			user.set_password(user.password)
-			user.save()
-
-			
-
-			if 'picture' in request.FILES:
-				profile = profile_form.save(commit=False)
-				profile.user = user
-				profile.picture = request.FILES['picture']
-				profile.file = request.FILES['file']
-				profile.localidad = request.POST['localidad']
-				profile.estudio = request.POST['estudio']
-				profile.edad = request.POST['edad']
-				profile.experiencia = request.POST['experiencia']
-			
-				 
-				profile.save()
-				registered = True
-				username = user_form.cleaned_data['username']
-				password = user_form.cleaned_data['password']
-				usuario = authenticate(username=username,password=password)
-				login(request,usuario)
-				return HttpResponseRedirect('/vacantes')
-			else:
-				print user_form.errors, profile_form.errors
-
-				profile = profile_form.save(commit=False)
-				profile.user = user
-				profile.save()
-				registered = True
-				username = user_form.cleaned_data['username']
-				password = user_form.cleaned_data['password']
-				profile.file = request.FILES['file']
-				profile.localidad = request.POST['localidad']
-				profile.estudio = request.POST['estudio']
-				profile.edad = request.POST['edad']
-				profile.experiencia = request.POST['experiencia']
-			
-				profile.save()
-				usuario = authenticate(username=username,password=password)
-				login(request,usuario)
-				return HttpResponseRedirect('/vacantes')
-	else:
-		user_form = UsuarioForm2()
-		profile_form = UserPr()
 		
-	return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form})
+		data = request.POST['email']
+		if User.objects.filter(email=data).exists():
+			raise forms.ValidationError("This email already used")
+			return data
+		 
+		else:
+			if user_form.is_valid() and profile_form.is_valid():
+			    user = user_form.save()
+			    user.set_password(user.password)
+			    user.save()
+
+			
+
+    			if 'picture' in request.FILES:
+    				profile = profile_form.save(commit=False)
+    				profile.user = user
+    				profile.picture = request.FILES['picture']
+    				profile.file = request.FILES['file']
+    				profile.localidad = request.POST['localidad']
+    				profile.estudio = request.POST['estudio']
+    				profile.edad = request.POST['edad']
+    				profile.experiencia = request.POST['experiencia']
+    			
+    				 
+    				profile.save()
+    				registered = True
+    				username = user_form.cleaned_data['username']
+    				password = user_form.cleaned_data['password']
+    				usuario = authenticate(username=username,password=password)
+    				login(request,usuario)
+    				return HttpResponseRedirect('/vacantes')
+    			else:
+    				print user_form.errors, profile_form.errors
+    
+    				profile = profile_form.save(commit=False)
+    				profile.user = user
+    				profile.save()
+    				registered = True
+    				username = user_form.cleaned_data['username']
+    				password = user_form.cleaned_data['password']
+    				profile.file = request.FILES['file']
+    				profile.localidad = request.POST['localidad']
+    				profile.estudio = request.POST['estudio']
+    				profile.edad = request.POST['edad']
+    				profile.experiencia = request.POST['experiencia']
+    			
+    				profile.save()
+    				usuario = authenticate(username=username,password=password)
+    				login(request,usuario)
+    				return HttpResponseRedirect('/vacantes')
+    	else:
+    		user_form = UsuarioForm2()
+    		profile_form = UserPr()
+    		
+    	return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form})
+
+
+		
 
 
 

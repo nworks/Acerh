@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from users.views import LoginRequest ,LogoutRequest, register,email, ResetPasswordRequestView,PasswordResetConfirmView
-from vacantes.views import vacantelist, aplicado, solicitud, remover,removerc, compania,companiass, solicitudcompania, passwordrecovery, proceso, preguntas
+from vacantes.views import vacantedit, vacantelist, aplicado, solicitud, remover,removerc, compania,companiass, solicitudcompania, passwordrecovery, proceso, preguntas
 from users.views import userdetail
 from django.conf import settings
 from django.conf.urls.static import static
@@ -46,14 +46,14 @@ except:
     from django.conf.urls import include, url
 
     urlpatterns = [
-        url(r'^admin/', include(admin.site.urls)),
-        url(r'^account/reset_password_confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^account/reset_password_confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
             PasswordResetConfirmView.as_view(), name='reset_password_confirm'),
         # PS: url above is going to used for next section of
         # implementation.
-        url(r'^account/reset_password',
+    url(r'^account/reset_password',
             ResetPasswordRequestView.as_view()),
-        url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^login/',LoginRequest ),
     url(r'^vacantes/',vacantelist ),
     url(r'^aplicado/',aplicado ),
@@ -70,6 +70,7 @@ except:
     url(r'^passwordrecovery/',passwordrecovery ,name="passwordrecovery" ),
     url(r'^email/',email ),
     url(r'^preguntas/',preguntas ),
+    url(r'^vacantedit/',vacantedit, name="vacantedit"),
     url(r'^admin/', include(admin.site.urls))
     ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

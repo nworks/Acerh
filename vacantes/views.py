@@ -61,10 +61,10 @@ def compania(request):
 	decoded_data = json.loads(result1)
 	array = []
 	for i in decoded_data:
-		print decoded_data
+		
 		array.insert(0,i["fields"]["aplico"])
-		print array, "ARRAY"
-	post = Vacante.objects.exclude(pk__in=array)
+		
+	post = Vacante.objects.all()
 	postall = post.all()
 	post2 = Aplicado.objects.all()
 	cantidad = post2.count()
@@ -162,3 +162,23 @@ def preguntas(request):
 		email.send()
 
 	return render(request, 'preguntas.html', context)
+
+
+@login_required
+def vacantedit(request):
+	idview = request.POST.get('id')
+	print idview
+	post = Vacante.objects.get(pk=idview)
+	post.titulo = request.POST.get('titulo')
+	post.descripcion = request.POST.get('descripcion')
+	post.pregunta = request.POST.get('pregunta')
+	post.requisitos = request.POST.get('requisitos')
+	area = request.POST.get('area')
+	area2 = Area.objects.get(titulo=area)
+	post.area = area2
+	post.save()
+
+
+
+	return HttpResponse('/companiass')
+

@@ -172,7 +172,7 @@
         <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
         
         </li>
-        <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span id="cantidad" class="label label-rouded label-info pull-right">{{cantidad}}</span> </span></a>
+        <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span id="cantidad" class="label label-rouded label-info pull-right">{{cantidad3}}</span> </span></a>
         {% endif %}
         {% if request.user.userpc.company %}
         
@@ -186,7 +186,7 @@
            <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
         
         </li>
-        <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span id="cantidad" class="label label-rouded label-info pull-right">{{cantidad}}</span> </span></a>
+        <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span id="cantidad" class="label label-rouded label-info pull-right">{{cantidad3}}</span> </span></a>
         {% endif %}
        
         
@@ -297,13 +297,75 @@
                                       <td>{{post.creatd_date}}</td>
                                       <td><span class="label label-success">{{post.compania}}</span></td>
                                       <td><img src="{% static 'plugins/logo2.png' %}" alt="user" class="img-circle"/></td>
-                                      <td><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" id="getid{{ post.id }}" value="{{ post.id }}" onclick="myFunction{{ post.id }}()"><i class="ti-close" aria-hidden="true"></i></button></td>
+                                      <td>
+                                      <button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" id="getid{{ post.id }}" value="{{ post.id }}" onclick="myFunction{{ post.id }}()"><i class="ti-close" aria-hidden="true"></i></button>
+                                      <button type="button" href="#{{post.id}}" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="modal"  data-target="#edit{{post.id}}"><i class="ti-pencil" aria-hidden="true"></i></button>
+</td>
+
+<!-- Modal -->
+<div id="edit{{post.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <center><h4 class="modal-title">Editar Aplicacion <strong>{{post.titulo}} #ID {{post.id}}</strong> </h4></center>
+                  </div>
+                  <div class="modal-body">
+                  <form id="msform{{post.id}}" role="form" method="POST" class="form-horizontal form-material" enctype="multipart/form-data">
+                  {% csrf_token %}
+                   
+                    <center>
+                    <br>
+                        
+                    <div class="form-group">
+                    <input name="id" id="ids{{post.id}}" type="hidden" class="form-control" value="{{post.id}}" style="display: none;">                             
+                    </div>
+                                
+                
+                   <div class="form-group">
+                    <input  type="text" id="titulo{{post.id}}" name="titulo" class="form-control" placeholder="Titulo">
+                   </div>
+                   <div class="form-group">
+                    <input  type="text" id="descripcion{{post.id}}" name="descripcion" class="form-control" placeholder="Descripcion">
+                   </div>
+                   <div class="form-group">
+                    <input  type="text" id="requisitos{{post.id}}" name="requisitos" class="form-control" placeholder="Requisitos">
+                   </div>
+                   <div class="form-group">
+                    <input  type="text" id="pregunta{{post.id}}" name="pregunta" class="form-control" placeholder="Pregunta opcional">
+                   </div>
+                   <div class="form-group">
+                     <label>Area</label>
+                      <select id="area{{post.id}}" name="area" class="form-control"> 
+                      {% for area in areas %}                                      
+                       <option value="{{area.titulo}}">{{area.titulo}}</option>
+                      {% endfor %}
+                      </select>
+                   </div>
+                   
+                  
+                 
+
+                    </center>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-rounded" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-danger btn-rounded" onclick="update{{ post.id }}()">Actualizar</button>
+                    
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>
                                    
                                       
                                     </tr>
                                   </tbody>
                                   <tfoot>
-                                      <script type="text/javascript">
+
+            
+
+            <script type="text/javascript">
             
             function myFunction{{ post.id }}(p1) {
             var ids = document.getElementById("getid{{ post.id }}").value;
@@ -339,20 +401,47 @@
           
             }
          </script>
-                                    {% endfor %}
+
+         <script type="text/javascript">
+            
+            function update{{ post.id }}(p1) {
+            var ids = document.getElementById("getid{{ post.id }}").value;
+            var titulo = document.getElementById("titulo{{post.id}}").value;
+            var descripcion = document.getElementById("descripcion{{ post.id }}").value;
+            var pregunta = document.getElementById("pregunta{{ post.id }}").value;
+            var area = document.getElementById("area{{ post.id }}").value;
+            var requisitos = document.getElementById("requisitos{{ post.id }}").value;
+            console.log(ids)
+            $.ajax({
+            data: {'id': ids , csrfmiddlewaretoken: '{{ csrf_token }}', 'titulo':titulo , 'descripcion':descripcion, 'pregunta':pregunta, 'area':area, 'requisitos':requisitos},
+            url: '{% url 'vacantedit'  %}',
+            type: 'POST',
+            success : function(data) {
+                   swal("Haz Actualizado!", "Presiona el boton para continuar!", "success")  
+               
+                               },
+            error : function(message) {
+                   console.log(message);
+            }
+             });
+          
+            }
+         </script>
+
+                        {% endfor %}
       
                                         
                                           
-                                             <div id="add-contact" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                  <div class="modal-content">
-                                                    <div class="modal-header">
-                                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                    </div>
-                                                <h4 class="modal-title" id="myModalLabel"><center><font color="red">Nueva Vacante</font> </center></h4>
-                                                          <div class="modal-body">
-                                                       <from class="form-horizontal form-material" action="/solicitudcompania/" >
-                                                       {% csrf_token %}
+          <div id="add-contact" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+               <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                               <h4 class="modal-title" id="myModalLabel"><center><font color="red">Nueva Vacante</font> </center></h4>
+                                 <div class="modal-body">
+                                    <from class="form-horizontal form-material" action="/solicitudcompania/" >
+                                         {% csrf_token %}
                                                           <div class="form-group">
                                                             <div class="col-md-12 m-b-20">
                                                               <input type="text" id="titulo" name="titulo" class="form-control" placeholder="Ingrese el titulo">
@@ -393,7 +482,7 @@
                                                     <div class="modal-footer">
                                                       <button type="submit" onclick="myFunction()" class="btn btn-info waves-effect" data-dismiss="modal">Publicar</button>
                                                       <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancelar</button>
-                                                      <script type="text/javascript">
+              <script type="text/javascript">
             
             function myFunction(){
             var titulo = document.getElementById("titulo").value;
