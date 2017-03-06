@@ -56,9 +56,24 @@
       <ul class="nav navbar-top-links navbar-left hidden-xs">
         <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a></li>
         <li>
-          <form role="search" class="app-search hidden-xs">
-            <input type="text" placeholder="Busqueda..." class="form-control">
-            <a href=""><i class="fa fa-search"></i></a>
+          <form role="search" method="GET" class="app-search hidden-xs">
+            <select id="" name="busqueda" class="form-control"> 
+                      <option value="  ">   </option>                                  
+                       <option value="Localidad">Localidad</option>
+                       <option value="Area">Area</option>
+                       <option value="Sexo">Sexo</option>
+                       <option value="Idioma">Idioma</option>
+                       <option value="Area Experiencia">Area Experiencia</option>
+                       <option value="Area Interes">Area Interes</option>
+                       <option value="Edad">Edad</option>
+                       <option value="Carrera">Carrera</option>
+
+                     
+                      </select>
+              
+            <input type="text" name="palabra" placeholder="Busqueda..." class="form-control"><a type="submit" href=""><i class="fa fa-search"></i></a>
+                      
+            
           </form>
         </li>
       </ul>

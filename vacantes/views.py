@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from vacantes.models import Vacante, Aplicado, Area
+from users.models import UserP
 from django.db import models
 from users.models import notify
 from django.http import HttpResponseRedirect ,HttpResponse
@@ -10,6 +11,8 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
+from users.models import UserPC, UserP
+from django.contrib.auth.models import User
 
 
 @login_required
@@ -100,7 +103,32 @@ def removerc(request):
 def companiass(request):
 	app = Aplicado.objects.filter(~Q(estatus2='Procesado'))
 	entreform = EntrevistaForm(data=request.FILES)
-	if request.method == 'POST':
+	if request.method == 'GET':
+		palabra = request.GET.get('palabra','')
+		busqueda = request.GET.get('busqueda','')
+		if busqueda == 'Localidad':
+			print busqueda
+			loc = UserP.objects.filter(localidad=busqueda)
+			print loc
+			app = Aplicado.objects.filter(~Q(estatus2='Procesado')) & Aplicado.objects.filter(usuario__in=loc)
+			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform})
+		elif busqueda == 'Area':
+			print busqueda
+
+		elif busqueda == 'Sexo':
+			print busqueda
+		elif busqueda == 'Idioma':
+			print busqueda
+		elif busqueda == 'Area Experiencia':
+			print busqueda
+		elif busqueda == 'Area Interes':
+			print busqueda
+		elif busqueda == 'Edad':
+			print busqueda
+		elif busqueda == 'Carrera':
+			print busqueda
+
+	elif request.method == 'POST':
 		entreform = EntrevistaForm(data=request.POST)
 		if entreform.is_valid():
 			idview = request.POST.get('id')

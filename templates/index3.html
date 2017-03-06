@@ -40,6 +40,8 @@
 
 </script>
 </head>
+{% if request.user.userpc.company %}
+{%else%}
 <body>
 <!-- Preloader -->
 <div class="preloader">
@@ -169,7 +171,7 @@
         
         <li class="nav-small-cap m-t-10">--- Main Menu</li>
         
-                {% if request.user.is_staff %}
+        {% if request.user.is_staff %}
 
         <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
         
@@ -358,4 +360,5 @@
 <script src="{% static 'sweetalert/dist/sweetalert.min.js' %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'sweetalert/dist/sweetalert.css' %}">
 </body>
+{%endif%}
 </html>

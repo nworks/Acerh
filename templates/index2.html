@@ -40,6 +40,7 @@
 
 </script>
 </head>
+
 <body>
 <!-- Preloader -->
 <div class="preloader">
@@ -177,6 +178,7 @@
   </div>
   <!-- Left navbar-header end -->
   <!-- Page Content -->
+
   <div id="page-wrapper">
     <div class="container-fluid">
       <div class="row bg-title">
@@ -191,8 +193,11 @@
           </ol>
         </div>
         <!-- /.col-lg-12 -->
+
       </div>
-     
+{% if request.user.userpc.company %}
+
+{%else%}
       <div class="row">
       {% for post in posts %}
        <div id="getid{{ post.id }}div" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -315,4 +320,5 @@
 
 
 </body>
+{%endif%}
 </html>
