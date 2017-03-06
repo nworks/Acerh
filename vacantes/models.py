@@ -36,7 +36,7 @@ class Vacante(models.Model):
 	creatd_date = models.DateTimeField(auto_now_add=True, auto_now=False)
 	vigencia = models.CharField(max_length=100)
 	requisitos = models.TextField()
-	pregunta = models.CharField(max_length=100)
+	pregunta = models.TextField()
 
 	def __str__(self):
 		return str(self.id )
@@ -55,6 +55,7 @@ class Aplicado(models.Model):
 	comentario = models.TextField()
 	estatus2 = models.CharField(max_length=15)
 	entrevista = models.FileField(upload_to=upload_location, blank=True)
+	respuesta = models.TextField(blank=True)
 
 	
 	def __str__(self):

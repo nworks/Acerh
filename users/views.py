@@ -35,7 +35,8 @@ def LoginRequest(request):
 			usuario = authenticate(username=username,password=password)
 			if usuario is not None:
 				login(request,usuario)
-				if request.user.userpc.company:
+				if request.user.is_staff:
+
 					return HttpResponseRedirect('/compania')
 				else:
 					return HttpResponseRedirect('/vacantes')
@@ -64,62 +65,85 @@ def register(request):
 	if request.method == 'POST':
 		user_form = UsuarioForm2(data=request.POST)
 		profile_form = UserPr(data=request.FILES)
-		
+		data2 = request.POST['username']
+		if User.objects.filter(username=data2).exists():
+			message = "Este Username ya se encuentra en uso, intente otro"
+			return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form, 'message':message})
+
+
 		data = request.POST['email']
 		if User.objects.filter(email=data).exists():
-			raise forms.ValidationError("This email already used")
-			return data
+			message = "Este correo electronico fue regustrado"
+			return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form, 'message':message})
 		 
 		else:
 			if user_form.is_valid() and profile_form.is_valid():
-			    user = user_form.save()
-			    user.set_password(user.password)
-			    user.save()
+				user = user_form.save()
+				user.set_password(user.password)
+				user.save()
 
 			
 
-    			if 'picture' in request.FILES:
-    				profile = profile_form.save(commit=False)
-    				profile.user = user
-    				profile.picture = request.FILES['picture']
-    				profile.file = request.FILES['file']
-    				profile.localidad = request.POST['localidad']
-    				profile.estudio = request.POST['estudio']
-    				profile.edad = request.POST['edad']
-    				profile.experiencia = request.POST['experiencia']
-    			
-    				 
-    				profile.save()
-    				registered = True
-    				username = user_form.cleaned_data['username']
-    				password = user_form.cleaned_data['password']
-    				usuario = authenticate(username=username,password=password)
-    				login(request,usuario)
-    				return HttpResponseRedirect('/vacantes')
-    			else:
-    				print user_form.errors, profile_form.errors
-    
-    				profile = profile_form.save(commit=False)
-    				profile.user = user
-    				profile.save()
-    				registered = True
-    				username = user_form.cleaned_data['username']
-    				password = user_form.cleaned_data['password']
-    				profile.file = request.FILES['file']
-    				profile.localidad = request.POST['localidad']
-    				profile.estudio = request.POST['estudio']
-    				profile.edad = request.POST['edad']
-    				profile.experiencia = request.POST['experiencia']
-    			
-    				profile.save()
-    				usuario = authenticate(username=username,password=password)
-    				login(request,usuario)
-    				return HttpResponseRedirect('/vacantes')
-    	else:
-    		user_form = UsuarioForm2()
-    		profile_form = UserPr()
-    		
-    	return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form})
+				if 'picture' in request.FILES:
+					profile = profile_form.save(commit=False)
+					profile.user = user
+					profile.cedula = request.POST['cedula']
+					profile.sexo = request.POST['sexo']
+					profile.idioma = request.POST['idioma']
+					profile.carrera = request.POST['carrera']
+					profile.ar_int = request.POST['ar_int']
+					profile.salario = request.POST['salario']
+					profile.telefono = request.POST['telefono']
+
+					profile.picture = request.FILES['picture']
+					profile.file = request.FILES['file']
+					profile.localidad = request.POST['localidad']
+					profile.estudio = request.POST['estudio']
+					profile.edad = request.POST['edad']
+					profile.experiencia = request.POST['experiencia']
+					profile.nacionalidad = request.POST['nacionalidad']
+				
+					 
+					profile.save()
+					registered = True
+					username = user_form.cleaned_data['username']
+					password = user_form.cleaned_data['password']
+					usuario = authenticate(username=username,password=password)
+					login(request,usuario)
+					return HttpResponseRedirect('/vacantes')
+				else:
+					print user_form.errors, profile_form.errors
+	
+					profile = profile_form.save(commit=False)
+					profile.user = user
+					profile.save()
+					registered = True
+					username = user_form.cleaned_data['username']
+					password = user_form.cleaned_data['password']
+					profile.file = request.FILES['file']
+					
+					profile.cedula = request.POST['cedula']
+					profile.sexo = request.POST['sexo']
+					profile.idioma = request.POST['idioma']
+					profile.carrera = request.POST['carrera']
+					profile.ar_int = request.POST['ar_int']
+					profile.salario = request.POST['salario']
+					profile.telefono = request.POST['telefono']
+
+					profile.localidad = request.POST['localidad']
+					profile.estudio = request.POST['estudio']
+					profile.edad = request.POST['edad']
+					profile.experiencia = request.POST['experiencia']
+					profile.nacionalidad = request.POST['nacionalidad']
+				
+					profile.save()
+					usuario = authenticate(username=username,password=password)
+					login(request,usuario)
+					return HttpResponseRedirect('/vacantes')
+	else:
+		user_form = UsuarioForm2()
+		profile_form = UserPr()	
+		return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form})
 
 
 		

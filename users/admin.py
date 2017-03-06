@@ -6,3 +6,21 @@ from users.models import UserP, UserPC, notify
 admin.site.register(UserP)
 admin.site.register(UserPC)
 admin.site.register(notify)
+
+class ProfileInline(admin.StackedInline):
+    model = UserP
+    can_delete = False
+    verbose_name_plural = 'Profile'
+    fk_name = 'user'
+
+class CustomUserAdmin(UserAdmin):
+    inlines = (ProfileInline, )
+
+    def get_inline_instances(self, request, obj=None):
+        if not obj:
+            return list()
+        return super(CustomUserAdmin, self).get_inline_instances(request, obj)
+
+
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
