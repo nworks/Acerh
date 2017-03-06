@@ -110,7 +110,7 @@ def companiass(request):
 			print busqueda
 			loc = UserP.objects.filter(localidad=busqueda)
 			print loc
-			app = Aplicado.objects.filter(~Q(estatus2='Procesado')) & Aplicado.objects.filter(usuario__in=loc)
+			
 			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform})
 		elif busqueda == 'Area':
 			print busqueda
