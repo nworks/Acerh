@@ -82,16 +82,16 @@
 		                                    	</div>
 		                                    </div>
 		                                    <div class="col-sm-6">
-		                                        <div class="form-group label-floating">
-		                                        	<label class="control-label">Idioma</label>
-	                                        		<select name="idioma" class="form-control">
-														<option disabled="" selected=""></option>
-	                                                	<option value="Español">Español</option>
-	                                                	<option value="English">English </option>
-	                                                	<option value="Frances"> Francés </option>
-	                                                	
-		                                        	</select>
-		                                    	</div>
+		                                         <div class="form-group ">
+		                                         <label for="sel2" class="control-label">Idioma Seleccionable:</label>
+                                                    <select name="idioma" multiple="multiple" class="form-control" id="sel2">
+                                                     <option>Espanol</option>
+                                                     <option>Ingles</option>
+                                                     <option>Mandarin</option>
+                                                     <option>Frances</option>
+                                                     <option>Otros</option>
+                                                   </select>
+                                                </div>
 		                                    </div>
 		                                    <div class="col-sm-6">
 		                                        <div class="form-group label-floating">
@@ -113,9 +113,9 @@
 		                                        	<label class="control-label">Area Interes</label>
 	                                        		<select name="ar_int" class="form-control">
 														<option disabled="" selected=""></option>
-	                                                	<option value="Español">IT</option>
-	                                                	<option value="English">NEGOCIOS </option>
-	                                                	<option value="Frances">SERVICIO AL CLIENTE </option>
+	                                                	<option value="IT">IT</option>
+	                                                	<option value="NEGOCIOS">NEGOCIOS </option>
+	                                                	<option value="SERVICIO AL CLIENTE">SERVICIO AL CLIENTE </option>
 	                                                	
 		                                        	</select>
 		                                    	</div>
@@ -134,9 +134,9 @@
 		                                        	<label class="control-label">Rango Salario(OPCIONAL)</label>
 	                                        		<select name="salario" class="form-control">
 														<option disabled="" selected=""></option>
-	                                                	<option value="Español">10,000-25,000</option>
-	                                                	<option value="English">25,000-50,0000 </option>
-	                                                	<option value="Frances">50,000+ </option>
+	                                                	<option value="10,000-25,000">10,000-25,000</option>
+	                                                	<option value="25,000-50,0000">25,000-50,0000 </option>
+	                                                	<option value="50,000+">50,000+ </option>
 	                                                	
 		                                        	</select>
 		                                    	</div>
@@ -253,19 +253,14 @@
 		                                        	</select>
 		                                    	</div>
 		                                    	<div class="form-group label-floating">
-		                                        	<label class="control-label">Nacionalidad</label>
-	                                        		<select name="nacionalidad" class="form-control">
-	                                        		    <option disabled="" selected=""></option>
-														<option value="Dominicana">Dominicana </option>
-                                                        <option value="Extrangera USA"> Extrangera USA </option>
-                                                        <option value="Extrangera EURO"> Extrangera EURO </option>
-                                                       
-		                                        	</select>
-		                                    	</div>
+			                                          	<label class="control-label">Nacionalidad</label>
+			                                          	<input name="nacionalidad" type="text" class="form-control">
+			                                        </div>
 		                                    	<div class="form-group label-floating">
 		                                        	<label class="control-label">Experiencia</label>
 	                                        		<select name="experiencia" class="form-control">
 														<option disabled="" selected=""></option>
+	                                                	<option value="1-2"> Sin experiencia </option>
 	                                                	<option value="1-2"> 1-2 </option>
                                                         <option value="2-5"> 2-5 </option>
                                                         <option value="5-10"> 5-10 </option>

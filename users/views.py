@@ -89,7 +89,7 @@ def register(request):
 					profile.user = user
 					profile.cedula = request.POST['cedula']
 					profile.sexo = request.POST['sexo']
-					profile.idioma = request.POST['idioma']
+					profile.idioma = request.POST.getlist('idioma')
 					profile.carrera = request.POST['carrera']
 					profile.ar_int = request.POST['ar_int']
 					profile.salario = request.POST['salario']
@@ -124,7 +124,7 @@ def register(request):
 					
 					profile.cedula = request.POST['cedula']
 					profile.sexo = request.POST['sexo']
-					profile.idioma = request.POST['idioma']
+					profile.idioma = request.POST.getlist('idioma')
 					profile.carrera = request.POST['carrera']
 					profile.ar_int = request.POST['ar_int']
 					profile.salario = request.POST['salario']

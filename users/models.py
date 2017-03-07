@@ -16,7 +16,7 @@ class UserP(models.Model):
 	estudio = models.CharField(max_length=100, blank=True)
 	edad = models.CharField(max_length=50, blank=True)
 	experiencia = models.CharField(max_length=50, blank=True)
-	idioma = models.CharField(max_length=50, blank=True)
+	idioma = models.TextField(blank=True)
 	ar_exp = models.CharField(max_length=50, blank=True)
 	ar_int = models.CharField(max_length=50, blank=True)
 	carrera = models.CharField(max_length=50, blank=True)
