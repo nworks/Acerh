@@ -79,7 +79,8 @@ def compania(request):
 	cantidad2 = Vacante.objects.filter(compania=request.user).count()
 	cantidad3 = Aplicado.objects.filter(usuario=request.user.id).count()
 	area = Area.objects.all()
-	context = { "post":post, "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"area":area,"areas":area.all()}
+	usuario = User.objects.all()
+	context = { "post":post,"usuario":usuario,"usuarios":usuario.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"area":area,"areas":area.all()}
 	return render(request, 'index4.html', context)
 
 @login_required
@@ -87,11 +88,12 @@ def solicitudcompania(request):
 	titulo = request.POST.get('titulo')
 	area = request.POST.get('area')
 	requisitos = request.POST.get('requisitos')
+	pregunta = request.POST.get('pregunta')
 	descripcion = request.POST.get('descripcion')
 	requerimientos = request.POST.get('req')
 	area2 = Area.objects.get(titulo=area)
 	
-	solicit =  Vacante.objects.create(compania=request.user, titulo=titulo, descripcion=descripcion, area_id=area2.id, requisitos=requisitos)
+	solicit =  Vacante.objects.create(compania=request.user, titulo=titulo, descripcion=descripcion, area_id=area2.id, requisitos=requisitos, pregunta=pregunta)
 	solicit.save()
 	return HttpResponse('/compania')
 
@@ -107,91 +109,57 @@ def removerc(request):
 @login_required
 def companiass(request):
 	app = Aplicado.objects.filter(~Q(estatus2='Procesado'))
+	are = Area.objects.all()
 	entreform = EntrevistaForm(data=request.FILES)
 	if request.method == 'GET':
-		palabra = request.GET.get('palabra','')
-		busqueda = request.GET.get('busqueda','')
-		if busqueda == 'Localidad':
-			print busqueda
-			print palabra
-			loc = UserP.objects.filter(localidad__icontains=palabra)
-			array = []
-			for e in loc:
-				array.insert(0,e.user.pk)
-			app = Aplicado.objects.filter(~Q(estatus2='Procesado')) & Aplicado.objects.filter(usuario_id__in=array)
+		if 'localidad' in request.GET:
+			localidad = request.GET.get('localidad')
 			
-			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform})
-		elif busqueda == 'Area':
-			print busqueda
-			loc = Vacante.objects.filter(Area__icontains=palabra)
-			array = []
-			for e in loc:
-				array.insert(0,e.user.pk)
-			app = Aplicado.objects.filter(~Q(estatus2='Procesado')) & Aplicado.objects.filter(usuario_id__in=array)
+		else:
+			localidad = "" 
+		if 'sexo' in request.GET:
+			sexo = request.GET.get('sexo')
 			
-			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform})
+		else:
+			sexo = ""
+		if 'ar_int' in request.GET:
+			ar_int = request.GET.get('ar_int')
+			print ar_int
+			areaid =  Area.objects.get(titulo=ar_int)
+			print areaid
+			
+		else:
+			areaid = ""
+		if 'ar_exp' in request.GET:
+			ar_exp = request.GET.get('ar_exp')
+			areaid2 =  Area.objects.get(titulo=ar_exp)
+			print areaid2
+			
+		else:
+			areaid2 = ""
+		if 'carrera' in request.GET:
+			carrera = request.GET.get('carrera')
+			
+		else:
+			carrera = ""
+		if 'idioma' in request.GET:
+			idioma = request.GET.get('idioma')
+			
+		else:
+			idioma = ""
+		if 'edad' in request.GET:
+			edad = request.GET.get('edad')
+		else:
+			edad = ""
 
-		elif busqueda == 'Sexo':
-			print busqueda
-			print palabra
-			loc = UserP.objects.filter(sexo__icontains=palabra)
-			array = []
-			for e in loc:
-				array.insert(0,e.user.pk)
-			app = Aplicado.objects.filter(~Q(estatus2='Procesado')) & Aplicado.objects.filter(usuario_id__in=array)
+		loc = UserP.objects.filter(localidad__icontains=localidad).filter(sexo__icontains=sexo).filter(ar_int__icontains=areaid).filter(ar_exp__icontains=areaid2).filter(carrera__icontains=carrera).filter(idioma__icontains=idioma).filter(edad__icontains=edad)
+		array = []
+		for e in loc:
+			array.insert(0,e.user.pk)
+		app = Aplicado.objects.filter(~Q(estatus2='Procesado')) & Aplicado.objects.filter(usuario_id__in=array)
 			
-			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform})
-		elif busqueda == 'Idioma':
-			print busqueda
-			print palabra
-			loc = UserP.objects.filter(idioma__icontains=palabra)
-			array = []
-			for e in loc:
-				array.insert(0,e.user.pk)
-			app = Aplicado.objects.filter(~Q(estatus2='Procesado')) & Aplicado.objects.filter(usuario_id__in=array)
-			
-			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform})
-		elif busqueda == 'Area Experiencia':
-			print busqueda
-			print palabra
-			loc = UserP.objects.filter(ar_exp__icontains=palabra)
-			array = []
-			for e in loc:
-				array.insert(0,e.user.pk)
-			app = Aplicado.objects.filter(~Q(estatus2='Procesado')) & Aplicado.objects.filter(usuario_id__in=array)
-			
-			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform})
-		elif busqueda == 'Area Interes':
-			print busqueda
-			print palabra
-			loc = UserP.objects.filter(ar_int__icontains=palabra)
-			array = []
-			for e in loc:
-				array.insert(0,e.user.pk)
-			app = Aplicado.objects.filter(~Q(estatus2='Procesado')) & Aplicado.objects.filter(usuario_id__in=array)
-			
-			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform})
-		elif busqueda == 'Edad':
-			print busqueda
-			print busqueda
-			print palabra
-			loc = UserP.objects.filter(edad__icontains=palabra)
-			array = []
-			for e in loc:
-				array.insert(0,e.user.pk)
-			app = Aplicado.objects.filter(~Q(estatus2='Procesado')) & Aplicado.objects.filter(usuario_id__in=array)
-			
-			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform})
-		elif busqueda == 'Carrera':
-			print busqueda
-			print palabra
-			loc = UserP.objects.filter(carrera__icontains=palabra)
-			array = []
-			for e in loc:
-				array.insert(0,e.user.pk)
-			app = Aplicado.objects.filter(~Q(estatus2='Procesado')) & Aplicado.objects.filter(usuario_id__in=array)
-			
-			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform})
+		return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform,'are':are, 'areas':are.all()})
+	
 
 	elif request.method == 'POST':
 		entreform = EntrevistaForm(data=request.POST)
@@ -203,11 +171,11 @@ def companiass(request):
 			post.comentario = request.POST["comentario"]
 			post.estatus2 = 'Procesado'
 			post.save()
-			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform})
+			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform,'are':are, 'areas':are.all()})
 		else:
 			entreform = EntrevistaForm(data=request.FILES)
 
-	return render(request, 'index5.html', {'entreform':entreform})
+	return render(request, 'index5.html',  {'entreform':entreform,'are':are, 'areas':are.all()})
 
 def passwordrecovery(request):
 	app = Aplicado.objects.all()

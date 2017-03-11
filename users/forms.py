@@ -3,6 +3,9 @@ from models import UserP
 from django.contrib.auth.models import User
 
 class UsuarioForm(forms.ModelForm):
+	first_name = forms.TextInput(attrs={'class': 'form-control'})
+	last_name = forms.TextInput(attrs={'class': 'form-control'})
+	email = forms.TextInput(attrs={'class': 'form-control'})
 	class Meta:
 		model = User
 		fields = ["first_name","last_name","email"]
@@ -20,6 +23,16 @@ class UserPr(forms.ModelForm):
 			fields = ["picture","file","localidad","estudio","edad","experiencia"]
 
 
+class UserPr2(forms.ModelForm):
+		class Meta:
+			model = UserP
+			fields = ["picture","file","localidad","estudio","edad","experiencia"]
+
+class UserPr3(forms.ModelForm):
+		class Meta:
+			model = UserP
+			fields = ["picture","file","localidad","estudio","edad","experiencia","idioma","ar_exp","ar_int", "carrera","sexo","cedula","salario","nacionalidad"]
+
 				
 class UsuarioForm2(forms.ModelForm):
 	class Meta:
@@ -30,28 +43,28 @@ class UsuarioForm2(forms.ModelForm):
 		
 # forms.py
 class PasswordResetRequestForm(forms.Form):
-    email_or_username = forms.CharField(label=("Email Or Username"), max_length=254)
+	email_or_username = forms.CharField(label=("Email Or Username"), max_length=254)
 
 class SetPasswordForm(forms.Form):
-    """
-    A form that lets a user change set their password without entering the old
-    password
-    """
-    error_messages = {
-        'password_mismatch': ("The two password fields didn't match."),
-        }
-    new_password1 = forms.CharField(label=("New password"),
-                                    widget=forms.PasswordInput)
-    new_password2 = forms.CharField(label=("New password confirmation"),
-                                    widget=forms.PasswordInput)
+	"""
+	A form that lets a user change set their password without entering the old
+	password
+	"""
+	error_messages = {
+		'password_mismatch': ("The two password fields didn't match."),
+		}
+	new_password1 = forms.CharField(label=("New password"),
+									widget=forms.PasswordInput)
+	new_password2 = forms.CharField(label=("New password confirmation"),
+									widget=forms.PasswordInput)
 
-    def clean_new_password2(self):
-        password1 = self.cleaned_data.get('new_password1')
-        password2 = self.cleaned_data.get('new_password2')
-        if password1 and password2:
-            if password1 != password2:
-                raise forms.ValidationError(
-                    self.error_messages['password_mismatch'],
-                    code='password_mismatch',
-                    )
-        return password2
+	def clean_new_password2(self):
+		password1 = self.cleaned_data.get('new_password1')
+		password2 = self.cleaned_data.get('new_password2')
+		if password1 and password2:
+			if password1 != password2:
+				raise forms.ValidationError(
+					self.error_messages['password_mismatch'],
+					code='password_mismatch',
+					)
+		return password2

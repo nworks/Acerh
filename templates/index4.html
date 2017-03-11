@@ -218,41 +218,72 @@
                                <li class="box-label" ><a href="javascript:void(0)">Vacantes Publicadas <span id="cantidad2">{{cantidad2}}</span></a></li>
                                <li class="divider"></li> 
                                <li><a href="javascript:void(0)" >Publicadas <span id="cantidad2">{{cantidad2}}</span></a></li>
-                               <li><a href="javascript:void(0)">Usuarios Aplicantes <span>19</span></a></li>
+                               <li><button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"> Ver usuarios aplicantes</button></li>
                                <div id="myModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                   <div class="modal-dialog">
                                     <div class="modal-content">
                                       <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        <h4 class="modal-title" id="myModalLabel">Add Lable</h4>
+                                        <h4 class="modal-title" id="myModalLabel"><center>Listado de Usuarios Aplicantes</center></h4>
                                       </div>
                                       <div class="modal-body">
-                                         <from class="form-horizontal">
+                                          <form  class="form-horizontal form-material" method="GET" id="role-form">
                                             <div class="form-group">
-                                              <label class="col-md-12">Name of Label</label>
+                                              <label class="col-md-12"><center>Nombres del Aplicante</center></label>
                                               <div class="col-md-12">
-                                                <input type="text" class="form-control" placeholder="type name">
+                                                <input id="usuarios" type="text" class="form-control" placeholder="Ingrese el nombre" onkeyup="key()">
                                               </div>
                                             </div>
-                                            <div class="form-group">
-                                              <label class="col-md-12">Select Number of people</label>
-                                              <div class="col-md-12">
-                                                  <select class="form-control">
-                                                    <option>All Contacts</option>
-                                                    <option>10</option>
-                                                    <option>20</option>
-                                                    <option>30</option>
-                                                    <option>40</option>
-                                                    <option>Custome</option>
-                                                  </select>
-                                              </div>
+                                            
+                                            <!-- locoooo e aqui el asu -->
+                                            <div class=" ">
+                                              <div class="table-container">
+              <table class="table table-filter">
+                <tbody>
+                {%for usuario in usuarios%}
+                  <tr data-status="pagado">
+                    <td>
+                      <div class="ckbox">
+                        <input type="checkbox" id="checkbox1">
+                        <label for="checkbox1"></label>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="javascript:;" class="star">
+                        <i class="glyphicon glyphicon-star"></i>
+                      </a>
+                    </td>
+                    <td>
+                      <div class="media">
+                        <a href="#" class="pull-left">
+                           {%if usuario.userp.picture %}
+                          <img width="50" height="50" src="{{usuario.userp.picture.url}}" class="media-photo">
+                          {%else%}
+                          <img width="50" height="50" src="{% static 'assets/img/user.png' %}" class="media-photo">
+                          {%endif%}
+                        </a>
+                        <div class="media-body">
+                          <span class="media-meta pull-right">{{usuario.email}}</span>
+                          <h4 class="title">
+                            {{usuario.first_name}}
+                            <span class="pull-right pagado"></span>
+                          </h4>
+                          <p class="summary"><a href="{% url 'user_detail' id=usuario.id %}">{{usuario.first_name}} {{usuario.last_name}}</a></p>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {%endfor%}
+                  </tbody>
+                  </table>
+                  </div>
                                             </div>
                                         
                                         </from>
                                         
                                       </div>
                                       <div class="modal-footer">
-                                        <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Save</button>
+                                        
                                         <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancel</button>
                                       </div>
                                     </div>
@@ -323,10 +354,10 @@
                     <input  type="text" id="descripcion{{post.id}}" name="descripcion" class="form-control" placeholder="Descripcion">
                    </div>
                    <div class="form-group">
-                    <input  type="text" id="requisitos{{post.id}}" name="requisitos" class="form-control" placeholder="Requisitos">
+                     <textarea  class="form-control" id="requisitos{{post.id}}" name="requisitos" rows="4" cols="50" placeholder="Ingrese los requisitos"></textarea>
                    </div>
                    <div class="form-group">
-                    <input  type="text" id="pregunta{{post.id}}" name="pregunta" class="form-control" placeholder="Pregunta opcional">
+                    <textarea  class="form-control" id="pregunta{{post.id}}" name="pregunta" rows="4" cols="50" placeholder="Preguntas Opcionales"></textarea>
                    </div>
                    <div class="form-group">
                      <label>Area</label>
@@ -412,7 +443,7 @@
             type: 'POST',
             success : function(data) {
                    swal("Haz Actualizado!", "Presiona el boton para continuar!", "success")  
-               
+                   window.location.replace("/compania/");
                                },
             error : function(message) {
                    console.log(message);
@@ -444,7 +475,7 @@
                                                               <textarea  class="form-control" id="descripcion" name="descripcion" rows="4" cols="50" placeholder="Ingrese la descripcion"></textarea>
                                                             </div>
                                                             <div class="col-md-12 m-b-20">
-                                                              <input type="text" id="requisitos" name="requisitos" class="form-control" placeholder="Requisitos">
+                                                              <textarea  class="form-control" id="requisitos" name="requisitos" rows="4" cols="50" placeholder="Requisitos"></textarea>
                                                             </div>
                                                             <div class="col-md-12 m-b-20">
                                                               <textarea  class="form-control" id="pregunta" name="pregunta" rows="4" cols="50" placeholder="Preguntas"></textarea>
@@ -492,7 +523,7 @@
             success : function(data) {
                    swal("Creacion correcta!", "Presiona el boton para continuar!", "success") 
                    document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) + 1;
-                   window.location.reload();
+                   window.location.replace("/compania/");
                    
                                },
             error : function(message) {
@@ -527,6 +558,33 @@
             </div>  
           </div>
       </div> 
+
+      <script type="text/javascript">
+            
+            function key() {
+            console.log("esta entrando al keyup")
+            usuarios = $("#usuarios").val();
+            console.log(usuarios)
+            $.ajax({
+            data: {'ajax': usuarios},
+            url: '/consultauser/',
+            type: 'GET',
+            success : function(data) {
+                 
+                    console.log(data);
+                    html += '<center>'+'<div class="alert alert-danger">'+ data.responseText  +" "+'</div>'+'</center>';
+                    document.getElementById("error").innerHTML = data[0];
+            },
+            error : function(message) {
+                   console.log(message);
+
+            }      
+             });
+           
+          
+            }
+         </script>
+
 
     <!-- /.container-fluid -->
     <footer class="footer text-center"> 2016 &copy; NworksDev Developer  </footer>

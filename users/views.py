@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect ,HttpResponse
-from users.forms import LoginForm ,UserP, UsuarioForm2, UserPr,PasswordResetRequestForm,SetPasswordForm, UsuarioForm
+from users.forms import LoginForm ,UserP, UsuarioForm2, UserPr,PasswordResetRequestForm,SetPasswordForm, UsuarioForm, UserPr2,UserPr3
 from django.shortcuts import render_to_response,render
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
@@ -17,8 +17,23 @@ from django.core.mail.message import EmailMessage
 from django.template import Library
 from django.template.defaulttags import cycle as cycle_original
 from django.core.urlresolvers import reverse
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 
 # Create your views here.
+
+def user_detail(request, id=None):
+	cliente = get_object_or_404(User, id=id)
+	profile = get_object_or_404(User, id=id)
+	aplicado = Aplicado.objects.filter(usuario=id)
+	context = {
+		"cliente":cliente,
+		"profile":profile,
+		"aplicado":aplicado, "aplicados":aplicado.all()
+	}
+
+	return render(request, 'profile2.html', context)
+
+
 
 @csrf_protect
 def LoginRequest(request):
@@ -150,7 +165,7 @@ def register(request):
 
 
 
-def userdetail(request):
+def userdetail2(request):
 	userinfo = User.objects.get(id=request.user.id)
 	aplicado = Aplicado.objects.filter(usuario=request.user)
 	cantidad = aplicado.count()
@@ -176,10 +191,35 @@ def userdetail(request):
 			profile.user = user
 			profile.save()
 			registered = True
-	return render(request, 'profile.html', context)
+	return render(request, 'profile.html', context, {'user_form':user_form,'profile_form':profile_form})
 
 
-
+def userdetail(request):
+	userinfo = User.objects.get(id=request.user.id)
+	aplicado = Aplicado.objects.filter(usuario=request.user)
+	cantidad = aplicado.count()
+	userdetalle = UserP.objects.filter(user=request.user)
+	user_form = UsuarioForm(data=request.POST, instance=userinfo)
+	profile_form = UserPr3(data=request.FILES, instance=userinfo)
+	if request.method == 'POST':
+		
+		if user_form.is_valid() and profile_form.is_valid():
+			
+			user = user_form.save()
+			user.username = request.user.username
+			user.save()
+			profile = profile_form.save(commit=False)
+			profile.file = request.FILES['file']
+			profile.localidad = request.POST['localidad']
+			profile.estudio = request.POST['estudio']
+			profile.edad = request.POST['edad']
+			profile.experiencia = request.POST['experiencia']
+			
+			profile.user = user
+			profile.save()
+			registered = True
+			return render(request, 'profile.html', {'user_form':user_form,'profile_form':profile_form})
+	return render(request, 'profile.html', {'user_form':user_form,'profile_form':profile_form})
 
 
 def email(request):
@@ -189,6 +229,67 @@ def email(request):
 	email.to = [ "nworks16@gmail.com"]
 	email.send()
 
+import json
+def consulta(request): 
+	search_text = request.GET.get('ajax')
+	print search_text
+	if search_text is not None:
+		if request.is_ajax(): 
+			clientes = User.objects.filter(email=search_text)
+			if clientes.exists():
+				print "Existe"
+				array = []
+				array.insert(0,"Este Correo Electronico Existe, Use Otro")
+				return HttpResponse(json.dumps( list(array)), content_type='application/json' ) 
+			else:
+				print "No Existe"
+				array = []
+				array.insert(0,"Este Correo Electronico Esta Disponible")
+				return HttpResponse( json.dumps( list(array)), content_type='application/json' ) 
+	else: 
+		return HttpResponse("")
+
+
+def consultan(request): 
+	search_text = request.GET.get('ajax')
+	print search_text
+	if search_text is not None:
+		if request.is_ajax(): 
+			clientes = User.objects.filter(username=search_text)
+			if clientes.exists():
+				print "Existe"
+				array = []
+				array.insert(0,"Este Username Esta en Uso,Ingrese Otro")
+				return HttpResponse(json.dumps( list(array)), content_type='application/json' ) 
+			else:
+				print "No Existe"
+				array = []
+				array.insert(0,"Este Username Esta Disponible")
+				return HttpResponse( json.dumps( list(array)), content_type='application/json' ) 
+	else: 
+		return HttpResponse("")
+
+from django.core import serializers
+def consultauser(request): 
+	search_text = request.GET.get('ajax')
+	print search_text
+	if search_text is not None:
+		if request.is_ajax(): 
+			clientes = User.objects.filter(first_name__icontains=search_text)
+			if clientes.exists():
+				data = serializers.serialize("json", clientes)
+				for cliente in clientes:
+					print cliente.username
+					array = []
+					array.insert(0,cliente.id)
+				return HttpResponse(json.dumps(list(clientes.values('pk','first_name', 'last_name','email'))), content_type='application/json' ) 
+			else:
+				print "No Existe"
+				array = []
+				array.insert(0,"Este Username Esta Disponible")
+				return HttpResponse( json.dumps( list(array)), content_type='application/json' ) 
+	else: 
+		return HttpResponse("")
 
 
 from collections import OrderedDict

@@ -67,6 +67,8 @@
                                 {% if message %}
                                 <center><div class="alert alert-danger">{{message}}</div></center>
                                 {% endif %}
+                                <center><div id="testo" class="alert alert-danger"><div id="error"></div></div></center>
+                                
 		                        <div class="tab-content">
 		                            <div class="tab-pane" id="account">
 		                                <h4 class="info-text"> Informaciones para mejorar tu experiencia con nosotros </h4>
@@ -83,7 +85,7 @@
 		                                    </div>
 		                                    <div class="col-sm-6">
 		                                         <div class="form-group ">
-		                                         <label for="sel2" class="control-label">Idioma Seleccionable:</label>
+		                                         <label for="sel2" class="control-label">Idioma Seleccionable (Varios):</label>
                                                     <select name="idioma" multiple="multiple" class="form-control" id="sel2">
                                                      <option>Espanol</option>
                                                      <option>Ingles</option>
@@ -178,7 +180,7 @@
 													</span>
 													<div class="form-group label-floating">
 			                                          	<label class="control-label">Your Email</label>
-			                                          	<input name="email" type="text" class="form-control">
+			                                          	<input name="email" id="email" type="text" class="form-control" onkeyup="myFunction()">
 			                                        </div>
 												</div>
 
@@ -310,6 +312,43 @@
 	        
 	    </div>
 	</div>
+
+	<script type="text/javascript">
+            
+            function myFunction() {
+            var html = ""
+            consulta = $("#email").val();
+            var str = "Hello world, welcome to the universe.";
+            var n = consulta.includes(".");
+            console.log(n)
+            $('#error').html(html);
+            console.log(consulta)
+            if (n == true){
+            $.ajax({
+            data: {'ajax': consulta},
+            url: '/consulta/',
+            type: 'GET',
+            success : function(data) {
+                 
+                    console.log(data[0]);
+                    html += '<center>'+'<div class="alert alert-danger">'+ data.responseText  +" "+'</div>'+'</center>';
+                    document.getElementById("error").innerHTML = data[0];
+            },
+            error : function(message) {
+                   console.log(message);
+
+            }      
+             });
+            }
+            else{
+
+            }
+            
+          
+            }
+         </script>
+
+         
 
 </body>
 	<!--   Core JS Files   -->

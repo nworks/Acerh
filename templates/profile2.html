@@ -181,20 +181,7 @@
           <!-- /input-group -->
         <li class="nav-small-cap m-t-10">--- Main Menu</li>
          
-        {% if request.user.userpc.company %}
         
-        <li><a href="/compania" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Va)<span class="fa arrow"></span></span></a>
-         
-        </li>
-        <li><a href="/companiass" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Ap)<span class="fa arrow"></span></span></a>
-         
-        </li>
-        {% else %}
-           <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
-        
-        </li>
-        <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span id="cantidad" class="label label-rouded label-info pull-right">{{cantidad3}}</span> </span></a>
-        {% endif %}
        
         
       </ul>
@@ -220,36 +207,29 @@
       <div class="row">
         <div class="col-md-4 col-xs-12">
           <div class="white-box">
-            <div class="user-bg">  {% if request.user.userp.picture %}
-          <img width="100%" height="100%" alt="user" src="{{request.user.userp.picture.url}}">
+            <div class="user-bg">  {% if cliente.userp.picture %}
+          <img width="100%" height="100%" alt="user" src="{{cliente.userp.picture.url}}">
           {% else %}
           <img src="{% static 'assets/img/user.png' %}" alt="user-img" class="img-circle">
           {% endif %}
               <div class="overlay-box">
-                <div class="user-content"> <a href="javascript:void(0)"> {% if request.user.userp.picture %}
-          <div><img src="{{request.user.userp.picture.url}}" alt="user-img" class="thumb-lg img-circle" alt="img"></div>
+                <div class="user-content"> <a href="javascript:void(0)"> {% if cliente.userp.picture %}
+          <div><img src="{{cliente.userp.picture.url}}" alt="user-img" class="thumb-lg img-circle" alt="img"></div>
           {% else %}
           <div><img src="{% static 'assets/img/user.png' %}" alt="user-img" class="thumb-lg img-circle" alt="img"></div>
           {% endif %}</a>
-                  <h4 class="text-white">{{request.user.first_name}} {{request.user.last_name}} </h4>
-                  <h5 class="text-white">{{request.user.email}}</h5>
+                  <h4 class="text-white">{{cliente.first_name}} {{cliente.last_name}} </h4>
+                  <h5 class="text-white">{{cliente.email}}</h5>
                   
                 </div>
               </div>
             </div>
             <div class="user-btm-box">
               <div class="col-md-4 col-sm-4 text-center">
-                <p class="text-purple"><div class="col-md-12"><strong>CV</strong><p><a class="btn btn-danger btn-rounded" href="{{request.user.userp.file.url}}">Ver CV</a><br/></p></div></i></p>
+                <center><p class="text-purple"><div class="col-md-12"><strong>CV</strong><p><a class="btn btn-danger btn-rounded" href="{{cliente.userp.file.url}}">Ver CV</a><br/></p></div></i></p></center>
                 
               </div>
-              <div class="col-md-4 col-sm-4 text-center">
-                <p class="text-blue"><i class="ti-check"></i></p>
-                <h1>125</h1>
-              </div>
-              <div class="col-md-4 col-sm-4 text-center">
-                <p class="text-danger"><i class="ti-dribbble"></i></p>
-                <h1>556</h1>
-              </div>
+             
             </div>
           </div>
         </div>
@@ -268,7 +248,7 @@
                 <div class="steamline">
                   {% for aplicado in aplicados %}
                   <div class="sl-item">
-                    <div class="sl-left"> <img src="{{aplicado.usuario.userp.picture.url}}" alt="user" class="img-circle"/> </div>
+                    <div class="sl-left">{%if aplicado.usuario.userp.picture%} <img src="{{aplicado.usuario.userp.picture.url}}" alt="user" class="img-circle"/> {% else %} <img src="{% static 'assets/img/user.png' %}" alt="user-img" class="img-circle"> {%endif%} </div>
                     <div class="sl-right">
                       <div class="m-l-40"><a href="#" class="text-info">{{aplicado.user.username}}</a> <span  class="sl-date">Aplico</span>
                         <p>{{aplicado.aplico.titulo}} <a href="#"> Acerh</a></p>
@@ -283,20 +263,38 @@
               <div class="tab-pane" id="profile">
                 <div class="row">
                   <div class="col-md-3 col-xs-6 b-r"> <strong>Nombre completo</strong> <br>
-                    <p class="text-muted">{{request.user.first_name}} {{request.user.last_name}}</p>
+                    <p class="text-muted">{{cliente.first_name}} {{request.user.last_name}}</p>
                   </div>
-                  <div class="col-md-3 col-xs-6 b-r"> <strong>Mobile</strong> <br>
-                    <p class="text-muted">{{request.user.userp.telefono}}</p>
+                  <div class="col-md-3 col-xs-6 b-r"> <strong>Telefono</strong> <br>
+                    <p class="text-muted">{{cliente.userp.telefono}}</p>
                   </div>
                   <div class="col-md-3 col-xs-6 b-r"> <strong>Email</strong> <br>
-                    <p class="text-muted">{{request.user.email}} </p>
+                    <p class="text-muted">{{cliente.email}} </p>
                   </div>
-                  <div class="col-md-3 col-xs-6"> <strong>Location</strong> <br>
-                    <p class="text-muted">{{request.user.userp.localidad}}</p>
+                  <div class="col-md-3 col-xs-6"> <strong>Localidad</strong> <br>
+                    <p class="text-muted">{{cliente.userp.localidad}}</p>
+                  </div>
+                   <div class="col-md-3 col-xs-6"> <strong>Preparacion</strong> <br>
+                    <p class="text-muted">{{cliente.userp.estudio}}</p>
+                  </div>
+                   <div class="col-md-3 col-xs-6"> <strong>Cedula</strong> <br>
+                    <p class="text-muted">{{cliente.userp.cedula}}</p>
+                  </div>
+                   <div class="col-md-3 col-xs-6"> <strong>Sexo</strong> <br>
+                    <p class="text-muted">{{cliente.userp.sexo}}</p>
+                  </div>
+                  <div class="col-md-3 col-xs-6"> <strong>Idioma</strong> <br>
+                    <p class="text-muted">{{cliente.userp.idioma}}</p>
+                  </div>
+                  <div class="col-md-3 col-xs-6"> <strong>Edad</strong> <br>
+                    <p class="text-muted">{{cliente.userp.edad}}</p>
+                  </div>
+                  <div class="col-md-3 col-xs-6"> <strong>Experiencia</strong> <br>
+                    <p class="text-muted">{{cliente.userp.experiencia}}</p>
                   </div>
                 </div>
                 <hr>
-                <p class="m-t-30">{{request.user.userp.mensaje}}</p>
+                <p class="m-t-30">{{cliente.userp.mensaje}}</p>
                 <p></p>
                
               </div>
