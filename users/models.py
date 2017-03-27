@@ -21,9 +21,12 @@ class UserP(models.Model):
 	ar_int = models.CharField(max_length=50, blank=True)
 	carrera = models.CharField(max_length=50, blank=True)
 	sexo = models.CharField(max_length=50, blank=True)
-	cedula = models.CharField(max_length=15, blank=True)
-	salario = models.CharField(max_length=1000, blank=True)
+	cedula = models.CharField(max_length=20          , blank=True)
+	salario = models.CharField(max_length=100, blank=True)
 	nacionalidad = models.CharField(max_length=50, blank=True)
+	universidad = models.CharField(max_length=50, blank=True)
+	licencia = models.CharField(max_length=50, blank=True)
+	cat_licen = models.CharField(max_length=25, blank=True)
 
 	def __str__(self):
 		return self.user.username
@@ -43,6 +46,7 @@ class notify(models.Model):
 	company = models.OneToOneField(User, related_name='company')
 	
 	def __str__(self):
-		return self.user.username
+		return self.user.username        
+
 
 

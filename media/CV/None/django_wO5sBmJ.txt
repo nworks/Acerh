@@ -1,0 +1,12 @@
+1.Despues de copiar la base de datos nuevas en la carpeta DIR del proyecto, procedemos a ir al settings.py
+y cambiar la base de datos
+
+2.luego vamos a la consola y hacemos el "python manage.py inspectdb > models.py" para que nos genere un archivo con 
+los campos existentes en la base de datos
+
+3.Despues de creado el "models.py" tomamos los campos y los pegamos donde realmente los necesitamos tomando en cuenta
+que en la migracion se pierde el primary key! crearle uno antes de migrar
+
+4.luego procedemos a las migraciones :D "python manage.py makemigrations (model)" y "python manage.py migrate"
+
+5.

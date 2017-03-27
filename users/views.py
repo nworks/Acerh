@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response,render
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate,login,logout
-from vacantes.models import Vacante, Aplicado
+from vacantes.models import Vacante, Aplicado, Provincia, Area
 from django.db import models
 from users.models import UserPC, UserP
 from django.contrib.auth.models import User
@@ -77,6 +77,8 @@ def LogoutRequest(request):
 def register(request):
 	context = RequestContext(request)
 	registered = False
+	area = Area.objects.all()
+	provincia = Provincia.objects.all()
 	if request.method == 'POST':
 		user_form = UsuarioForm2(data=request.POST)
 		profile_form = UserPr(data=request.FILES)
@@ -117,6 +119,9 @@ def register(request):
 					profile.edad = request.POST['edad']
 					profile.experiencia = request.POST['experiencia']
 					profile.nacionalidad = request.POST['nacionalidad']
+					profile.universidad = request.POST['universidad']
+					profile.licencia = request.POST['licencia']
+					profile.cat_licen = request.POST['cat_licen']
 				
 					 
 					profile.save()
@@ -150,6 +155,9 @@ def register(request):
 					profile.edad = request.POST['edad']
 					profile.experiencia = request.POST['experiencia']
 					profile.nacionalidad = request.POST['nacionalidad']
+					profile.universidad = request.POST['universidad']
+					profile.licencia = request.POST['licencia']
+					profile.cat_licen = request.POST['cat_licen']
 				
 					profile.save()
 					usuario = authenticate(username=username,password=password)
@@ -158,7 +166,9 @@ def register(request):
 	else:
 		user_form = UsuarioForm2()
 		profile_form = UserPr()	
-		return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form})
+		area = Area.objects.all()
+		provincia = Provincia.objects.all()
+		return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form,'area':area,'areas':area.all(),'provincia':provincia,'provincias':provincia.all()})
 
 
 		
@@ -245,6 +255,25 @@ def consulta(request):
 				print "No Existe"
 				array = []
 				array.insert(0,"Este Correo Electronico Esta Disponible")
+				return HttpResponse( json.dumps( list(array)), content_type='application/json' ) 
+	else: 
+		return HttpResponse("")
+
+def consultaur(request): 
+	search_text = request.GET.get('ajax')
+	print search_text
+	if search_text is not None:
+		if request.is_ajax(): 
+			clientes = User.objects.filter(username=search_text)
+			if clientes.exists():
+				print "Existe"
+				array = []
+				array.insert(0,"Este Username Existe, Use Otro")
+				return HttpResponse(json.dumps( list(array)), content_type='application/json' ) 
+			else:
+				print "No Existe"
+				array = []
+				array.insert(0,"Este Username Esta Disponible")
 				return HttpResponse( json.dumps( list(array)), content_type='application/json' ) 
 	else: 
 		return HttpResponse("")

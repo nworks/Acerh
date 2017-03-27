@@ -31,7 +31,7 @@ class UserPr2(forms.ModelForm):
 class UserPr3(forms.ModelForm):
 		class Meta:
 			model = UserP
-			fields = ["picture","file","localidad","estudio","edad","experiencia","idioma","ar_exp","ar_int", "carrera","sexo","cedula","salario","nacionalidad"]
+			fields = ["picture","file","localidad","estudio","edad","experiencia","idioma","ar_exp","ar_int", "carrera","sexo","cedula","salario","nacionalidad","universidad","licencia","cat_licen"]
 
 				
 class UsuarioForm2(forms.ModelForm):

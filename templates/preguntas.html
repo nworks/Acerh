@@ -205,7 +205,35 @@
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
-                <!-- .row -->
+                {%if request.user.is_staff%}
+                
+                                    <div class="scrollable">
+                            <div id="refresh" class="table-responsive">
+                                <table id="demo-foo-addrow" class="table m-t-30 table-hover contact-list" data-page-size="10">
+                                  <thead>
+                                    <tr>
+                                      <th>No</th>
+                                      <th>Titulo</th>
+                                      <th>Descripcion</th>
+                                      <th>Estatus</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                  {% for preg in preguntas %}
+                                    <tr id="">
+                                      <td>{{preg.id}}</td>
+                                      <td>{{preg.titulo}}<a href=""> </a></td>
+                                      <td>{{preg.pregunta}}</td>
+                                      <td>{{preg.estatus}}</td>
+                                     
+                                  {% endfor %}
+                                      </td>
+                                      </tr>
+                                      </tbody>
+                                      </table>
+                                      </div>
+                {%else%}
+                  <!-- .row -->
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="white-box p-l-20 p-r-20">
@@ -224,16 +252,67 @@
                                             <textarea class="form-control" rows="4" id="input7" name="mensaje" required></textarea><span class="highlight"></span> <span class="bar"></span>
                                             <label for="input7">Mensaje</label>
                                         </div>
-                                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Enviar</button>
+                                        <button type="submit" class="btn btn-danger waves-effect waves-light m-r-10">Enviar</button>
+                                        <center><button type="button" href="#{{app.pk}}" class="btn btn-danger btn-rounded" data-toggle="modal" data-target="#delete{{app.id}}"><i class="fa fa-question-circle"></i> Preguntar por Vacantes</button></center>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                {%endif%}
                 <!-- /.row -->
                 <!-- .row -->
+                  <!-- Modal -->
+<div id="delete{{app.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <center><h4 class="modal-title">Realizar pregunta por vacantes</strong> </h4></center>
+                  </div>
+                  <div class="modal-body">
+                  <form id="msform{{app.id}}" role="form" method="POST" class="form-material" enctype="multipart/form-data">
+                  {% csrf_token %}
+                    
+                    <hr>
+                    <center>
+                    <br>
+                        
+                                <div class="form-group">
+                                <div class="form-group">
+                     <label>Seleccione la vacante</label>
+                       <select id="" name="titulomodal" class="form-control"> 
+                      {% for vac in vacs %}                                      
+                       <option value="{{vac.titulo}}">{{vac.titulo}}</option>
+                      {% endfor %}
+                      </select>
+                   </div>
+                                 
+                                </br>
+                                <label>Ingrese la pregunta que desea relizar</label>
+                                </br>
+                                 <div class="form-group">
+                                  <textarea  class="form-control" id="" name="preguntamodal" rows="4" cols="50" placeholder="Ingrese la pregunta"></textarea>
+                                </div>                
+                                </div>
+                 
+
+                    </center>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-rounded" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-danger btn-rounded">Procesar Solicitud</button>
+                    
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>
                
+
+
+
                 <!-- /.row -->
                 <!-- .right-sidebar -->
                 <div class="right-sidebar">
@@ -286,7 +365,7 @@
                 <!-- /.right-sidebar -->
             </div>
             <!-- /.container-fluid -->
-            <footer class="footer text-center"> 2016 &copy; Elite Admin brought to you by themedesigner.in </footer>
+            <footer class="footer text-center"> 2017 &copy; AcerhApp by Nworksdev </footer>
         </div>
         <!-- /#page-wrapper -->
     </div>

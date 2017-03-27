@@ -175,6 +175,9 @@
         <li><a href="/companiass" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Ap)<span class="fa arrow"></span></span></a>
          
         </li>
+        <li><a href="/companiaus" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Us)<span class="fa arrow"></span></span></a>
+         
+        </li>
         {% else %}
            <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
         
@@ -203,7 +206,7 @@
         </div>
         <!-- /.col-lg-12 -->
       </div>
-     <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Modulo de busqueda avanzada</button>
+     <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Modulo de busqueda avanzada vacantes</button>
      <!-- Button trigger modal -->
 
 <!-- Modal -->
@@ -351,7 +354,10 @@
                                 
                    {%if entreform %}
                    <div class="form-group">
+                   <label>Comentario para el usuario</label>
                    {{ entreform.comentario|add_class:'form-control'  }}
+                   <label>Comentario para uso interno</label>
+                   {{ entreform.com_interno|add_class:'form-control'  }}
                    {{ entreform.entrevista|add_class:'btn btn-danger btn-rounded' }}
                    </div>
                    {% endif %}

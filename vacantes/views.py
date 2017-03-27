@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from vacantes.models import Vacante, Aplicado, Area
+from vacantes.models import Vacante, Aplicado, Area, Preguntado
 from users.models import UserP
 from django.db import models
 from users.models import notify
@@ -80,7 +80,14 @@ def compania(request):
 	cantidad3 = Aplicado.objects.filter(usuario=request.user.id).count()
 	area = Area.objects.all()
 	usuario = User.objects.all()
-	context = { "post":post,"usuario":usuario,"usuarios":usuario.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"area":area,"areas":area.all()}
+	if request.method == 'POST':
+		usu = request.POST.get('username')
+		usuario1 = User.objects.filter(username__contains=usu)
+	else:
+		usuario1 = User.objects.all()
+	
+	context = { "post":post,"usuario":usuario,"usuarios":usuario.all(),"usuario1":usuario1,"usuarios1":usuario1.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"area":area,"areas":area.all()}
+
 	return render(request, 'index4.html', context)
 
 @login_required
@@ -169,6 +176,7 @@ def companiass(request):
 			print idview
 			post.entrevista = request.FILES["entrevista"]
 			post.comentario = request.POST["comentario"]
+			post.com_interno = request.POST["com_interno"]
 			post.estatus2 = 'Procesado'
 			post.save()
 			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform,'are':are, 'areas':are.all()})
@@ -183,6 +191,7 @@ def passwordrecovery(request):
 	return render(request, 'password-reset.html', context)
 
 from django.shortcuts import get_object_or_404
+
 @login_required
 def proceso(request):
 	idview = request.POST.get('id')
@@ -194,9 +203,9 @@ def proceso(request):
 		entreform.save()
 		post.estatus2 = "Procesado"
 		post.comentario = request.POST.get('comentario')
+		
 		post.save()
 	else:
-		entreform.entrevista = request.FILES['entrevista']
 		entreform.save()
 		post.estatus2 = "Procesado"
 		post.comentario = request.POST.get('comentario')
@@ -211,16 +220,34 @@ from django.core.mail.message import EmailMessage
 @login_required
 def preguntas(request):
 	post = Aplicado.objects.filter(usuario=request.user.id)
+	vac = Vacante.objects.all()
+	vacan = Vacante.objects.filter(compania=request.user)
+	array = []
+	for e in vacan:
+		array.insert(0,e.titulo)
+
+	preg = Preguntado.objects.filter(titulo__in=array)
 	cantidad = post.count()
-	context = { "aplicado":post, "aplicados":post.all() ,"cantidad":cantidad}
-	if request.method == 'POST':
+	context = { "aplicado":post, "aplicados":post.all() ,"vac":vac, "vacs":vac.all() ,"cantidad":cantidad, "preg":preg , "preguntas":preg.all()}
+
+	if 'titulomodal' in request.POST:
+		if request.method == 'POST':
+		    titulomo = request.POST.get('titulomodal')
+		    preguntamodal = request.POST.get('preguntamodal')
+		    destinatariou = request.POST.get('destinatario')
+		 
+		    solicit =  Preguntado.objects.create(emisor=request.user, destinatario=request.user, pregunta=preguntamodal, titulo=titulomo, estatus="espera")
+		    solicit.save()
+
+	if 'titulo' in request.POST:
 		titulo = request.POST.get('titulo')
 		mensaje = "El usuario"+ " " +request.user.username + " " + "ha realizado la siguiente pregunta: "+ " " + request.POST.get('mensaje') + ", " + "Favor responder este correo a esta direccion:" + " " + request.user.email
 		email = EmailMessage()
 		email.subject = titulo
 		email.body = mensaje
-		email.to = [ "comercial@acerhempleos.com"]
+		email.to = [ "seleccion@acerhempleos.com"]
 		email.send()
+	
 
 	return render(request, 'preguntas.html', context)
 
@@ -243,3 +270,69 @@ def vacantedit(request):
 
 	return HttpResponse('/companiass')
 
+@login_required
+def companiaus(request):
+	app = Aplicado.objects.filter(estatus2='Procesado')
+	if request.method == 'GET':
+		if 'localidad' in request.GET:
+			localidad = request.GET.get('localidad')
+			
+		else:
+			localidad = "" 
+		if 'sexo' in request.GET:
+			sexo = request.GET.get('sexo')
+			
+		else:
+			sexo = ""
+		if 'ar_int' in request.GET:
+			ar_int = request.GET.get('ar_int')
+			print ar_int
+			areaid =  Area.objects.get(titulo=ar_int)
+			print areaid
+			
+		else:
+			areaid = ""
+		if 'ar_exp' in request.GET:
+			ar_exp = request.GET.get('ar_exp')
+			areaid2 =  Area.objects.get(titulo=ar_exp)
+			print areaid2
+			
+		else:
+			areaid2 = ""
+		if 'carrera' in request.GET:
+			carrera = request.GET.get('carrera')
+			
+		else:
+			carrera = ""
+		if 'idioma' in request.GET:
+			idioma = request.GET.get('idioma')
+			
+		else:
+			idioma = ""
+		if 'edad' in request.GET:
+			edad = request.GET.get('edad')
+		else:
+			edad = ""
+
+		if 'universidad' in request.GET:
+			universidad = request.GET.get('universidad')
+		else:
+			universidad = ""
+
+		if 'licencia' in request.GET:
+			licencia = request.GET.get('licencia')
+		else:
+			licencia = ""
+		
+		if 'cat_licen' in request.GET:
+			cat_licen = request.GET.get('cat_licen')
+		else:
+			cat_licen = ""
+
+		loc = UserP.objects.filter(localidad__icontains=localidad).filter(sexo__icontains=sexo).filter(ar_int__icontains=areaid).filter(ar_exp__icontains=areaid2).filter(carrera__icontains=carrera).filter(idioma__icontains=idioma).filter(edad__icontains=edad).filter(universidad__icontains=universidad).filter(licencia__icontains=licencia).filter(cat_licen__icontains=cat_licen)
+		array = []
+		for e in loc:
+			array.insert(0,e.user.pk)
+		app = Aplicado.objects.filter(estatus2='Procesado') & Aplicado.objects.filter(usuario_id__in=array)
+		
+	return render(request, 'index6.html',  {'app':app, 'apps':app.all()})

@@ -11,7 +11,9 @@
 
 	<link rel="apple-touch-icon" sizes="76x76" href="{% static 'assetsre/img/apple-icon.png' %}" />
 	<link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}" />
-
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static 'assetsre/css/bootstrap-multiselect.css' %}" type="text/css"/>
+     
 	<!--     Fonts and icons     -->
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
@@ -22,7 +24,8 @@
 
 	<!-- CSS Just for demo purpose, don't include it in your project -->
 	<link href="{% static 'assetsre/css/demo.css' %}" rel="stylesheet" />
-</head>
+	<script src="{% static 'assetsre/js/jquery-2.2.4.min.js' %}" type="text/javascript"></script>
+    </head>
 
 <body>
 	<div class="image-container set-full-height" style="background-image: url('{% static 'plugins/images/register.jpg' %}">
@@ -67,7 +70,7 @@
                                 {% if message %}
                                 <center><div class="alert alert-danger">{{message}}</div></center>
                                 {% endif %}
-                                <center><div id="testo" class="alert alert-danger"><div id="error"></div></div></center>
+                                <center><div style="display: none;" id="testo" class="alert alert-danger"><div id="error"></div></div></center>
                                 
 		                        <div class="tab-content">
 		                            <div class="tab-pane" id="account">
@@ -85,25 +88,30 @@
 		                                    </div>
 		                                    <div class="col-sm-6">
 		                                         <div class="form-group ">
-		                                         <label for="sel2" class="control-label">Idioma Seleccionable (Varios):</label>
-                                                    <select name="idioma" multiple="multiple" class="form-control" id="sel2">
-                                                     <option>Espanol</option>
-                                                     <option>Ingles</option>
-                                                     <option>Mandarin</option>
-                                                     <option>Frances</option>
-                                                     <option>Otros</option>
-                                                   </select>
+		                                        
+                                                 <!-- Note the missing multiple attribute! -->
+                                                 <select name="idioma" id="example-getting-started" multiple="multiple">
+                                                     <option value="Español">Español</option>
+                                                     <option value="English">English</option>
+                                                     <!-- Option 3 will be selected in advance ... -->
+                                                     <option value="Francais" >Francais</option>
+                                                     <option value="German">German</option>
+                                                     <option value="Mandarin">Mandarin</option>
+                                                     <option value="Otros">Otros</option>
+                                                 </select>                                                 
+
                                                 </div>
 		                                    </div>
+
 		                                    <div class="col-sm-6">
 		                                        <div class="form-group label-floating">
 		                                            <div class="form-group label-floating">
 		                                        	<label class="control-label">Carrera</label>
 	                                        		<select name="carrera" class="form-control">
 														<option disabled="" selected=""></option>
-	                                                	<option value="ing.sistemas">Ing. Sistemas</option>
-	                                                	<option value="contabilidad">Contabilidad </option>
-	                                                	<option value="medicina"> Medicina </option>
+	                                                	{%for area in areas%}
+	                                                	<option value="{{area.titulo}}">{{area.titulo}}</option>
+	                                                	{%endfor%}
 	                                                	
 		                                        	</select>
 		                                    	</div>
@@ -115,9 +123,10 @@
 		                                        	<label class="control-label">Area Interes</label>
 	                                        		<select name="ar_int" class="form-control">
 														<option disabled="" selected=""></option>
-	                                                	<option value="IT">IT</option>
-	                                                	<option value="NEGOCIOS">NEGOCIOS </option>
-	                                                	<option value="SERVICIO AL CLIENTE">SERVICIO AL CLIENTE </option>
+	                                                	{%for area in areas%}
+	                                                	<option value="{{area.titulo}}">{{area.titulo}}</option>
+	                                                	{%endfor%}
+	                                                	
 	                                                	
 		                                        	</select>
 		                                    	</div>
@@ -125,7 +134,7 @@
 		                                    </div>
 		                                    <div class="col-sm-6">
 		                                        <div class="form-group label-floating">
-		                                            <label class="control-label">Cedula</label>
+		                                            <label class="control-label">Cedula o Pasaporte</label>
 		                                            <input name="cedula" type="text" class="form-control">
 		                                        </div>
 		                                    </div>
@@ -133,14 +142,8 @@
 		                                        <div class="form-group label-floating">
 		                                             <div class="form-group label-floating">
 		                                           <div class="form-group label-floating">
-		                                        	<label class="control-label">Rango Salario(OPCIONAL)</label>
-	                                        		<select name="salario" class="form-control">
-														<option disabled="" selected=""></option>
-	                                                	<option value="10,000-25,000">10,000-25,000</option>
-	                                                	<option value="25,000-50,0000">25,000-50,0000 </option>
-	                                                	<option value="50,000+">50,000+ </option>
-	                                                	
-		                                        	</select>
+		                                        	<label class="control-label">Salario al que aspira</label>
+	                                        		<input name="salario" type="text" class="form-control">
 		                                    	</div>
 		                                        </div>
 		                                        </div>
@@ -160,7 +163,7 @@
 													</span>
 													<div class="form-group label-floating">
 			                                          	<label class="control-label">Username</label>
-			                                          	<input name="username" type="text" class="form-control">
+			                                     <input name="username" id="username" type="text" class="form-control" onchange="myUsername()">
 			                                        </div>
 												</div>
 
@@ -180,7 +183,7 @@
 													</span>
 													<div class="form-group label-floating">
 			                                          	<label class="control-label">Your Email</label>
-			                                          	<input name="email" id="email" type="text" class="form-control" onkeyup="myFunction()">
+			                                          	<input name="email" id="email" type="text" class="form-control" onchange="myFunction()">
 			                                        </div>
 												</div>
 
@@ -197,10 +200,9 @@
 		                                        	<label class="control-label">Localidad</label>
 	                                        		<select name="localidad" class="form-control">
 														<option disabled="" selected=""></option>
-	                                                	<option value="Distrito Nacional">Distrito Nacional</option>
-	                                                	<option value="Region Norte">Region Norte </option>
-	                                                	<option value="Region Este"> Region Este </option>
-	                                                	<option value="Region Oeste"> Region Oeste </option>
+	                                                	{%for provincia in provincias%}
+	                                                	<option value="{{provincia.provincia}}">{{provincia.provincia}}</option>
+	                                                	{%endfor%}
 		                                        	</select>
 		                                    	</div>
 		                                	</div>
@@ -258,6 +260,31 @@
 			                                          	<label class="control-label">Nacionalidad</label>
 			                                          	<input name="nacionalidad" type="text" class="form-control">
 			                                        </div>
+			                                        <div class="form-group label-floating">
+			                                          	<label class="control-label">Universidad</label>
+			                                          	<input name="universidad" type="text" class="form-control">
+			                                        </div>
+			                                       <div class="form-group label-floating">
+		                                        	<label class="control-label">Licencia de conducir?</label>
+	                                        		<select name="licencia" class="form-control">
+														<option disabled="" selected=""></option>
+	                                                	<option value="No tengo"> No tengo </option>
+                                                        <option value="Si tengo"> Si tengo </option>
+                                                 
+		                                        	</select>
+		                                    	</div>
+		                                    	<div class="form-group label-floating">
+		                                        	<label class="control-label">Categoria Licencia</label>
+	                                        		<select name="cat_licen" class="form-control">
+														<option disabled="" selected=""></option>
+														<option value="Categoria 1"> Sin, Categoria </option>
+	                                                	<option value="Categoria 1"> Categoria 1 </option>
+                                                        <option value="Categoria 2"> Categoria 2 </option>
+                                                        <option value="Categoria 3"> Categoria 3 </option>
+                                                        <option value="Categoria 4"> Categoria 4 </option>
+                                                        <option value="Categoria 5"> Categoria 5 </option>
+		                                        	</select>
+		                                    	</div>
 		                                    	<div class="form-group label-floating">
 		                                        	<label class="control-label">Experiencia</label>
 	                                        		<select name="experiencia" class="form-control">
@@ -318,7 +345,6 @@
             function myFunction() {
             var html = ""
             consulta = $("#email").val();
-            var str = "Hello world, welcome to the universe.";
             var n = consulta.includes(".");
             console.log(n)
             $('#error').html(html);
@@ -348,11 +374,47 @@
             }
          </script>
 
-         
+         <script type="text/javascript">
+            
+            function myUsername() {
+            var html = ""
+            consulta = $("#username").val();
+            
+            console.log(consulta)
+            $('#error').html(html);
+            console.log(consulta)
+
+            $.ajax({
+            data: {'ajax': consulta},
+            url: '/consultaur/',
+            type: 'GET',
+            success : function(data) {
+                 
+                    console.log(data[0]);
+                    html += '<center>'+'<div class="alert alert-danger">'+ data.responseText  +" "+'</div>'+'</center>';
+                    document.getElementById("error").innerHTML = data[0];
+            },
+            error : function(message) {
+                   console.log(message);
+
+            }      
+             });
+            
+           
+          
+            }
+         </script>
+
+
 
 </body>
 	<!--   Core JS Files   -->
-	<script src="{% static 'assetsre/js/jquery-2.2.4.min.js' %}" type="text/javascript"></script>
+	<script type="text/javascript">
+    $(document).ready(function multi() {
+        $('#example-getting-started').multiselect();
+    });
+    </script>
+	
 	<script src="{% static 'assetsre/js/bootstrap.min.js' %}" type="text/javascript"></script>
 	<script src="{% static 'assetsre/js/jquery.bootstrap.js' %}" type="text/javascript"></script>
 
@@ -361,4 +423,9 @@
 
 	<!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
 	<script src="{% static 'assetsre/js/jquery.validate.min.js' %}"></script>
+	<!-- <script src="{% static 'assetsre/js/bootstrap-select.js' %}"></script> -->
+    <script type="text/javascript" src="{% static 'assetsre/js/bootstrap-multiselect.js' %}"></script>
+
 </html>
+
+

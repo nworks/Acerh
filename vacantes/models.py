@@ -10,7 +10,7 @@ def upload_location(instancia, filename):
 # Create your models here.
 class Area(models.Model):
 	titulo = models.CharField(max_length=100)
-	descripcion = models.TextField()
+	descripcion = models.TextField(blank=True)
 	
 	def __str__(self):
 		return self.titulo
@@ -36,7 +36,16 @@ class Vacante(models.Model):
 	creatd_date = models.DateTimeField(auto_now_add=True, auto_now=False)
 	vigencia = models.CharField(max_length=100)
 	requisitos = models.TextField()
-	pregunta = models.TextField()
+	pregunta = models.TextField(blank=True)
+	pregunta1 = models.TextField(blank=True)
+	pregunta2 = models.TextField(blank=True)
+	pregunta3 = models.TextField(blank=True)
+	pregunta4 = models.TextField(blank=True)
+	pregunta5 = models.TextField(blank=True)
+	pregunta6 = models.TextField(blank=True)
+	pregunta7 = models.TextField(blank=True)
+	pregunta8 = models.TextField(blank=True)
+
 
 	def __str__(self):
 		return str(self.id )
@@ -53,12 +62,42 @@ class Aplicado(models.Model):
 	aplico = models.ForeignKey(Vacante)
 	estatus = models.ForeignKey(Estatus)
 	comentario = models.TextField()
+	com_interno = models.TextField()
 	estatus2 = models.CharField(max_length=15)
 	entrevista = models.FileField(upload_to=upload_location, blank=True)
 	respuesta = models.TextField(blank=True)
+	respuesta2 = models.TextField(blank=True)
+	respuesta3 = models.TextField(blank=True)
+	respuesta4 = models.TextField(blank=True)
+	respuesta5 = models.TextField(blank=True)
+	respuesta6 = models.TextField(blank=True)
+	respuesta7 = models.TextField(blank=True)
+	respuesta8 = models.TextField(blank=True)
+	com_interno = models.TextField()
 
 	
 	def __str__(self):
 		return str(self.id)
 
 
+
+class Provincia(models.Model):
+	provincia = models.CharField(max_length=60)
+	area = models.CharField(max_length=60,blank=True)
+
+	
+	def __str__(self):
+		return self.provincia
+
+
+class Preguntado(models.Model):
+	titulo = models.CharField(max_length=60)
+	pregunta = models.TextField()
+	emisor = models.ForeignKey(User)
+	destinatario = models.ForeignKey(User,related_name='destinatario')
+	created_date = models.DateTimeField(auto_now_add=True, auto_now=False)
+	estatus = models.CharField(max_length=60)
+
+	
+	def __str__(self):
+		return self.titulo

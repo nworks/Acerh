@@ -176,6 +176,9 @@
         <li><a href="/companiass" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Ap)<span class="fa arrow"></span></span></a>
          
         </li>
+         <li><a href="/companiaus" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Us)<span class="fa arrow"></span></span></a>
+         
+        </li>
         {% else %}
            <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
         
@@ -240,6 +243,42 @@
                                               <div class="table-container">
               <table class="table table-filter">
                 <tbody>
+                {%if usuario1 %}
+                {%for usuario1 in usuarios1%}
+                  <tr data-status="pagado">
+                    <td>
+                      <div class="ckbox">
+                        <input type="checkbox" id="checkbox1">
+                        <label for="checkbox1"></label>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="javascript:;" class="star">
+                        <i class="glyphicon glyphicon-star"></i>
+                      </a>
+                    </td>
+                    <td>
+                      <div class="media">
+                        <a href="#" class="pull-left">
+                           {%if usuario1.userp.picture %}
+                          <img width="50" height="50" src="{{usuario1.userp.picture.url}}" class="media-photo">
+                          {%else%}
+                          <img width="50" height="50" src="{% static 'assets/img/user.png' %}" class="media-photo">
+                          {%endif%}
+                        </a>
+                        <div class="media-body">
+                          <span class="media-meta pull-right">{{usuario1.email}}</span>
+                          <h4 class="title">
+                            {{usuario1.first_name}}
+                            <span class="pull-right pagado"></span>
+                          </h4>
+                          <p class="summary"><a href="{% url 'user_detail' id=usuario1.id %}">{{usuario1.first_name}} {{usuario1.last_name}}</a></p>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {%endfor%}
+                {%else%}
                 {%for usuario in usuarios%}
                   <tr data-status="pagado">
                     <td>
@@ -274,6 +313,7 @@
                     </td>
                   </tr>
                   {%endfor%}
+                  {%endif%}
                   </tbody>
                   </table>
                   </div>
@@ -587,7 +627,7 @@
 
 
     <!-- /.container-fluid -->
-    <footer class="footer text-center"> 2016 &copy; NworksDev Developer  </footer>
+    <footer class="footer text-center"> 2017 &copy; AcerhApp by Nworksdev </footer>
   </div>
   <!-- /#page-wrapper -->
 </div>
