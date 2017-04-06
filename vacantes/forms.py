@@ -16,3 +16,4 @@ class VacantesEdit(forms.ModelForm):
 	class Meta:
 		model = Vacante
 		fields = ["titulo","area","descripcion","requisitos","pregunta"]
+

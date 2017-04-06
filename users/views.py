@@ -79,6 +79,7 @@ def register(request):
 	registered = False
 	area = Area.objects.all()
 	provincia = Provincia.objects.all()
+	message = ""
 	if request.method == 'POST':
 		user_form = UsuarioForm2(data=request.POST)
 		profile_form = UserPr(data=request.FILES)
@@ -92,6 +93,10 @@ def register(request):
 		if User.objects.filter(email=data).exists():
 			message = "Este correo electronico fue regustrado"
 			return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form, 'message':message})
+
+		if 'file' not in request.FILES:
+				    message = "No anexo su CV, por favor anexe uno"
+				    return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form, 'message':message})
 		 
 		else:
 			if user_form.is_valid() and profile_form.is_valid():
@@ -99,7 +104,8 @@ def register(request):
 				user.set_password(user.password)
 				user.save()
 
-			
+				
+
 
 				if 'picture' in request.FILES:
 					profile = profile_form.save(commit=False)
@@ -131,7 +137,8 @@ def register(request):
 					usuario = authenticate(username=username,password=password)
 					login(request,usuario)
 					return HttpResponseRedirect('/vacantes')
-				else:
+				
+				if 'picture' and 'file' in request.FILES:
 					print user_form.errors, profile_form.errors
 	
 					profile = profile_form.save(commit=False)
@@ -163,6 +170,8 @@ def register(request):
 					usuario = authenticate(username=username,password=password)
 					login(request,usuario)
 					return HttpResponseRedirect('/vacantes')
+
+				
 	else:
 		user_form = UsuarioForm2()
 		profile_form = UserPr()	

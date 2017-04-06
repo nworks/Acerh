@@ -177,6 +177,7 @@
         </li>
          <li><a href="/companiaus" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Us)<span class="fa arrow"></span></span></a>
          
+         <li><a href="/registerusers" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Usuarios<span class="fa arrow"></span></span></a>
         </li>
         {% else %}
            <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
@@ -222,7 +223,12 @@
               <div class="form-group">
                   <label for="name" class="col-sm-2 control-label">Localidad</label>
                   <div class="col-sm-10">
-                    <input id="localidad" name="localidad" class="form-control" type="text" placeholder="Localidad para busqueda" />
+                   <select name="localidad" class="form-control">
+                            <option disabled="" selected=""> </option>
+                            {% for prov in provincias %}
+                            <option value="{{prov.provincia}}">{{prov.provincia}}</option>
+                            {%endfor%}
+                          </select>
                   </div>
               </div>
               <div class="form-group">
@@ -250,7 +256,12 @@
               <div class="form-group">
               <label for="email" class="col-sm-2 control-label">Carrera</label>
                   <div class="col-sm-10">
-                    <input name="carrera" class="form-control" type="text" placeholder="Carrera para busqueda" />                  
+                      <select name="carrera" class="form-control">
+                            <option  selected=""> </option>
+                            {% for are in areas %}
+                            <option value="{{are.titulo}}">{{are.titulo}}</option>
+                            {%endfor%}
+                          </select>                        
                   </div>
               </div>
               <div class="form-group">
@@ -391,7 +402,12 @@
                                 </br>
                                 {{app.com_interno}}                      
                                 </div>
-                                    
+                                  {%if app.entrevista%}
+                     <span class="label label-success"></span><p class="text-left"><strong><center><a href="{{app.entrevista.url}}"><span class="label label-success">Resultado Entrevista</span></a></center></strong>
+                    {%else%}
+                     <span class="label label-success"></span><p class="text-left"><strong><center><a href=""><span class="label label-danger">No tiene entrevista registrada</span></a></center></strong>
+                    {%endif%}
+                    
                 
                  
 
@@ -399,7 +415,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-rounded" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-danger btn-rounded">Procesar Solicitud</button>
+                     
                     
                   </div>
                   </form>

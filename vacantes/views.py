@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from vacantes.models import Vacante, Aplicado, Area, Preguntado
+from vacantes.models import Vacante, Aplicado, Area, Preguntado, Provincia
 from users.models import UserP
 from django.db import models
 from users.models import notify
@@ -21,9 +21,7 @@ def vacantelist(request):
 	decoded_data = json.loads(result1)
 	array = []
 	for i in decoded_data:
-		print decoded_data
 		array.insert(0,i["fields"]["aplico"])
-		print array, "ARRAY"
 	post = Vacante.objects.exclude(pk__in=array)
 	postall = post.all()
 	post2 = Aplicado.objects.all()
@@ -46,9 +44,17 @@ def aplicado(request):
 def solicitud(request):
 	idview = request.POST.get('id')
 	post = Vacante.objects.get(id=idview)
-	if 'respuesta' in request.POST:
-		respuestap = request.POST.get('respuesta')
-		solicit =  Aplicado.objects.create(usuario=request.user, aplico_id=post.id, estatus_id=2, respuesta=respuestap)
+	if 'respuesta1' in request.POST:
+		respuesta1 = request.POST.get('respuesta1')
+		respuesta2 = request.POST.get('respuesta2')
+		respuesta3 = request.POST.get('respuesta3')
+		respuesta4 = request.POST.get('respuesta4')
+		respuesta5 = request.POST.get('respuesta5')
+		respuesta6 = request.POST.get('respuesta6')
+		respuesta7 = request.POST.get('respuesta7')
+		respuesta8 = request.POST.get('respuesta8')
+
+		solicit =  Aplicado.objects.create(usuario=request.user, aplico_id=post.id, estatus_id=2,respuesta=respuesta1,respuesta2=respuesta2,respuesta3=respuesta3,respuesta4=respuesta4,respuesta5=respuesta5,respuesta6=respuesta6,respuesta7=respuesta7,respuesta8=respuesta8)
 		solicit.save()
 	else:
 		solicit =  Aplicado.objects.create(usuario=request.user, aplico_id=post.id, estatus_id=2)
@@ -78,15 +84,11 @@ def compania(request):
 	cantidad = post2.count()
 	cantidad2 = Vacante.objects.filter(compania=request.user).count()
 	cantidad3 = Aplicado.objects.filter(usuario=request.user.id).count()
+	cantidad4 = Vacante.objects.all().count()
 	area = Area.objects.all()
 	usuario = User.objects.all()
-	if request.method == 'POST':
-		usu = request.POST.get('username')
-		usuario1 = User.objects.filter(username__contains=usu)
-	else:
-		usuario1 = User.objects.all()
 	
-	context = { "post":post,"usuario":usuario,"usuarios":usuario.all(),"usuario1":usuario1,"usuarios1":usuario1.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"area":area,"areas":area.all()}
+	context = { "post":post,"usuario":usuario,"usuarios":usuario.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()}
 
 	return render(request, 'index4.html', context)
 
@@ -95,12 +97,19 @@ def solicitudcompania(request):
 	titulo = request.POST.get('titulo')
 	area = request.POST.get('area')
 	requisitos = request.POST.get('requisitos')
-	pregunta = request.POST.get('pregunta')
+	pregunta1 = request.POST.get('pregunta1')
+	pregunta2 = request.POST.get('pregunta2')
+	pregunta3 = request.POST.get('pregunta3')
+	pregunta4 = request.POST.get('pregunta4')
+	pregunta5 = request.POST.get('pregunta5')
+	pregunta6 = request.POST.get('pregunta6')
+	pregunta7 = request.POST.get('pregunta7')
+	pregunta8 = request.POST.get('pregunta8')
 	descripcion = request.POST.get('descripcion')
 	requerimientos = request.POST.get('req')
 	area2 = Area.objects.get(titulo=area)
 	
-	solicit =  Vacante.objects.create(compania=request.user, titulo=titulo, descripcion=descripcion, area_id=area2.id, requisitos=requisitos, pregunta=pregunta)
+	solicit =  Vacante.objects.create(compania=request.user, titulo=titulo, descripcion=descripcion, area_id=area2.id, requisitos=requisitos,pregunta1=pregunta1,pregunta2=pregunta2,pregunta3=pregunta3,pregunta4=pregunta4,pregunta5=pregunta5,pregunta6=pregunta6,pregunta7=pregunta7,pregunta8=pregunta8)
 	solicit.save()
 	return HttpResponse('/compania')
 
@@ -117,6 +126,7 @@ def removerc(request):
 def companiass(request):
 	app = Aplicado.objects.filter(~Q(estatus2='Procesado'))
 	are = Area.objects.all()
+	prov = Provincia.objects.all()
 	entreform = EntrevistaForm(data=request.FILES)
 	if request.method == 'GET':
 		if 'localidad' in request.GET:
@@ -165,7 +175,7 @@ def companiass(request):
 			array.insert(0,e.user.pk)
 		app = Aplicado.objects.filter(~Q(estatus2='Procesado')) & Aplicado.objects.filter(usuario_id__in=array)
 			
-		return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform,'are':are, 'areas':are.all()})
+		return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform,'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()} )
 	
 
 	elif request.method == 'POST':
@@ -179,11 +189,11 @@ def companiass(request):
 			post.com_interno = request.POST["com_interno"]
 			post.estatus2 = 'Procesado'
 			post.save()
-			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform,'are':are, 'areas':are.all()})
+			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform,'are':are, 'areas':are.all() ,'prov':prov, 'provincias':prov.all()})
 		else:
 			entreform = EntrevistaForm(data=request.FILES)
 
-	return render(request, 'index5.html',  {'entreform':entreform,'are':are, 'areas':are.all()})
+	return render(request, 'index5.html',  {'entreform':entreform,'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
 
 def passwordrecovery(request):
 	app = Aplicado.objects.all()
@@ -259,7 +269,14 @@ def vacantedit(request):
 	post = Vacante.objects.get(pk=idview)
 	post.titulo = request.POST.get('titulo')
 	post.descripcion = request.POST.get('descripcion')
-	post.pregunta = request.POST.get('pregunta')
+	post.pregunta1 = request.POST.get('pregunta1')
+	post.pregunta2 = request.POST.get('pregunta2')
+	post.pregunta3 = request.POST.get('pregunta3')
+	post.pregunta4 = request.POST.get('pregunta4')
+	post.pregunta5 = request.POST.get('pregunta5')
+	post.pregunta6 = request.POST.get('pregunta6')
+	post.pregunta7 = request.POST.get('pregunta7')
+	post.pregunta8 = request.POST.get('pregunta8')
 	post.requisitos = request.POST.get('requisitos')
 	area = request.POST.get('area')
 	area2 = Area.objects.get(titulo=area)
@@ -273,6 +290,8 @@ def vacantedit(request):
 @login_required
 def companiaus(request):
 	app = Aplicado.objects.filter(estatus2='Procesado')
+	are = Area.objects.all()
+	prov = Provincia.objects.all()
 	if request.method == 'GET':
 		if 'localidad' in request.GET:
 			localidad = request.GET.get('localidad')
@@ -335,4 +354,75 @@ def companiaus(request):
 			array.insert(0,e.user.pk)
 		app = Aplicado.objects.filter(estatus2='Procesado') & Aplicado.objects.filter(usuario_id__in=array)
 		
-	return render(request, 'index6.html',  {'app':app, 'apps':app.all()})
+	return render(request, 'index6.html',  {'app':app, 'apps':app.all(),'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
+
+@login_required
+def registerusers(request):
+	app = Aplicado.objects.filter()
+	user = User.objects.filter()
+	are = Area.objects.all()
+	prov = Provincia.objects.all()
+	
+	if request.method == 'GET':
+		if 'localidad' in request.GET:
+			localidad = request.GET.get('localidad')
+			
+		else:
+			localidad = "" 
+		if 'sexo' in request.GET:
+			sexo = request.GET.get('sexo')
+			
+		else:
+			sexo = ""
+		if 'ar_int' in request.GET:
+			ar_int = request.GET.get('ar_int')
+			print ar_int
+			areaid =  Area.objects.get(titulo=ar_int)
+			print areaid
+			
+		else:
+			areaid = ""
+		if 'ar_exp' in request.GET:
+			ar_exp = request.GET.get('ar_exp')
+			areaid2 =  Area.objects.get(titulo=ar_exp)
+			print areaid2
+			
+		else:
+			areaid2 = ""
+		if 'carrera' in request.GET:
+			carrera = request.GET.get('carrera')
+			
+		else:
+			carrera = ""
+		if 'idioma' in request.GET:
+			idioma = request.GET.get('idioma')
+			
+		else:
+			idioma = ""
+		if 'edad' in request.GET:
+			edad = request.GET.get('edad')
+		else:
+			edad = ""
+
+		if 'universidad' in request.GET:
+			universidad = request.GET.get('universidad')
+		else:
+			universidad = ""
+
+		if 'licencia' in request.GET:
+			licencia = request.GET.get('licencia')
+		else:
+			licencia = ""
+		
+		if 'cat_licen' in request.GET:
+			cat_licen = request.GET.get('cat_licen')
+		else:
+			cat_licen = ""
+
+		loc = UserP.objects.filter(localidad__icontains=localidad).filter(sexo__icontains=sexo).filter(ar_int__icontains=areaid).filter(ar_exp__icontains=areaid2).filter(carrera__icontains=carrera).filter(idioma__icontains=idioma).filter(edad__icontains=edad).filter(universidad__icontains=universidad).filter(licencia__icontains=licencia).filter(cat_licen__icontains=cat_licen)
+		array = []
+		for e in loc:
+			array.insert(0,e.user.pk)
+		user = User.objects.filter(id__in=array)
+		
+	return render(request, 'users.html',  {'user':user, 'users':user.all(),'app':app, 'apps':app.all(),'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})

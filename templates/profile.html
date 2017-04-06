@@ -206,7 +206,7 @@
     <div class="container-fluid">
       <div class="row bg-title">
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-          <h4 class="page-title">Profile page</h4>
+          <h4 class="page-title">Perfil de usuario: PROPIO</h4>
         </div>
         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
       
@@ -242,14 +242,7 @@
                 <p class="text-purple"><div class="col-md-12"><strong>CV</strong><p><a class="btn btn-danger btn-rounded" href="{{request.user.userp.file.url}}">Ver CV</a><br/></p></div></i></p>
                 
               </div>
-              <div class="col-md-4 col-sm-4 text-center">
-                <p class="text-blue"><i class="ti-check"></i></p>
-                <h1>125</h1>
-              </div>
-              <div class="col-md-4 col-sm-4 text-center">
-                <p class="text-danger"><i class="ti-dribbble"></i></p>
-                <h1>556</h1>
-              </div>
+              
             </div>
           </div>
         </div>
@@ -282,17 +275,47 @@
               </div>
               <div class="tab-pane" id="profile">
                 <div class="row">
-                  <div class="col-md-3 col-xs-6 b-r"> <strong>Nombre completo</strong> <br>
+                  <div class=""> <strong>Nombre completo</strong> <br>
                     <p class="text-muted">{{request.user.first_name}} {{request.user.last_name}}</p>
                   </div>
-                  <div class="col-md-3 col-xs-6 b-r"> <strong>Mobile</strong> <br>
+                  <div class=""> <strong>Mobile</strong> <br>
                     <p class="text-muted">{{request.user.userp.telefono}}</p>
                   </div>
-                  <div class="col-md-3 col-xs-6 b-r"> <strong>Email</strong> <br>
+                  <div class=""> <strong>Email</strong> <br>
                     <p class="text-muted">{{request.user.email}} </p>
                   </div>
-                  <div class="col-md-3 col-xs-6"> <strong>Location</strong> <br>
+                  <div class=""> <strong>Location</strong> <br>
                     <p class="text-muted">{{request.user.userp.localidad}}</p>
+                  </div>
+                  <div class=""> <strong>Universidad</strong> <br>
+                    <p class="text-muted">{{request.user.userp.estudio}}</p>
+                  </div>
+                  <div class=""> <strong>Edad</strong> <br>
+                    <p class="text-muted">{{request.user.userp.edad}}</p>
+                  </div>
+                  <div class=""> <strong>Experiencia Laboral</strong> <br>
+                    <p class="text-muted">{{request.user.userp.experiencia}}</p>
+                  </div>
+                  <div class=""> <strong>Idiomas</strong> <br>
+                    <p class="text-muted">{{request.user.userp.idioma}}</p>
+                  </div>
+                  <div class=""> <strong>Sexo</strong> <br>
+                    <p class="text-muted">{{request.user.userp.sexo}}</p>
+                  </div>
+                  <div class=""> <strong>Cedula</strong> <br>
+                    <p class="text-muted">{{request.user.userp.cedula}}</p>
+                  </div>
+                  <div class=""> <strong>Nacionalidad</strong> <br>
+                    <p class="text-muted">{{request.user.userp.nacionalidad}}</p>
+                  </div>
+                  <div class=""> <strong>Universidad</strong> <br>
+                    <p class="text-muted">{{request.user.userp.universidad}}</p>
+                  </div>
+                  <div class=""> <strong>Licencia</strong> <br>
+                    <p class="text-muted">{{request.user.userp.licencia}}</p>
+                  </div>
+                  <div class=""> <strong>Categoria</strong> <br>
+                    <p class="text-muted">{{request.user.userp.cat_licen}}</p>
                   </div>
                 </div>
                 <hr>

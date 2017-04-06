@@ -178,6 +178,7 @@
         </li>
          <li><a href="/companiaus" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Us)<span class="fa arrow"></span></span></a>
          
+         <li><a href="/registerusers" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Usuarios<span class="fa arrow"></span></span></a>
         </li>
         {% else %}
            <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
@@ -218,10 +219,10 @@
                      <div class="left-aside">
                         <div class="scrollable">
                             <ul class="list-style-none">
-                               <li class="box-label" ><a href="javascript:void(0)">Vacantes Publicadas <span id="cantidad2">{{cantidad2}}</span></a></li>
+                               <li class="box-label" ><a href="javascript:void(0)">Vacantes Publicadas <span id="cantidad2">{{cantidad4}}</span></a></li>
                                <li class="divider"></li> 
-                               <li><a href="javascript:void(0)" >Publicadas <span id="cantidad2">{{cantidad2}}</span></a></li>
-                               <li><button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"> Ver usuarios aplicantes</button></li>
+                               <li><a href="javascript:void(0)" >Publicadas por ti <span id="cantidad2">{{cantidad2}}</span></a></li>
+                              
                                <div id="myModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                   <div class="modal-dialog">
                                     <div class="modal-content">
@@ -388,16 +389,37 @@
                                 
                 
                    <div class="form-group">
-                    <input  type="text" id="titulo{{post.id}}" name="titulo" class="form-control" placeholder="Titulo">
+                    <input  type="text" id="titulo{{post.id}}" name="titulo" class="form-control" placeholder="Titulo" value="{{post.titulo}}">
                    </div>
                    <div class="form-group">
-                    <input  type="text" id="descripcion{{post.id}}" name="descripcion" class="form-control" placeholder="Descripcion">
+                    <input  type="text" id="descripcion{{post.id}}" name="descripcion" class="form-control" placeholder="Descripcion" value="{{post.descripcion}}">
                    </div>
                    <div class="form-group">
-                     <textarea  class="form-control" id="requisitos{{post.id}}" name="requisitos" rows="4" cols="50" placeholder="Ingrese los requisitos"></textarea>
+                     <textarea  class="form-control" id="requisitos{{post.id}}" name="requisitos" rows="4" cols="50" placeholder="Ingrese los requisitos">{{post.requisitos}}</textarea>
                    </div>
                    <div class="form-group">
-                    <textarea  class="form-control" id="pregunta{{post.id}}" name="pregunta" rows="4" cols="50" placeholder="Preguntas Opcionales"></textarea>
+                    <textarea  class="form-control" id="pregunta1x{{post.id}}" name="pregunta1" rows="2" cols="50" placeholder="Pregunta Opcional 1">{{post.pregunta1}}</textarea>
+                   </div>
+                   <div class="form-group">
+                    <textarea  class="form-control" id="pregunta2x{{post.id}}" name="pregunta2" rows="2" cols="50" placeholder="Pregunta Opcional 2">{{post.pregunta2}}</textarea>
+                   </div>
+                   <div class="form-group">
+                    <textarea  class="form-control" id="pregunta3x{{post.id}}" name="pregunta3" rows="2" cols="50" placeholder="Pregunta Opcional 3">{{post.pregunta3}}</textarea>
+                   </div>
+                   <div class="form-group">
+                    <textarea  class="form-control" id="pregunta4x{{post.id}}" name="pregunta4" rows="2" cols="50" placeholder="Pregunta Opcional 4">{{post.pregunta4}}</textarea>
+                   </div>
+                   <div class="form-group">
+                    <textarea  class="form-control" id="pregunta5x{{post.id}}" name="pregunta5" rows="2" cols="50" placeholder="Pregunta Opcional 5">{{post.pregunta5}}</textarea>
+                   </div>
+                   <div class="form-group">
+                    <textarea  class="form-control" id="pregunta6x{{post.id}}" name="pregunta6" rows="2" cols="50" placeholder="Pregunta Opcional 6">{{post.pregunta6}}</textarea>
+                   </div>
+                   <div class="form-group">
+                    <textarea  class="form-control" id="pregunta7x{{post.id}}" name="pregunta7" rows="2" cols="50" placeholder="Pregunta Opcional 7">{{post.pregunta7}}</textarea>
+                   </div>
+                   <div class="form-group">
+                    <textarea  class="form-control" id="pregunta8x{{post.id}}" name="pregunta8" rows="2" cols="50" placeholder="Pregunta Opcional 8">{{post.pregunta8}}</textarea>
                    </div>
                    <div class="form-group">
                      <label>Area</label>
@@ -473,17 +495,34 @@
             var ids = document.getElementById("getid{{ post.id }}").value;
             var titulo = document.getElementById("titulo{{post.id}}").value;
             var descripcion = document.getElementById("descripcion{{ post.id }}").value;
-            var pregunta = document.getElementById("pregunta{{ post.id }}").value;
+            var pregunta1 = document.getElementById("pregunta1x{{ post.id }}").value;
+            var pregunta2 = document.getElementById("pregunta2x{{ post.id }}").value;
+            var pregunta3 = document.getElementById("pregunta3x{{ post.id }}").value;
+            var pregunta4 = document.getElementById("pregunta4x{{ post.id }}").value;
+            var pregunta5 = document.getElementById("pregunta5x{{ post.id }}").value;
+            var pregunta6 = document.getElementById("pregunta6x{{ post.id }}").value;
+            var pregunta7 = document.getElementById("pregunta7x{{ post.id }}").value;
+            var pregunta8 = document.getElementById("pregunta8x{{ post.id }}").value;
             var area = document.getElementById("area{{ post.id }}").value;
             var requisitos = document.getElementById("requisitos{{ post.id }}").value;
             console.log(ids)
+            console.log(pregunta1)
+            console.log(pregunta2)
+            console.log(pregunta3)
+            console.log(pregunta4)
+            console.log(pregunta5)
+            console.log(pregunta6)
+            console.log(pregunta7)
+            console.log(pregunta8)
             $.ajax({
-            data: {'id': ids , csrfmiddlewaretoken: '{{ csrf_token }}', 'titulo':titulo , 'descripcion':descripcion, 'pregunta':pregunta, 'area':area, 'requisitos':requisitos},
+            data: {'id': ids , csrfmiddlewaretoken: '{{ csrf_token }}', 'titulo':titulo , 'descripcion':descripcion, 'pregunta1':pregunta1,'pregunta2':pregunta2,'pregunta3':pregunta3 ,'pregunta4':pregunta4,'pregunta5':pregunta5,'pregunta6':pregunta6,'pregunta7':pregunta7,'pregunta8':pregunta8 ,'area':area, 'requisitos':requisitos},
             url: '{% url 'vacantedit'  %}',
             type: 'POST',
             success : function(data) {
                    swal("Haz Actualizado!", "Presiona el boton para continuar!", "success")  
+                   setTimeout(function(){
                    window.location.replace("/compania/");
+                   }, 3000);
                                },
             error : function(message) {
                    console.log(message);
@@ -515,10 +554,31 @@
                                                               <textarea  class="form-control" id="descripcion" name="descripcion" rows="4" cols="50" placeholder="Ingrese la descripcion"></textarea>
                                                             </div>
                                                             <div class="col-md-12 m-b-20">
-                                                              <textarea  class="form-control" id="requisitos" name="requisitos" rows="4" cols="50" placeholder="Requisitos"></textarea>
+                                                              <textarea  class="form-control" id="requisitos" name="requisitos" rows="2" cols="50" placeholder="Requisitos"></textarea>
                                                             </div>
                                                             <div class="col-md-12 m-b-20">
-                                                              <textarea  class="form-control" id="pregunta" name="pregunta" rows="4" cols="50" placeholder="Preguntas"></textarea>
+                                                              <textarea  class="form-control" id="pregunta1x" name="pregunta1" rows="2" cols="50" placeholder="Pregunta1"></textarea>
+                                                            </div>
+                                                            <div class="col-md-12 m-b-20">
+                                                              <textarea  class="form-control" id="pregunta2x" name="pregunta2" rows="2" cols="50" placeholder="Pregunta2"></textarea>
+                                                            </div>
+                                                            <div class="col-md-12 m-b-20">
+                                                              <textarea  class="form-control" id="pregunta3x" name="pregunta3" rows="2" cols="50" placeholder="Pregunta3"></textarea>
+                                                            </div>
+                                                            <div class="col-md-12 m-b-20">
+                                                              <textarea  class="form-control" id="pregunta4x" name="pregunta4" rows="2" cols="50" placeholder="Pregunta4"></textarea>
+                                                            </div>
+                                                            <div class="col-md-12 m-b-20">
+                                                              <textarea  class="form-control" id="pregunta5x" name="pregunta5" rows="2" cols="50" placeholder="Pregunta5"></textarea>
+                                                            </div>
+                                                            <div class="col-md-12 m-b-20">
+                                                              <textarea  class="form-control" id="pregunta6x" name="pregunta6" rows="2" cols="50" placeholder="Pregunta6"></textarea>
+                                                            </div>
+                                                            <div class="col-md-12 m-b-20">
+                                                              <textarea  class="form-control" id="pregunta7x" name="pregunta7" rows="2" cols="50" placeholder="Pregunta7"></textarea>
+                                                            </div>
+                                                            <div class="col-md-12 m-b-20">
+                                                              <textarea  class="form-control" id="pregunta8x" name="pregunta8" rows="2" cols="50" placeholder="Pregunta8"></textarea>
                                                             </div>
                                                             <div class="col-md-12 m-b-20">
                                                             
@@ -553,17 +613,30 @@
             var titulo = document.getElementById("titulo").value;
             var descripcion = document.getElementById("descripcion").value;
             var requisitos = document.getElementById("requisitos").value;
-            var pregunta = document.getElementById("pregunta").value;
+
+            var pregunta1 = document.getElementById("pregunta1x").value;
+            console.log(pregunta1)
+            var pregunta2 = document.getElementById("pregunta2x").value;
+            console.log(pregunta2)
+            var pregunta3 = document.getElementById("pregunta3x").value;
+            console.log(pregunta3)
+            var pregunta4 = document.getElementById("pregunta4x").value;
+            var pregunta5 = document.getElementById("pregunta5x").value;
+            var pregunta6 = document.getElementById("pregunta6x").value;
+            var pregunta7 = document.getElementById("pregunta7x").value;
+            var pregunta8 = document.getElementById("pregunta8x").value;
+
             var area = document.getElementById("area").value;
             $.ajax({
-            data: {'descripcion': descripcion ,'titulo': titulo ,'requisitos': requisitos ,'pregunta': pregunta ,'area': area , csrfmiddlewaretoken: '{{ csrf_token }}',},
+            data: {'descripcion': descripcion ,'titulo': titulo ,'requisitos': requisitos ,'pregunta1': pregunta1 ,'pregunta2': pregunta2 ,'pregunta3': pregunta3,'pregunta4': pregunta4 ,'pregunta5': pregunta5 ,'pregunta6': pregunta6 ,'pregunta7': pregunta7 ,'pregunta8': pregunta8 ,'area': area , csrfmiddlewaretoken: '{{ csrf_token }}',},
 
             url: '{% url 'solicitudcompania'  %}',
             type: 'POST',
             success : function(data) {
                    swal("Creacion correcta!", "Presiona el boton para continuar!", "success") 
-                   document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) + 1;
-                   window.location.replace("/compania/");
+                   setTimeout(function(){
+                  window.location.replace("/compania/");
+                   }, 3000);
                    
                                },
             error : function(message) {

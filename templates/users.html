@@ -175,10 +175,10 @@
         <li><a href="/companiass" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Ap)<span class="fa arrow"></span></span></a>
          
         </li>
-        <li><a href="/companiaus" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Us)<span class="fa arrow"></span></span></a>
+         <li><a href="/companiaus" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Us)<span class="fa arrow"></span></span></a>
          
+         <li><a href="/registerusers" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Usuarios<span class="fa arrow"></span></span></a>
         </li>
-        <li><a href="/registerusers" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Usuarios<span class="fa arrow"></span></span></a>
         {% else %}
            <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
         
@@ -207,7 +207,7 @@
         </div>
         <!-- /.col-lg-12 -->
       </div>
-     <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Modulo de busqueda avanzada vacantes</button>
+     <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Modulo de busqueda avanzada usuarios</button>
      <!-- Button trigger modal -->
 
 <!-- Modal -->
@@ -223,8 +223,8 @@
               <div class="form-group">
                   <label for="name" class="col-sm-2 control-label">Localidad</label>
                   <div class="col-sm-10">
-                    <select name="localidad" class="form-control">
-                            <option  selected=""> </option>
+                   <select name="localidad" class="form-control">
+                            <option disabled="" selected=""> </option>
                             {% for prov in provincias %}
                             <option value="{{prov.provincia}}">{{prov.provincia}}</option>
                             {%endfor%}
@@ -235,7 +235,7 @@
                   <label class="col-sm-2 control-label">Area experiencia</label>
                       <div class="col-sm-10">
                            <select name="ar_exp" class="form-control">
-
+                            <option disabled="" selected=""> </option>
                             {% for are in areas %}
                             <option value="{{are.titulo}}">{{are.titulo}}</option>
                             {%endfor%}
@@ -246,6 +246,7 @@
                   <label class="col-sm-2 control-label">Area interes</label>
                       <div class="col-sm-10">
                            <select name="ar_int" class="form-control">
+                            <option disabled="" selected=""> </option>
                             {% for are in areas %}
                             <option value="{{are.titulo}}">{{are.titulo}}</option>
                             {%endfor%}
@@ -255,12 +256,12 @@
               <div class="form-group">
               <label for="email" class="col-sm-2 control-label">Carrera</label>
                   <div class="col-sm-10">
-                      <select name="carrera" class="form-control">
+                    <select name="carrera" class="form-control">
                             <option  selected=""> </option>
                             {% for are in areas %}
                             <option value="{{are.titulo}}">{{are.titulo}}</option>
                             {%endfor%}
-                          </select>                     
+                          </select>                  
                   </div>
               </div>
               <div class="form-group">
@@ -273,7 +274,7 @@
                   <label class="col-sm-2 control-label">Edad</label>
                       <div class="col-sm-10">
                            <select name="edad" class="form-control">
-                            <option  selected=""></option>
+                            <option disabled="" selected=""></option>
                             <option value="18-25"> 18-25 </option>
                             <option value="25-30"> 25-30 </option>
                             <option value="30-35"> 30-35 </option>
@@ -294,6 +295,40 @@
                           </select>
                       </div>
                   </div>
+                   <div class="form-group">
+                  <label for="name" class="col-sm-2 control-label">Universidad</label>
+                  <div class="col-sm-10">
+                    <input name="universidad" class="form-control" type="text" placeholder="Universidad" />
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  <label class="col-sm-2 control-label">Licencia de conducir</label>
+                      <div class="col-sm-10">
+                           <select name="licencia" class="form-control">
+                            <option disabled="" selected=""> </option>
+                           <option value="No tengo"> No tengo </option>
+                            <option value="Si tengo"> Si tengo </option>
+                          </select>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                  <label class="col-sm-2 control-label">Categoria Licencia</label>
+                      <div class="col-sm-10">
+                           <select name="cat_licen"" class="form-control">
+                            <option value="Categoria 1"> Sin, Categoria </option>
+                                                    <option value="Categoria 1"> Categoria 1 </option>
+                                                        <option value="Categoria 2"> Categoria 2 </option>
+                                                        <option value="Categoria 3"> Categoria 3 </option>
+                                                        <option value="Categoria 4"> Categoria 4 </option>
+                                                        <option value="Categoria 5"> Categoria 5 </option>
+                          </select>
+                      </div>
+                  </div>
+
+               
+                        
         
       </div>
       <div class="modal-footer">
@@ -306,34 +341,21 @@
 </div>
       <!-- row -->
       </br>
-      
-      <div class="row">
-           {% for app in apps %}    
-       <div id="getid{{ app.id }}div" class="col-md-4 col-sm-4">
-            <div class="white-box"> 
-                
-                <div class="row">
-                    {%if app.usuario.userp.picture%}
-                    <div class="col-md-4 col-sm-4 text-center"><a href="contact-detail.html"><img src="{{app.usuario.userp.picture.url}}" alt="user" class="img-circle img-responsive"></a></div>
-                    {%else%}
-                    <div class="col-md-4 col-sm-4 text-center"><a href="contact-detail.html"><img src="{% static 'assets/img/user.png' %}" alt="user" class="img-circle img-responsive"></a></div>
-                    {%endif%}
-                    <div class="col-md-8 col-sm-8">
-                      <h3 class="box-title m-b-0">{{app.usuario.first_name}} {{app.usuario.last_name}}</h3>
-                      <small>{{app.usuario.email}}</small>
-                      <p>
-                        </p><address>
-                            {{app.aplico.titulo}}<br><br>
-
-                            <button type="button" href="#{{app.pk}}" class="btn btn-danger btn-rounded" data-toggle="modal" data-target="#delete{{app.id}}"><i class="fa fa-check-square"></i> Procesar</button>
-                        </address>
-                      <p></p>
-                    </div>
-                </div>
-            </div>  
-          </div>
-
+      {%for user in users%}
+<div class="media">
+                        <div class="media-left"> <a href="javascript:void(0)">{%if user.userp.picture%} <img alt="64x64" class="media-object" src="{{user.userp.picture.url}}" data-holder-rendered="true" style="width: 64px; height: 64px;"> {%else%}
+                         <img alt="64x64" class="media-object" src="{% static 'assets/img/user.png' %}" data-holder-rendered="true" style="width: 64px; height: 64px;">
+                          {%endif%}
+                          </a> </div>
+                        <div class="media-body">
+                          <h4 class="media-heading"><a href="{% url 'user_detail' id=user.id %}">{{user.first_name}} {{user.last_name}}</a></h4>
+                            <p>{{user.username}}</p> <p>{{user.email}}</p>
+                            
+                           </div>
+                      </div>
+{%endfor%}
   <!-- Modal -->
+
 <div id="delete{{app.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -359,26 +381,23 @@
                     <br>
                         
                                 <div class="form-group">
-                                <input name="id" type="hidden" class="form-control" value="{{ app.id }}" style="display: none;">                             
+                                <label>Comentario para el usuario</label>
+                                </br>
+                                {{app.comentario}}
+                                </br>
+                                <label>Comentario interno</label>
+                                </br>
+                                {{app.com_interno}}                      
                                 </div>
-                                
-                   {%if entreform %}
-                   <div class="form-group">
-                   <label>Comentario para el usuario</label>
-                   {{ entreform.comentario|add_class:'form-control'  }}
-                   <label>Comentario para uso interno</label>
-                   {{ entreform.com_interno|add_class:'form-control'  }}
-                   {{ entreform.entrevista|add_class:'btn btn-danger btn-rounded' }}
-                   </div>
-                   {% endif %}
-                  
+                                    
+                
                  
 
                     </center>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-rounded" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-danger btn-rounded">Procesar Solicitud</button>
+                     
                     
                   </div>
                   </form>
@@ -387,7 +406,7 @@
             </div>
         
  
-{% endfor %}
+
           
             
     

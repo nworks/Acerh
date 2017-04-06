@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from users.views import LoginRequest ,LogoutRequest, register,email, ResetPasswordRequestView,PasswordResetConfirmView,consulta, consultauser, user_detail, consultaur
-from vacantes.views import vacantedit, vacantelist, aplicado, solicitud, remover,removerc, compania,companiass,companiaus, solicitudcompania, passwordrecovery, proceso, preguntas
+from vacantes.views import vacantedit, vacantelist, aplicado, solicitud, remover,removerc, compania,companiass,companiaus, solicitudcompania, passwordrecovery, proceso, preguntas,registerusers
 from users.views import userdetail
 from django.conf import settings
 from django.conf.urls.static import static
@@ -76,6 +76,7 @@ except:
 	url(r'^consultaur/',consultaur, name="consultaur" ),
 	url(r'^consultauser/',consultauser ),
 	url(r'^companiaus/',companiaus ),
+	url(r'^registerusers/',registerusers ),
 	url(r'^user_detail/(?P<id>\d+)/$',user_detail ,name="user_detail"),
 	]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
