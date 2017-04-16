@@ -22,6 +22,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from utils.views import ResetPasswordRequestView, PasswordResetConfirmView
 
+
+
 urlpatterns = [
 	
 					   # url(r'^account/reset_password_confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', PasswordResetConfirmView.as_view(),name='reset_password_confirm'), 
@@ -55,6 +57,7 @@ except:
 			ResetPasswordRequestView.as_view()),
 	url(r'^admin/', admin.site.urls),
 	url(r'^login/',LoginRequest ),
+	url(r'^$',LoginRequest ),
 	url(r'^vacantes/',vacantelist ),
 	url(r'^aplicado/',aplicado ),
 	url(r'logout/', LogoutRequest, name="logout"),
