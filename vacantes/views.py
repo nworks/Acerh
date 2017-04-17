@@ -38,6 +38,15 @@ def vacantelist(request):
 	context = { "noficacion":noficacion,"noficaciones":noficacion.all(),"post":post, "posts":post.all(),"cantidad":cantidad,"area":area,"areas":area.all() }
 	return render(request, 'index2.html', context)
 
+
+def list_vacant(request, id=None):
+	aplicado = Aplicado.objects.filter(aplico=id)
+	context = {
+		"app":aplicado, "apps":aplicado.all()
+	}
+
+	return render(request, 'index6.html', context)	
+
 @login_required
 def aplicado(request):
 	post = Aplicado.objects.filter(usuario=request.user.id)

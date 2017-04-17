@@ -312,7 +312,7 @@
                                     {% for post in posts %}
                                     <tr id="getid{{ post.id }}div">
                                       <td>{{post.id}}</td>
-                                      <td><a href="contact-detail.html"> {{post.titulo}}</a></td>
+                                      <td><a href="{% url 'list_vacant' id=post.id %}"> {{post.titulo}}</a></td>
                                       <td>{{post.descripcion}}</td>
                                       <td>{{post.creatd_date}}</td>
                                       <td><span class="label label-success">{{post.compania}}</span></td>

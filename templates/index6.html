@@ -354,7 +354,7 @@
                     <div class="col-md-4 col-sm-4 text-center"><a href="contact-detail.html"><img src="{% static 'assets/img/user.png' %}" alt="user" class="img-circle img-responsive"></a></div>
                     {%endif%}
                     <div class="col-md-8 col-sm-8">
-                      <h3 class="box-title m-b-0">{{app.usuario.first_name}} {{app.usuario.last_name}}</h3>
+                      <h3 class="box-title m-b-0"><a href="{% url 'user_detail' id=app.usuario.id %}">{{app.usuario.first_name}} {{app.usuario.last_name}}</a></h3>
                       <small>{{app.usuario.email}}</small>
                       <p>
                         </p><address>
@@ -385,7 +385,7 @@
                     {% else %}
                     <img src="{% static 'assets/img/user.png' %}" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
                     {% endif %}
-                    <h3 class="media-heading"><strong>{{app.usuario.first_name}} {{app.usuario.last_name}}</strong></h3>
+                    <h3 class="media-heading"><strong><a href="{% url 'user_detail' id=app.usuario.id %}"> {{app.usuario.first_name}} {{app.usuario.last_name}}</a></strong></h3>
                     <span><strong>Aplico para: </strong></span>
                         <span class="label label-success">{{app.aplico.titulo}}</span><p class="text-left"><strong><center><a href="{{app.usuario.userp.file.url}}"><span class="label label-danger">Ver su CV</span></a></center></strong>
                     </center>
