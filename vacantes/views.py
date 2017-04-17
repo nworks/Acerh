@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from vacantes.models import Vacante, Aplicado, Area, Preguntado, Provincia
 from users.models import UserP
 from django.db import models
@@ -17,6 +17,8 @@ from django.contrib.auth.models import User
 
 @login_required
 def vacantelist(request):
+	if request.user.is_staff:
+		return redirect('/compania')
 	result1 = serializers.serialize("json",Aplicado.objects.filter(usuario=request.user.id))
 	decoded_data = json.loads(result1)
 	array = []
@@ -28,6 +30,9 @@ def vacantelist(request):
 	cantidad = Aplicado.objects.filter(usuario=request.user.id).count()
 	area = Area.objects.all()
 	noficacion = notify.objects.all()
+
+	
+
 
 	
 	context = { "noficacion":noficacion,"noficaciones":noficacion.all(),"post":post, "posts":post.all(),"cantidad":cantidad,"area":area,"areas":area.all() }
