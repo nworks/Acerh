@@ -101,8 +101,9 @@ def compania(request):
 	cantidad4 = Vacante.objects.all().count()
 	area = Area.objects.all()
 	usuario = User.objects.all()
+	creada = Vacante.objects.filter(compania=request.user)
 	
-	context = { "post":post,"usuario":usuario,"usuarios":usuario.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()}
+	context = {"creada":creada,"creadas":creada.all(), "post":post,"usuario":usuario,"usuarios":usuario.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()}
 
 	return render(request, 'index4.html', context)
 
