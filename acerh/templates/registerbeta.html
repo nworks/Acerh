@@ -79,7 +79,7 @@
 		                                        <div class="form-group label-floating">
 		                                        	<label class="control-label">Sexo</label>
 	                                        		<select name="sexo" class="form-control">
-														<option disabled="" selected=""></option>
+														<option value="N/A" selected="">Seleccione su sexo</option>
 	                                                	<option value="Masculino">Masculino</option>
 	                                                	<option value="Femenino">Femenino </option>
 		                                        	</select>
@@ -88,7 +88,7 @@
 		                                    <div class="col-sm-6">
 		                                         <div class="form-group ">
 		                                         <label >Idiomas</label>
-                                                 <input name="idioma" type="text" class="form-control">                                                
+                                                 <input placeholder="Ingrese los idiomas que habla" name="idioma" type="text" class="form-control">                                                
 
                                                 </div>
 		                                    </div>
@@ -98,7 +98,7 @@
 		                                            <div class="form-group label-floating">
 		                                        	<label class="control-label">Carrera</label>
 	                                        		<select name="carrera" class="form-control">
-														<option disabled="" selected=""></option>
+														<option value="N/A" selected="">Seleccione el Area</option>
 	                                                	{%for area in areas%}
 	                                                	<option value="{{area.titulo}}">{{area.titulo}}</option>
 	                                                	{%endfor%}
@@ -112,7 +112,7 @@
 		                                           <div class="form-group label-floating">
 		                                        	<label class="control-label">Area Interes</label>
 	                                        		<select name="ar_int" class="form-control">
-														<option disabled="" selected=""></option>
+														<option value="N/A" selected="">Seleccione el Area</option>
 	                                                	{%for area in areas%}
 	                                                	<option value="{{area.titulo}}">{{area.titulo}}</option>
 	                                                	{%endfor%}
@@ -125,7 +125,7 @@
 		                                    <div class="col-sm-6">
 		                                        <div class="form-group label-floating">
 		                                            <label class="control-label">Cedula o Pasaporte</label>
-		                                            <input name="cedula" type="text" class="form-control">
+		                                            <input  name="cedula" type="text" class="form-control">
 		                                        </div>
 		                                    </div>
 		                                    <div class="col-sm-6">
@@ -190,7 +190,7 @@
 												<div class="form-group label-floating">
 		                                        	<label class="control-label">Localidad</label>
 	                                        		<select name="localidad" class="form-control">
-														<option disabled="" selected=""></option>
+														<option value="sin seleccion" selected="">Seleccione una provincia</option>
 	                                                	{%for provincia in provincias%}
 	                                                	<option value="{{provincia.provincia}}">{{provincia.provincia}}</option>
 	                                                	{%endfor%}
@@ -241,7 +241,7 @@
 											<div class="form-group label-floating">
 		                                        	<label class="control-label">Preparacion</label>
 	                                        		<select name="estudio" class="form-control">
-	                                        		    <option disabled="" selected=""></option>
+	                                        		    <option value="N/A" selected="">Sin estudios</option>
 														<option value="Basico">Basico </option>
                                                         <option value="Bachillerato"> Bachillerato </option>
                                                         <option value="Universitario(incompleto)"> Universitario(incompleto) </option>
@@ -259,7 +259,6 @@
 			                                       <div class="form-group label-floating">
 		                                        	<label class="control-label">Licencia de conducir?</label>
 	                                        		<select name="licencia" class="form-control">
-														<option disabled="" selected=""></option>
 	                                                	<option value="No tengo"> No tengo </option>
                                                         <option value="Si tengo"> Si tengo </option>
                                                  
@@ -268,7 +267,6 @@
 		                                    	<div class="form-group label-floating">
 		                                        	<label class="control-label">Categoria Licencia</label>
 	                                        		<select name="cat_licen" class="form-control">
-														<option disabled="" selected=""></option>
 														<option value="Categoria 1"> Sin, Categoria </option>
 	                                                	<option value="Categoria 1"> Categoria 1 </option>
                                                         <option value="Categoria 2"> Categoria 2 </option>
@@ -280,7 +278,6 @@
 		                                    	<div class="form-group label-floating">
 		                                        	<label class="control-label">Experiencia</label>
 	                                        		<select name="experiencia" class="form-control">
-														<option disabled="" selected=""></option>
 	                                                	<option value="1-2"> Sin experiencia </option>
 	                                                	<option value="1-2"> 1-2 </option>
                                                         <option value="2-5"> 2-5 </option>
@@ -292,7 +289,6 @@
 		                                    	<div class="form-group label-floating">
 		                                        	<label class="control-label">Rango de Edad</label>
 	                                        		<select name="edad" class="form-control">
-														<option disabled="" selected=""></option>
 	                                                	<option value="18-25"> 18-25 </option>
                                                         <option value="25-30"> 25-30 </option>
                                                         <option value="30-35"> 30-35 </option>
@@ -303,8 +299,6 @@
 		                                    	<div class="form-group label-floating">
 		                                        	<label class="control-label">Pais para el que aplica</label>
 	                                        		<select name="pais_apli" class="form-control">
-														<option disabled="" selected=""></option>
-	                                                	
 	                                                	<option value="Republica Dominicana">Republica Dominicana</option>
 	                                                	<option value="Guatemala">Guatemala</option>
 	                                                	<option value="Nicaragua">Nicaragua</option>
