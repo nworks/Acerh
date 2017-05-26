@@ -102,9 +102,9 @@
        <div class="user-profile">
         <div class="dropdown user-pro-body">
           {% if request.user.userp.picture %}
-          <div><img src="{{request.user.userp.picture.url}}" alt="user-img" class="img-circle"></div>
+          <div><img src="{{request.user.userp.picture.url}}" alt="user-img" class="img-circle" style="width: 64px; height: 64px;"></div>
           {% else %}
-          <div><img src="{% static 'assets/img/user.png' %}" alt="user-img" class="img-circle"></div>
+          <div><img src="{% static 'assets/img/user.png' %}" alt="user-img" class="img-circle" style="width: 64px; height: 64px;"></div>
           {% endif %}
           <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>{{request.user.first_name}} {{request.user.last_name}}</strong> <span class="caret"></span></a>
               <ul class="dropdown-menu animated flipInY">
@@ -274,9 +274,9 @@
                 
                 <div class="row">
                     {%if app.usuario.userp.picture%}
-                    <div class="col-md-4 col-sm-4 text-center"><a href="contact-detail.html"><img src="{{app.usuario.userp.picture.url}}" alt="user" class="img-circle img-responsive"></a></div>
+                    <div class="col-md-4 col-sm-4 text-center"><a href="contact-detail.html"><img src="{{app.usuario.userp.picture.url}}" alt="user" class="img-circle" style="width: 64px; height: 64px;"></a></div>
                     {%else%}
-                    <div class="col-md-4 col-sm-4 text-center"><a href="contact-detail.html"><img src="{% static 'assets/img/user.png' %}" alt="user" class="img-circle img-responsive"></a></div>
+                    <div class="col-md-4 col-sm-4 text-center"><a href="contact-detail.html"><img src="{% static 'assets/img/user.png' %}" alt="user" class="img-circle" style="width: 64px; height: 64px;"></a></div>
                     {%endif%}
                     <div class="col-md-8 col-sm-8">
                       <h3 class="box-title m-b-0">{{app.usuario.first_name}} {{app.usuario.last_name}}</h3>
