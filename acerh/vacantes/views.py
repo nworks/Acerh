@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from users.models import UserPC, UserP
 from django.contrib.auth.models import User
-
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 @login_required
 def vacantelist(request):
@@ -199,7 +199,10 @@ def companiass(request):
 			idview = request.POST.get('id')
 			post = Aplicado.objects.get(pk=idview)
 			print idview
-			post.entrevista = request.FILES["entrevista"]
+			if "entrevista" in request.FILES:
+				post.entrevista = request.FILES["entrevista"]
+			else:
+				post.entrevista = static('/nocv.txt')
 			post.comentario = request.POST["comentario"]
 			post.com_interno = request.POST["com_interno"]
 			post.estatus2 = 'Procesado'
@@ -257,12 +260,12 @@ def preguntas(request):
 
 	if 'titulomodal' in request.POST:
 		if request.method == 'POST':
-		    titulomo = request.POST.get('titulomodal')
-		    preguntamodal = request.POST.get('preguntamodal')
-		    destinatariou = request.POST.get('destinatario')
+			titulomo = request.POST.get('titulomodal')
+			preguntamodal = request.POST.get('preguntamodal')
+			destinatariou = request.POST.get('destinatario')
 		 
-		    solicit =  Preguntado.objects.create(emisor=request.user, destinatario=request.user, pregunta=preguntamodal, titulo=titulomo, estatus="espera")
-		    solicit.save()
+			solicit =  Preguntado.objects.create(emisor=request.user, destinatario=request.user, pregunta=preguntamodal, titulo=titulomo, estatus="espera")
+			solicit.save()
 
 	if 'titulo' in request.POST:
 		titulo = request.POST.get('titulo')
