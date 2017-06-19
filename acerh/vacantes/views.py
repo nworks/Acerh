@@ -14,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from users.models import UserPC, UserP
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 @login_required
 def vacantelist(request):
@@ -444,3 +445,19 @@ def registerusers(request):
 		user = User.objects.filter(id__in=array)
 		
 	return render(request, 'users.html',  {'user':user, 'users':user.all(),'app':app, 'apps':app.all(),'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
+
+
+def companiapag(request):
+    apli_list = Aplicado.objects.all()
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(apli_list, 10)
+    try:
+        paged = paginator.page(page)
+    except PageNotAnInteger:
+        paged = paginator.page(1)
+    except EmptyPage:
+        paged = paginator.page(paginator.num_pages)
+     
+    context = {'paged': paged,"creada":creada,"creadas":creada.all(), "post":post,"usuario":usuario,"usuarios":usuario.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()}
+    return render(request, 'index4.html', { context })

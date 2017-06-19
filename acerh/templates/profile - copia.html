@@ -51,36 +51,51 @@
         <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a></li>
         <li>
           <form role="search" class="app-search hidden-xs">
-            
+            <input type="text" placeholder="Search..." class="form-control">
+            <a href=""><i class="fa fa-search"></i></a>
           </form>
         </li>
       </ul>
       <ul class="nav navbar-top-links navbar-right pull-right">
         <li class="dropdown"> <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"><i class="icon-envelope"></i>
-         <div class="notify">{%if notificacion%}<span class="heartbit"></span>{%else%}{%endif%}<span class="point"></span></div>
+          <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
           </a>
           <ul class="dropdown-menu mailbox animated bounceInDown">
-             {% for noficacion in noficaciones %}
             <li>
-
-              <div class="message-center"> <a href="#">
-                <div class="user-img"> <img src="{% static 'plugins/logo1.png' %}" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
-                <div class="mail-contnet">
-                  <h5>{{noficacion.company}}</h5>
-                  <span class="mail-desc">{{noficacion.message}}</span> <span class="time">9:30 AM</span> </div>
-                </a> <a href="#">
-                
+              <div class="drop-title">You have 4 new messages</div>
             </li>
-            {% endfor %}
+            <li>
+              <div class="message-center"> <a href="#">
+                <div class="user-img"> <img src="../plugins/images/users/pawandeep.jpg" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
+                <div class="mail-contnet">
+                  <h5>Pavan kumar</h5>
+                  <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span> </div>
+                </a> <a href="#">
+                <div class="user-img"> <img src="../plugins/images/users/sonu.jpg" alt="user" class="img-circle"> <span class="profile-status busy pull-right"></span> </div>
+                <div class="mail-contnet">
+                  <h5>Sonu Nigam</h5>
+                  <span class="mail-desc">I've sung a song! See you at</span> <span class="time">9:10 AM</span> </div>
+                </a> <a href="#">
+                <div class="user-img"> <img src="../plugins/images/users/arijit.jpg" alt="user" class="img-circle"> <span class="profile-status away pull-right"></span> </div>
+                <div class="mail-contnet">
+                  <h5>Arijit Sinh</h5>
+                  <span class="mail-desc">I am a singer!</span> <span class="time">9:08 AM</span> </div>
+                </a> <a href="#">
+                <div class="user-img"> <img src="../plugins/images/users/pawandeep.jpg" alt="user" class="img-circle"> <span class="profile-status offline pull-right"></span> </div>
+                <div class="mail-contnet">
+                  <h5>Pavan kumar</h5>
+                  <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span> </div>
+                </a> </div>
+            </li>
             <li> <a class="text-center" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="fa fa-angle-right"></i> </a></li>
           </ul>
           <!-- /.dropdown-messages -->
         </li>
         <!-- /.dropdown -->
+       
         
         
-        
-        <li><a href="{% url 'logout' %}"><i class="fa fa-power-off"></i> Logout</a></li>
+      
         <!-- /.dropdown -->
       </ul>
     </div>
@@ -267,119 +282,43 @@
                 <form class="form-horizontal form-material" role="form" action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
                   
                   <div class="form-group">
-                  <H2><font color="red">Refrescar la pagina despues de realizar cambios a tu perfil</font></H2>
+                  <H2><font color="red">Si va modificar su perfil recuerde rellenar todos los campos</font></H2>
                     <div class="col-sm-12">
                     {%if user_form %}
                     <label>Imagen Usuario</label>
-                    <input type="file" name="picture" value="{{request.user.userp.picture.url}}">
+                    {{ profile_form.picture|add_class:'form-control' }}
                     <label>Nombres</label>
-                    <input type="text" name="first_name" class="form-control" value="{{request.user.first_name}}">
+                    {{ user_form.first_name|add_class:'form-control'}}
                     <label>Apellidos</label>
-                    <input type="text" name="last_name" class="form-control" value="{{request.user.last_name}}" >
+                    {{ user_form.last_name|add_class:'form-control' }}
                     <label>Email</label>
-                     <input type="text" name="email" class="form-control" value="{{request.user.email}}" 
+                    {{ user_form.email|add_class:'form-control' }}
                     <label>Localidad</label>
-                    <select name="localidad" class="form-control">
-                            <option value="sin seleccion" selected="">Seleccione una provincia</option>
-                                                    {%for provincia in provincias%}
-                                                    <option value="{{provincia.provincia}}">{{provincia.provincia}}</option>
-                                                    {%endfor%}
-                                              </select>
+                    {{ profile_form.localidad|add_class:'form-control' }}
                     <label>Preparacion</label>
-                    <select name="estudio" class="form-control">
-                                                  <option value="N/A" selected="">Sin estudios</option>
-                            <option value="Basico">Basico </option>
-                                                        <option value="Bachillerato"> Bachillerato </option>
-                                                        <option value="Universitario(incompleto)"> Universitario(incompleto) </option>
-                                                        <option value="Profesional"> Profesional </option>
-                                              </select>
+                    {{ profile_form.estudio|add_class:'form-control' }}
                     <label>Edad</label>
-                    <select name="edad" class="form-control">
-                                                    <option value="18-25"> 18-25 </option>
-                                                        <option value="25-30"> 25-30 </option>
-                                                        <option value="30-35"> 30-35 </option>
-                                                        <option value="35-40"> 35-40 </option>
-                                                        <option value="40+"> 40+ </option>
-                                              </select>
+                    {{ profile_form.edad|add_class:'form-control' }}
                     <label>Experiencia</label>
-                    <select name="experiencia" class="form-control">
-                                                    <option value="1-2"> Sin experiencia </option>
-                                                    <option value="1-2"> 1-2 </option>
-                                                        <option value="2-5"> 2-5 </option>
-                                                        <option value="5-10"> 5-10 </option>
-                                                        <option value="10-15"> 10-15 </option>
-                                                        <option value="15+"> 15+ </option>
-                                              </select>
+                    {{ profile_form.experiencia|add_class:'form-control' }}
                     <label>Idioma</label>
-                    <input type="text" name="idioma" class="form-control" value="{{request.user.userp.idioma}}" 
+                    {{ profile_form.idioma|add_class:'form-control' }}
                     <label>Area Experiencia</label>
-                    <select name="ar_ex" class="form-control">
-                            <option value="N/A" selected="">Seleccione el Area</option>
-                                                    {%for area in areas%}
-                                                    <option value="{{area.titulo}}">{{area.titulo}}</option>
-                                                    {%endfor%}
-                                                    
-                                                    
-                                              </select>
+                    {{ profile_form.ar_exp|add_class:'form-control' }}
                     <label>Area Interes</label>
-                    <select name="ar_int" class="form-control">
-                            <option value="N/A" selected="">Seleccione el Area</option>
-                                                    {%for area in areas%}
-                                                    <option value="{{area.titulo}}">{{area.titulo}}</option>
-                                                    {%endfor%}
-                                                    
-                                                    
-                                              </select>
-                    <label>Universidad</label>                          
-                    <input type="text" name="universidad" class="form-control" value="{{request.user.userp.universidad}}">
+                    {{ profile_form.ar_int|add_class:'form-control' }}
                     <label>Carrera</label>
-                    <select name="carrera" class="form-control">
-                            <option value="N/A" selected="">Seleccione el Area</option>
-                                                    {%for area in areas%}
-                                                    <option value="{{area.titulo}}">{{area.titulo}}</option>
-                                                    {%endfor%}
-                                                    
-                                                    
-                                              </select>
+                    {{ profile_form.carrera|add_class:'form-control' }}
                     <label>Sexo</label>
-                    <select name="sexo" class="form-control">
-                            <option value="N/A" selected="">Seleccione su sexo</option>
-                                                    <option value="Masculino">Masculino</option>
-                                                    <option value="Femenino">Femenino </option>
-                                              </select>
-                    <label>Pais para el que aplica</label>
-                    <select name="pais_apli" class="form-control">
-                                                    <option value="Republica Dominicana">Republica Dominicana</option>
-                                                    <option value="Guatemala">Guatemala</option>
-                                                    <option value="Nicaragua">Nicaragua</option>
-                                                    <option value="Honduras">Honduras</option>
-                                                    <option value="El Salvador">El Salvador</option>
-                                                    
-                                              </select>
+                    {{ profile_form.sexo|add_class:'form-control' }}
                     <label>Cedula</label>
-                    <input type="text" name="cedula" class="form-control" value="{{request.user.userp.cedula}}" >
-                    <label>licencia</label>
-                    <select name="licencia" class="form-control">
-                                                    <option value="No tengo"> No tengo </option>
-                                                        <option value="Si tengo"> Si tengo </option>
-                                                 
-                                              </select>
-                    <label>Categoria Licencia</label>
-                    <select name="cat_licen" class="form-control">
-                            <option value="Categoria 1"> Sin, Categoria </option>
-                                                    <option value="Categoria 1"> Categoria 1 </option>
-                                                        <option value="Categoria 2"> Categoria 2 </option>
-                                                        <option value="Categoria 3"> Categoria 3 </option>
-                                                        <option value="Categoria 4"> Categoria 4 </option>
-                                                        <option value="Categoria 5"> Categoria 5 </option>
-                                              </select>
+                    {{ profile_form.cedula|add_class:'form-control' }}
                     <label>Salario</label>
-                    <input type="text" name="salario" class="form-control" value="{{request.user.userp.salario}}" 
+                    {{ profile_form.salario|add_class:'form-control' }}
                     <label>Nacionalidad</label>
-                    <input type="text" name="nacionalidad" class="form-control" value="{{request.user.userp.nacionalidad}}">
-
+                    {{ profile_form.nacionalidad|add_class:'form-control' }}
                     <label>CV</label>
-                    <input type="file" name="file" value="{{request.user.userp.file.url}}">
+                    {{ profile_form.file|add_class:'form-control' }}
                     {% endif %}
                     </br>
                       <button class="btn btn-success">Actualizar perfil</button>

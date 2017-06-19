@@ -19,6 +19,12 @@ from django.template.defaulttags import cycle as cycle_original
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from xlsxwriter.workbook import Workbook
+import sys  
+import StringIO
+import io
+import os
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 def user_detail(request, id=None):
@@ -179,31 +185,79 @@ def userdetail2(request):
 
 
 def userdetail(request):
+	area = Area.objects.all()
+	provincia = Provincia.objects.all()
 	userinfo = User.objects.get(id=request.user.id)
 	aplicado = Aplicado.objects.filter(usuario=request.user)
 	cantidad = aplicado.count()
-	userdetalle = UserP.objects.filter(user=request.user)
+	userdetalle = UserP.objects.get(user=request.user)
 	user_form = UsuarioForm(data=request.POST, instance=userinfo)
-	profile_form = UserPr3(data=request.FILES, instance=userinfo)
+	profile_form = UserPr3(data=request.POST,files=request.FILES, instance=userdetalle)
 	if request.method == 'POST':
 		
 		if user_form.is_valid() and profile_form.is_valid():
+			profile = profile_form.save(commit=False)
+			if 'file' in request.FILES:
+				profile.file = request.FILES['file']
+			else:
+				if request.user.userp.file:
+					profile.file = request.user.userp.file
+				else:
+					profile.file = static('/nocv.txt')	
+
+			if 'picture' not in request.FILES:
+				if request.user.userp.file:
+					profile.picture = request.user.userp.picture
+				else:
+				    profile.picture =  static('/user.png')
+			else:
+				profile.picture = request.FILES['picture']
 			
 			user = user_form.save()
+			if 'first_name' in request.POST:
+				user.first_name = request.POST['first_name']
+			else:
+				user.first_name = request.user.first_name
+
+			if 'last_name' in request.POST:
+				user.last_name = request.POST['last_name']
+			else:
+				user.last_name = request.user.last_name
+
+			if 'email' in request.POST:
+				user.email = request.POST['email']
+			else:
+				user.email = request.user.email
+			
 			user.username = request.user.username
 			user.save()
-			profile = profile_form.save(commit=False)
-			profile.file = request.FILES['file']
+			
+		
+			profile.cedula = request.POST['cedula']
+			profile.sexo = request.POST['sexo']
+			profile.idioma = request.POST['idioma']
+			profile.carrera = request.POST['carrera']
+			profile.ar_int = request.POST['ar_int']
+			profile.salario = request.POST['salario']
+			#profile.telefono = request.POST['telefono']
 			profile.localidad = request.POST['localidad']
 			profile.estudio = request.POST['estudio']
 			profile.edad = request.POST['edad']
 			profile.experiencia = request.POST['experiencia']
+			profile.nacionalidad = request.POST['nacionalidad']
+			profile.universidad = request.POST['universidad']
+			profile.licencia = request.POST['licencia']
+			profile.cat_licen = request.POST['cat_licen']
+			profile.pais_apli = request.POST['pais_apli']
 			
 			profile.user = user
 			profile.save()
 			registered = True
-			return render(request, 'profile.html', {'user_form':user_form,'profile_form':profile_form})
-	return render(request, 'profile.html', {'user_form':user_form,'profile_form':profile_form})
+			return render(request, 'profile.html', {'user_form':user_form,'profile_form':profile_form, 'area':area, 'areas':area.all(), 'provincia':provincia,'provincias':provincia.all()})
+		else:
+			user_form = UsuarioForm(data=request.POST, instance=userinfo)
+			profile_form = UserPr3(data=request.POST,files=request.FILES, instance=userinfo)
+	return render(request, 'profile.html', {'user_form':user_form,'profile_form':profile_form, 'area':area, 'areas':area.all(), 'provincia':provincia,'provincias':provincia.all()})
 
 
 def email(request):
@@ -438,3 +492,133 @@ class PasswordResetConfirmView(FormView):
 		else:
 			messages.error(request,'El enlace de reinicio ya no es valido.')
 			return self.form_invalid(form)
+
+#FUNCION ENCARGADA DE LA CREACION DEL REPORTE EN EXCEL 
+def export_excel(request):
+	#Llamada a la libreria para escribir en bits
+	output = io.BytesIO()
+	
+	#Se inicializa el workbook de excel en cache
+	workbook = Workbook(output, {'in_memory': True})
+	worksheet = workbook.add_worksheet()
+	
+	#se setea la variable cell con 8 para que empieze a escribir desde la celda 8
+	cell = 8
+	#ciclo que busca todos los objetos con estatus 195(por enviar) para ser escritos en el excel
+	for obj in User.objects.all():
+		#indica desde que celda se escribe el titulo de los id de los objetos
+		worksheet.write_string(cell,0, str(obj.id))
+		#indica desde que celda se escribiran los emails
+		worksheet.write_string(cell,1, obj.email)
+		#indica desde que celda se escribiran los codigos de pss
+		worksheet.write_string(cell,2, str(obj.first_name))
+		#indica desde que celda se escribiran la ruta de los archivos
+		worksheet.write_string(cell,3, obj.last_name)
+		#escribre el username
+		worksheet.write_string(cell,4, obj.username)
+		
+		#Se realiza el aumento de la celda para seguir escribiendo hacia abajo
+		cell = cell + 1 
+
+
+
+
+	#Variable que define el estilo de negrita
+	bold = workbook.add_format({'bold': 1}) #letra negrita
+	#Variable que define el tamanio de las letras
+	size = workbook.add_format({'font_size': 20})
+	#Define el color rojo de las celdas
+	green = workbook.add_format({'bg_color': 'red', 'bold': 1}) 
+	#Escriben los enunciados del reporte de excel y ejecuta el logo
+	worksheet.write('C5', 'Reporte en excel de Acerh, Todos los usuarios',size)
+	worksheet.insert_image('B4', 'static/plugins/logo2.png', {'x_scale': 0.3, 'y_scale': 0.3})
+	worksheet.set_column('A:A', 5)
+	worksheet.write('A8', 'ID',green)
+	worksheet.set_column('B:B', 50)
+	worksheet.write('B8', 'Correo',green)
+	worksheet.set_column('C:C', 40)
+	worksheet.write('C8', 'Primer Nombre',green)
+	worksheet.set_column('D:D', 100)
+	worksheet.write('D8', 'Apellidos',green)
+	worksheet.set_column('E:E', 100)
+	worksheet.write('E8', 'Username',green)
+
+
+
+	#worksheet.add_table('B3:F7') #TABLA
+	#Cierra el workbook del excel para ser guardado
+	workbook.close()
+
+	output.seek(0)
+	#response que contiene el archivo xlsx que sera devuelto a la ventana del navegador
+	response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	response['Content-Disposition'] = "attachment; filename=UserReport.xlsx"
+
+	#funcion de retorno 
+	return response
+
+
+def export_excel2(request):
+	#Llamada a la libreria para escribir en bits
+	output = io.BytesIO()
+	
+	#Se inicializa el workbook de excel en cache
+	workbook = Workbook(output, {'in_memory': True})
+	worksheet = workbook.add_worksheet()
+	
+	#se setea la variable cell con 8 para que empieze a escribir desde la celda 8
+	cell = 8
+	#ciclo que busca todos los objetos con estatus 195(por enviar) para ser escritos en el excel
+	for obj in UserP.objects.filter(localidad=""):
+		userm = User.objects.get(username=obj.user)
+		#indica desde que celda se escribe el titulo de los id de los objetos
+		worksheet.write_string(cell,0, str(obj.id))
+		#indica desde que celda se escribiran los emails
+		worksheet.write_string(cell,1, str(obj.user))
+		#indica desde que celda se escribiran los codigos de pss
+		worksheet.write_string(cell,2, str(userm.email))
+		#indica desde que celda se escribiran la ruta de los archivos
+		worksheet.write_string(cell,3, str(userm.first_name))
+		#escribre el username
+		worksheet.write_string(cell,4, str(userm.last_name))
+		
+		#Se realiza el aumento de la celda para seguir escribiendo hacia abajo
+		cell = cell + 1 
+
+
+
+
+	#Variable que define el estilo de negrita
+	bold = workbook.add_format({'bold': 1}) #letra negrita
+	#Variable que define el tamanio de las letras
+	size = workbook.add_format({'font_size': 20})
+	#Define el color rojo de las celdas
+	green = workbook.add_format({'bg_color': 'red', 'bold': 1}) 
+	#Escriben los enunciados del reporte de excel y ejecuta el logo
+	worksheet.write('C5', 'Reporte en excel de Acerh, Usuarios Perfiles en blanco',size)
+	worksheet.insert_image('B4', 'static/plugins/logo2.png', {'x_scale': 0.3, 'y_scale': 0.3})
+	worksheet.set_column('A:A', 5)
+	worksheet.write('A8', 'ID',green)
+	worksheet.set_column('B:B', 50)
+	worksheet.write('B8', 'UserName',green)
+	worksheet.set_column('C:C', 40)
+	worksheet.write('C8', 'Correo',green)
+	worksheet.set_column('D:D', 40)
+	worksheet.write('D8', 'Nombres',green)
+	worksheet.set_column('E:E', 100)
+	worksheet.write('E8', 'Apellidos',green)
+
+
+
+	#worksheet.add_table('B3:F7') #TABLA
+	#Cierra el workbook del excel para ser guardado
+	workbook.close()
+
+	output.seek(0)
+	#response que contiene el archivo xlsx que sera devuelto a la ventana del navegador
+	response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	response['Content-Disposition'] = "attachment; filename=UserReport.xlsx"
+
+	#funcion de retorno 
+	return response
+

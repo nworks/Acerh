@@ -167,9 +167,19 @@
         </div>
         <!-- /.col-lg-12 -->
       </div>
-     <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Modulo de busqueda avanzada usuarios</button>
+     
      <!-- Button trigger modal -->
-
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+  <div class="btn-group" role="group">
+    <a href="{% url 'export_excel' %}"><button type="button" class="btn btn-danger">Reporte Usuarios</button></a>
+  </div>
+  <div class="btn-group" role="group">
+    <a href="{% url 'export_excel2' %}"><button type="button" class="btn btn-danger">Reportes Perfiles En blanco</button></a>
+  </div>
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Modulo de busqueda avanzada usuarios</button>
+  </div>
+</div>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">

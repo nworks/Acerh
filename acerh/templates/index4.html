@@ -293,7 +293,8 @@
                     <div class="right-aside">
                         <div class="right-page-header"><div class="pull-right"></div><h3>Vacantes / Compañia <button type="button" class="btn btn-info btn-rounded" data-toggle="modal" data-target="#add-contact">Crear Vacante</button> </h3>
                         </div>
-                        <div class="clearfix"></div>
+                        
+                    
                         <div class="scrollable">
                             <div id="refresh" class="table-responsive">
                                 <table id="demo-foo-addrow" class="table m-t-30 table-hover contact-list" data-page-size="10">
@@ -320,7 +321,7 @@
                                       <td>
                                       <button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" id="getid{{ post.id }}" value="{{ post.id }}" onclick="myFunction{{ post.id }}()"><i class="ti-close" aria-hidden="true"></i></button>
                                       <button type="button" href="#{{post.id}}" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="modal"  data-target="#edit{{post.id}}"><i class="ti-pencil" aria-hidden="true"></i></button>
-</td>
+                                      </td>
 
 <!-- Modal -->
 <div id="edit{{post.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -695,7 +696,7 @@
 <!--slimscroll JavaScript -->
 <script src="{% static 'js/jquery.slimscroll.js' %}"></script>
 <!--Wave Effects -->
-<script src="js/waves.js' %}"></script>
+
 <!-- Flot Charts JavaScript -->
 <script src="{% static 'plugins/bower_components/flot/jquery.flot.js' %}"></script>
 <script src="{% static 'plugins/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js' %}"></script>

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from users.views import LoginRequest ,LogoutRequest, register,email, ResetPasswordRequestView,PasswordResetConfirmView,consulta, consultauser, user_detail, consultaur
+from users.views import LoginRequest ,LogoutRequest, register,email, ResetPasswordRequestView,PasswordResetConfirmView,consulta, consultauser, user_detail, consultaur,export_excel, export_excel2
 from vacantes.views import vacantedit, vacantelist, aplicado, solicitud, remover,removerc, compania,companiass,companiaus, solicitudcompania, passwordrecovery, proceso, preguntas,registerusers, list_vacant
 from users.views import userdetail
 from django.conf import settings
@@ -82,6 +82,9 @@ except:
 	url(r'^registerusers/',registerusers ),
 	url(r'^user_detail/(?P<id>\d+)/$',user_detail ,name="user_detail"),
 	url(r'^vaca_apli/(?P<id>\d+)/$',list_vacant ,name="list_vacant"),
+	url(r'^excel/$', export_excel ,name="export_excel"),
+	url(r'^excel2/$', export_excel2 ,name="export_excel2"),
+
 	]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
