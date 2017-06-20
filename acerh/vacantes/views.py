@@ -85,7 +85,7 @@ def remover(request):
 	return HttpResponse('/vacantes')
 
 @login_required
-def compania(request):
+def compania2(request):
 	result1 = serializers.serialize("json",Aplicado.objects.all())
 	decoded_data = json.loads(result1)
 	array = []
@@ -107,6 +107,30 @@ def compania(request):
 	context = {"creada":creada,"creadas":creada.all(), "post":post,"usuario":usuario,"usuarios":usuario.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()}
 
 	return render(request, 'index4.html', context)
+
+def compania(request):
+	contact_list = Vacante.objects.all()
+	post2 = Aplicado.objects.all()
+	cantidad = post2.count()
+	cantidad2 = Vacante.objects.filter(compania=request.user).count()
+	cantidad3 = Aplicado.objects.filter(usuario=request.user.id).count()
+	cantidad4 = Vacante.objects.all().count()
+	area = Area.objects.all()
+	usuario = User.objects.all()
+	creada = Vacante.objects.filter(compania=request.user)
+	paginator = Paginator(contact_list, 10) # Show 25 contacts per page
+
+	page = request.GET.get('page')
+	try:
+		posts = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		posts = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		posts = paginator.page(paginator.num_pages)
+
+	return render(request, 'index4.html', {'posts': posts ,"creada":creada,"creadas":creada.all(),"usuario":usuario,"usuarios":usuario.all(), "cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()})
 
 @login_required
 def solicitudcompania(request):
@@ -448,16 +472,16 @@ def registerusers(request):
 
 
 def companiapag(request):
-    apli_list = Aplicado.objects.all()
-    page = request.GET.get('page', 1)
+	apli_list = Aplicado.objects.all()
+	page = request.GET.get('page', 1)
 
-    paginator = Paginator(apli_list, 10)
-    try:
-        paged = paginator.page(page)
-    except PageNotAnInteger:
-        paged = paginator.page(1)
-    except EmptyPage:
-        paged = paginator.page(paginator.num_pages)
-     
-    context = {'paged': paged,"creada":creada,"creadas":creada.all(), "post":post,"usuario":usuario,"usuarios":usuario.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()}
-    return render(request, 'index4.html', { context })
+	paginator = Paginator(apli_list, 10)
+	try:
+		paged = paginator.page(page)
+	except PageNotAnInteger:
+		paged = paginator.page(1)
+	except EmptyPage:
+		paged = paginator.page(paginator.num_pages)
+	 
+	context = {'paged': paged,"creada":creada,"creadas":creada.all(), "post":post,"usuario":usuario,"usuarios":usuario.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()}
+	return render(request, 'index4.html', { context })

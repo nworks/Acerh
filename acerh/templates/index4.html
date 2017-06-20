@@ -291,10 +291,9 @@
                      </div> 
                   <!-- /.left-aside-column-->
                     <div class="right-aside">
-                        <div class="right-page-header"><div class="pull-right"></div><h3>Vacantes / Compañia <button type="button" class="btn btn-info btn-rounded" data-toggle="modal" data-target="#add-contact">Crear Vacante</button> </h3>
+                        <div class="right-page-header"><div class="pull-right"></div><h3>Vacantes / Compañia <button type="button" class="btn btn-info btn-rounded" data-toggle="modal" data-target="#add-contact">Crear Vacante</button>  </h3>
                         </div>
-                        
-                    
+                         
                         <div class="scrollable">
                             <div id="refresh" class="table-responsive">
                                 <table id="demo-foo-addrow" class="table m-t-30 table-hover contact-list" data-page-size="10">
@@ -403,6 +402,8 @@
                                       
                                     </tr>
                                   </tbody>
+                                  
+ 
                                   <tfoot>
 
             
@@ -680,7 +681,7 @@
     </div>
   </div>
 </div>
- 
+<ul class="pager"> {% if posts.has_previous %} <li><a href="?page={{ posts.previous_page_number }}">Previous</a></li>{% endif %}{% if posts.has_next %}<li><a href="?page={{ posts.next_page_number }}">Next</a></li>{% endif %}</ul>
     <!-- /.container-fluid -->
     <footer class="footer text-center"> 2017 &copy; AcerhApp by Nworksdev </footer>
   </div>
