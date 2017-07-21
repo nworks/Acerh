@@ -25,10 +25,19 @@ SECRET_KEY = '%3x%n9)ty94-6_x3ixx($a@xs9hscojjzi_3ll(@v$7s)5c3(m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['45.55.203.222','172.23.72.83','www.tutalentoacerh.com','tutalentoacerh.com', '127.0.0.1']
+ALLOWED_HOSTS = ['45.55.203.222','172.23.72.83','www.tutalentoacerh.com','tutalentoacerh.com', '10.0.0.2','127.0.0.1', 'localhost']
 
 
-# Application definition
+LOGIN_REDIRECT_URL = ('/users') 
+ 
+
+
+
+ACCOUNT_LOGOUT_ON_GET = True
+        
+
+
+CSRF_COOKIE_SECURE = True 
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,8 +49,40 @@ INSTALLED_APPS = [
     'vacantes',
     'users',
     'widget_tweaks',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    
+    
+
     
 ]
+
+
+# Application definition
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.BasicAuthentication',
+
+),
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+
+
+    ],
+
+    
+
+
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,6 +92,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'acerh.urls'

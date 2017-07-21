@@ -15,22 +15,34 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from users.views import LoginRequest ,LogoutRequest, register,email, ResetPasswordRequestView,PasswordResetConfirmView,consulta, consultauser, user_detail, consultaur,export_excel, export_excel2
-from vacantes.views import vacantedit, vacantelist, aplicado, solicitud, remover,removerc, compania,companiass,companiaus, solicitudcompania, passwordrecovery, proceso, preguntas,registerusers, list_vacant
+from users.views import LoginRequest ,LogoutRequest, register,email, ResetPasswordRequestView,PasswordResetConfirmView,consulta, consultauser, user_detail, consultaur,export_excel, export_excel2, logouttk
+from vacantes.views import vacantedit, vacantelist, aplicado, solicitud, remover,removerc, compania,companiass,companiaus, solicitudcompania, passwordrecovery, proceso, preguntas,registerusers, list_vacant,vacantejson,solcomjs
 from users.views import userdetail
 from django.conf import settings
 from django.conf.urls.static import static
 from utils.views import ResetPasswordRequestView, PasswordResetConfirmView
+from django.contrib.auth.models import User
+from rest_framework import routers, serializers, viewsets
+from django.contrib.auth.views import login, logout
 
 
 
-urlpatterns = [
-	
-					   # url(r'^account/reset_password_confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', PasswordResetConfirmView.as_view(),name='reset_password_confirm'), 
-					   # PS: url above is going to used for next section of implementation.
+# Serializers define the API representation.
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ('url', 'username', 'email', 'is_staff')
+
+# ViewSets define the view behavior.
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+# Routers provide an easy way of automatically determining the URL conf.
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
 
 
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 try:
 	from django.conf.urls import patterns, include, url
@@ -69,6 +81,7 @@ except:
 	url(r'^compania/',compania ),
 	url(r'^companiass/',companiass ),
 	url(r'^solicitudcompania/',solicitudcompania ,name="solicitudcompania" ),
+	url(r'^solcomjs/',solcomjs ,name="solcomjs" ),
 	url(r'^userdetail/',userdetail ,name="userdetail" ),
 	url(r'^passwordrecovery/',passwordrecovery ,name="passwordrecovery" ),
 	url(r'^email/',email ),
@@ -84,6 +97,10 @@ except:
 	url(r'^vaca_apli/(?P<id>\d+)/$',list_vacant ,name="list_vacant"),
 	url(r'^excel/$', export_excel ,name="export_excel"),
 	url(r'^excel2/$', export_excel2 ,name="export_excel2"),
+	url(r'^vacantejson/',vacantejson ),
+	url(r'^rest-auth/', include('rest_auth.urls')),
+	url(r'^logouttk/', logouttk.as_view()),
+ 
 
 	]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

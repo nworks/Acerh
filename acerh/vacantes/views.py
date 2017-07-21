@@ -15,6 +15,8 @@ from users.models import UserPC, UserP
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import JsonResponse
+from rest_framework.authtoken.models import Token
 
 @login_required
 def vacantelist(request):
@@ -209,7 +211,12 @@ def companiass(request):
 		else:
 			edad = ""
 
-		loc = UserP.objects.filter(localidad__icontains=localidad).filter(sexo__icontains=sexo).filter(ar_int__icontains=areaid).filter(ar_exp__icontains=areaid2).filter(carrera__icontains=carrera).filter(idioma__icontains=idioma).filter(edad__icontains=edad)
+		if 'pais_apli' in request.GET:
+			pais_apli = request.GET.get('pais_apli')
+		else:
+			pais_apli = ""
+
+		loc = UserP.objects.filter(localidad__icontains=localidad).filter(sexo__icontains=sexo).filter(ar_int__icontains=areaid).filter(ar_exp__icontains=areaid2).filter(carrera__icontains=carrera).filter(idioma__icontains=idioma).filter(edad__icontains=edad).filter(pais_apli__icontains=pais_apli)
 		array = []
 		for e in loc:
 			array.insert(0,e.user.pk)
@@ -391,7 +398,12 @@ def companiaus(request):
 		else:
 			cat_licen = ""
 
-		loc = UserP.objects.filter(localidad__icontains=localidad).filter(sexo__icontains=sexo).filter(ar_int__icontains=areaid).filter(ar_exp__icontains=areaid2).filter(carrera__icontains=carrera).filter(idioma__icontains=idioma).filter(edad__icontains=edad).filter(universidad__icontains=universidad).filter(licencia__icontains=licencia).filter(cat_licen__icontains=cat_licen)
+		if 'pais_apli' in request.GET:
+			pais_apli = request.GET.get('pais_apli')
+		else:
+			pais_apli = ""
+
+		loc = UserP.objects.filter(localidad__icontains=localidad).filter(sexo__icontains=sexo).filter(ar_int__icontains=areaid).filter(ar_exp__icontains=areaid2).filter(carrera__icontains=carrera).filter(idioma__icontains=idioma).filter(edad__icontains=edad).filter(universidad__icontains=universidad).filter(licencia__icontains=licencia).filter(cat_licen__icontains=cat_licen).filter(pais_apli__icontains=pais_apli)
 		array = []
 		for e in loc:
 			array.insert(0,e.user.pk)
@@ -462,7 +474,12 @@ def registerusers(request):
 		else:
 			cat_licen = ""
 
-		loc = UserP.objects.filter(localidad__icontains=localidad).filter(sexo__icontains=sexo).filter(ar_int__icontains=areaid).filter(ar_exp__icontains=areaid2).filter(carrera__icontains=carrera).filter(idioma__icontains=idioma).filter(edad__icontains=edad).filter(universidad__icontains=universidad).filter(licencia__icontains=licencia).filter(cat_licen__icontains=cat_licen)
+		if 'pais_apli' in request.GET:
+			pais_apli = request.GET.get('pais_apli')
+		else:
+			pais_apli = ""
+
+		loc = UserP.objects.filter(localidad__icontains=localidad).filter(sexo__icontains=sexo).filter(ar_int__icontains=areaid).filter(ar_exp__icontains=areaid2).filter(carrera__icontains=carrera).filter(idioma__icontains=idioma).filter(edad__icontains=edad).filter(universidad__icontains=universidad).filter(licencia__icontains=licencia).filter(cat_licen__icontains=cat_licen).filter(pais_apli__icontains=pais_apli)
 		array = []
 		for e in loc:
 			array.insert(0,e.user.pk)
@@ -485,3 +502,87 @@ def companiapag(request):
 	 
 	context = {'paged': paged,"creada":creada,"creadas":creada.all(), "post":post,"usuario":usuario,"usuarios":usuario.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()}
 	return render(request, 'index4.html', { context })
+
+
+
+def vacantejson(request):
+	vjs = Vacante.objects.all();
+	print vjs
+	Vacantes = []
+	for tmpPickUp in Vacante.objects.all():
+		titulo=tmpPickUp.titulo
+		descripcion=tmpPickUp.descripcion
+
+		requisitos = tmpPickUp.requisitos
+		print titulo,descripcion,requisitos
+		record = {"titulo":titulo, "descripcion":descripcion,"requisitos":requisitos}
+		print record
+		Vacantes.append(record)
+
+		#pickup_records = json.dumps(pickup_records) 
+		pickup_records = json.dumps(Vacantes) 
+		pickup_response={"vacantes":Vacantes}
+	return JsonResponse(pickup_response , safe=False) 
+
+
+
+def vacantejson2(request):
+	vacante_dict = {}
+	vacante_dict=[]
+	contador = 0
+	vjs = Vacante.objects.all();
+	for tmpPickUp in vjs:
+		
+		contador = contador + 1
+		titulo=tmpPickUp.titulo
+		descripcion=tmpPickUp.descripcion
+
+		requisitos = tmpPickUp.requisitos
+		print titulo,descripcion,requisitos
+		record = {"titulo":titulo, "descripcion":descripcion,"requisitos":requisitos}
+		print record
+		vacante_dict.append(record)
+
+
+		return JsonResponse(vacante_dict, safe=False)
+
+@csrf_exempt
+def solcomjs(request):
+	data = request
+	data1 = request.body
+	print data
+	print data1
+	data3 = json.loads(request.body)
+	print data3["id"]
+	print data3["post"]
+	print data3["estatus"]
+	print data3["token"]
+	mouser = Token.objects.get(key=data3["token"])
+	print mouser.user
+	user = User.objects.get(username=data3["user"])
+	solicit =  Aplicado.objects.create(usuario=mouser.user, aplico_id=data3["post"], estatus_id=data3["estatus"])
+	solicit.save()
+	return HttpResponse(json.dumps("ok estatus"), content_type='application/json')
+
+
+def aplicadomov(request):
+	#Obtener el usuario del json movil
+	mouser = Token.objects.get(key=data3["token"])
+	vacante_dict = {}
+	vacante_dict=[]
+	contador = 0
+	vjs = Aplicado.objects.filter(usuario=mouser)
+	for tmpPickUp in vjs:
+		
+		contador = contador + 1
+		titulo=tmpPickUp.titulo
+		descripcion=tmpPickUp.descripcion
+
+		requisitos = tmpPickUp.requisitos
+		print titulo,descripcion,requisitos
+		record = {"titulo":titulo, "descripcion":descripcion,"requisitos":requisitos}
+		print record
+		vacante_dict.append(record)
+
+
+		return JsonResponse(vacante_dict, safe=False)

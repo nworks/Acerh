@@ -253,7 +253,7 @@ def userdetail(request):
 			profile.user = user
 			profile.save()
 			registered = True
-			return render(request, 'profile.html', {'user_form':user_form,'profile_form':profile_form, 'area':area, 'areas':area.all(), 'provincia':provincia,'provincias':provincia.all()})
+			return HttpResponseRedirect('/userdetail')
 		else:
 			user_form = UsuarioForm(data=request.POST, instance=userinfo)
 			profile_form = UserPr3(data=request.POST,files=request.FILES, instance=userinfo)
@@ -622,3 +622,16 @@ def export_excel2(request):
 	#funcion de retorno 
 	return response
 
+
+from django.contrib.auth.models import User
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+class logouttk(APIView):
+    queryset = User.objects.all()
+
+    def get(self, request, format=None):
+        # simply delete the token to force a login
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
