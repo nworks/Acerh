@@ -504,19 +504,29 @@ def companiapag(request):
 	return render(request, 'index4.html', { context })
 
 
-
+@csrf_exempt
 def vacantejson(request):
-	vjs = Vacante.objects.all();
-	print vjs
+	data3 = json.loads(request.body)
+	mouser = Token.objects.get(key=data3["token"])
+	print mouser
+	print mouser.user.id
+	result1 = serializers.serialize("json",Aplicado.objects.filter(usuario=mouser.user))
+	decoded_data = json.loads(result1)
+	array = []
+	for i in decoded_data:
+		array.insert(0,i["fields"]["aplico"])
+	print array
+	vjs = Vacante.objects.exclude(pk__in=array)
+	#print vjs
 	Vacantes = []
-	for tmpPickUp in Vacante.objects.all():
+	for tmpPickUp in vjs:
 		titulo=tmpPickUp.titulo
 		descripcion=tmpPickUp.descripcion
-
+		postid = tmpPickUp.id
 		requisitos = tmpPickUp.requisitos
-		print titulo,descripcion,requisitos
-		record = {"titulo":titulo, "descripcion":descripcion,"requisitos":requisitos}
-		print record
+		#print titulo,descripcion,requisitos, postid
+		record = {"titulo":titulo, "descripcion":descripcion,"requisitos":requisitos,"postid":postid }
+		#print record
 		Vacantes.append(record)
 
 		#pickup_records = json.dumps(pickup_records) 
@@ -526,26 +536,6 @@ def vacantejson(request):
 
 
 
-def vacantejson2(request):
-	vacante_dict = {}
-	vacante_dict=[]
-	contador = 0
-	vjs = Vacante.objects.all();
-	for tmpPickUp in vjs:
-		
-		contador = contador + 1
-		titulo=tmpPickUp.titulo
-		descripcion=tmpPickUp.descripcion
-
-		requisitos = tmpPickUp.requisitos
-		print titulo,descripcion,requisitos
-		record = {"titulo":titulo, "descripcion":descripcion,"requisitos":requisitos}
-		print record
-		vacante_dict.append(record)
-
-
-		return JsonResponse(vacante_dict, safe=False)
-
 @csrf_exempt
 def solcomjs(request):
 	data = request
@@ -553,36 +543,49 @@ def solcomjs(request):
 	print data
 	print data1
 	data3 = json.loads(request.body)
-	print data3["id"]
 	print data3["post"]
 	print data3["estatus"]
 	print data3["token"]
 	mouser = Token.objects.get(key=data3["token"])
 	print mouser.user
-	user = User.objects.get(username=data3["user"])
-	solicit =  Aplicado.objects.create(usuario=mouser.user, aplico_id=data3["post"], estatus_id=data3["estatus"])
+	solicit =  Aplicado.objects.create(usuario=mouser.user, aplico_id=data3["post"], estatus_id=2)
 	solicit.save()
 	return HttpResponse(json.dumps("ok estatus"), content_type='application/json')
 
-
+@csrf_exempt
 def aplicadomov(request):
 	#Obtener el usuario del json movil
+	data3 = json.loads(request.body)
+	print json.loads(request.body)
 	mouser = Token.objects.get(key=data3["token"])
+	print "mouser" , mouser.user 
 	vacante_dict = {}
-	vacante_dict=[]
-	contador = 0
-	vjs = Aplicado.objects.filter(usuario=mouser)
+	Aplicados=[]
+	vjs = Aplicado.objects.filter(usuario=mouser.user)
+	print Aplicado.objects.filter(usuario=mouser.user)
 	for tmpPickUp in vjs:
+		vacan = Vacante.objects.get(id=tmpPickUp.aplico.id)
+		titulo = vacan.titulo
+		descripcion = vacan.descripcion
 		
-		contador = contador + 1
-		titulo=tmpPickUp.titulo
-		descripcion=tmpPickUp.descripcion
-
-		requisitos = tmpPickUp.requisitos
-		print titulo,descripcion,requisitos
-		record = {"titulo":titulo, "descripcion":descripcion,"requisitos":requisitos}
+		idpost = tmpPickUp.id
+		print idpost
+		record = { "idpost":idpost, "titulo":titulo, "descripcion":descripcion}
 		print record
-		vacante_dict.append(record)
+		Aplicados.append(record)
+		pickup_records = json.dumps(Aplicados) 
+		pickup_response={"aplicados":Aplicados}
 
 
-		return JsonResponse(vacante_dict, safe=False)
+	return JsonResponse(pickup_response, safe=False)
+
+@csrf_exempt
+def removermov(request):
+	data3 = json.loads(request.body)
+	print json.loads(request.body)
+	data3["id"]
+	mouser = Token.objects.get(key=data3["token"])
+	print "mouser" , mouser.user
+	post = Aplicado.objects.get(id=data3["id"] , usuario=mouser.user) 
+	post.delete()
+	return HttpResponse(json.dumps("Deleted"), content_type='application/json')

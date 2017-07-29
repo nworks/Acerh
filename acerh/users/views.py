@@ -635,3 +635,29 @@ class logouttk(APIView):
         # simply delete the token to force a login
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
+
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authtoken.models import Token
+from django.http import JsonResponse
+
+@csrf_exempt
+def usermov(request):
+	#Obtener el usuario del json movil
+	print "PRINT JSON"
+	data3 = json.loads(request.body)
+	print json.loads(request.body)
+	mouser = Token.objects.get(key=data3["token"])
+	print "mouser" , mouser.user.id
+	userbasic = User.objects.get(id=mouser.user.id)
+	userpro = UserP.objects.get(id=mouser.user.id)
+	vacante_dict = {}
+	Registros=[]
+	record = { "id":userbasic.id, "user":userbasic.username, "first_name":userbasic.first_name, "last_name":userbasic.last_name, "email":userbasic.email, "picture":userpro.picture.url}
+	Registros.append(record)
+	pickup_records = json.dumps(Registros) 
+	pickup_response={"registros":Registros}
+
+
+	return JsonResponse(pickup_response, safe=False)
+
+	

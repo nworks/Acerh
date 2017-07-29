@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from users.views import LoginRequest ,LogoutRequest, register,email, ResetPasswordRequestView,PasswordResetConfirmView,consulta, consultauser, user_detail, consultaur,export_excel, export_excel2, logouttk
-from vacantes.views import vacantedit, vacantelist, aplicado, solicitud, remover,removerc, compania,companiass,companiaus, solicitudcompania, passwordrecovery, proceso, preguntas,registerusers, list_vacant,vacantejson,solcomjs
+from users.views import LoginRequest ,LogoutRequest, register,email, ResetPasswordRequestView,PasswordResetConfirmView,consulta, consultauser, user_detail, consultaur,export_excel, export_excel2, logouttk,usermov
+from vacantes.views import vacantedit, vacantelist, aplicado, solicitud, remover,removerc, compania,companiass,companiaus, solicitudcompania, passwordrecovery, proceso, preguntas,registerusers, list_vacant,vacantejson,solcomjs,aplicadomov,removermov
 from users.views import userdetail
 from django.conf import settings
 from django.conf.urls.static import static
@@ -100,6 +100,10 @@ except:
 	url(r'^vacantejson/',vacantejson ),
 	url(r'^rest-auth/', include('rest_auth.urls')),
 	url(r'^logouttk/', logouttk.as_view()),
+	url(r'^aplicadomov/',aplicadomov),
+	url(r'^removermov/',removermov),
+	url(r'^usermov/',usermov),
+ 
  
 
 	]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
