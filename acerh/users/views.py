@@ -652,7 +652,7 @@ def usermov(request):
 	userpro = UserP.objects.get(id=mouser.user.id)
 	vacante_dict = {}
 	Registros=[]
-	record = { "id":userbasic.id, "user":userbasic.username, "first_name":userbasic.first_name, "last_name":userbasic.last_name, "email":userbasic.email, "picture":userpro.picture.url}
+	record = { "id":userbasic.id, "user":userbasic.username, "first_name":userbasic.first_name, "last_name":userbasic.last_name, "email":userbasic.email, "picture":userpro.picture.url,"localidad":userpro.localidad, "estudio":userpro.estudio,"edad":userpro.edad,"experiencia":userpro.experiencia,"idioma":userpro.idioma,"ar_int":userpro.ar_int,"carrera":userpro.carrera,"sexo":userpro.sexo,"cedula":userpro.cedula, "nacionalidad":userpro.nacionalidad,"universidad":userpro.universidad,"pais_apli":userpro.pais_apli}
 	Registros.append(record)
 	pickup_records = json.dumps(Registros) 
 	pickup_response={"registros":Registros}
