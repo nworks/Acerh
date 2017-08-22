@@ -187,15 +187,14 @@
                                           </div>
                                           <h6>Escoje tu Foto</h6>
                                       </div>
-												<div class="form-group label-floating">
-		                                        	<label class="control-label">Localidad</label>
-	                                        		<select name="localidad" class="form-control">
-														<option value="sin seleccion" selected="">Seleccione una provincia</option>
-	                                                	{%for provincia in provincias%}
-	                                                	<option value="{{provincia.provincia}}">{{provincia.provincia}}</option>
-	                                                	{%endfor%}
-		                                        	</select>
-		                                    	</div>
+												<div class="input-group">
+												
+												
+										     		<div class="form-group label-floating">
+			                                          	<label class="control-label">Localidad</label>
+			                                          	<input name="localidad" id="localidad" class="form-control">
+			                                        </div>
+												</div>
 
 		                                	</div>
 		                            	</div>
