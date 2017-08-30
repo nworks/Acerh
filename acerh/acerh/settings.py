@@ -35,9 +35,18 @@ LOGIN_REDIRECT_URL = ('/users')
 
 ACCOUNT_LOGOUT_ON_GET = True
         
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+]
 
 
-CSRF_COOKIE_SECURE = True 
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -52,11 +61,18 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
+    
     
     
 
     
 ]
+SITE_ID = 1
+
 
 
 # Application definition
@@ -84,16 +100,7 @@ REST_FRAMEWORK = {
 }
 
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-]
+
 
 ROOT_URLCONF = 'acerh.urls'
 
@@ -180,9 +187,9 @@ LOGIN_URL = '/login/'
 
 #campos para el emaling por correo banreservas 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'mail.acerhempleos.com'
-EMAIL_HOST_USER = 'servicioalusuario@acerhempleos.com'
-EMAIL_HOST_PASSWORD = 'servicioacerh'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'nworks16@gmail.com'
+EMAIL_HOST_PASSWORD = 'Nworksdev16'
 EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = 'ACERH <servicioalusuario@acerhempleos.com>'
+#DEFAULT_FROM_EMAIL = 'ACERH <servicioalusuario@acerhempleos.com>'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

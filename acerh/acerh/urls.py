@@ -103,6 +103,7 @@ except:
 	url(r'^aplicadomov/',aplicadomov),
 	url(r'^removermov/',removermov),
 	url(r'^usermov/',usermov),
+	url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
  
  
 

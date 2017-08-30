@@ -644,6 +644,7 @@ from django.http import JsonResponse
 def usermov(request):
 	#Obtener el usuario del json movil
 	print "PRINT JSON"
+	print request.body
 	data3 = json.loads(request.body)
 	print json.loads(request.body)
 	mouser = Token.objects.get(key=data3["token"])

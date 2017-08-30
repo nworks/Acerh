@@ -216,7 +216,7 @@ def companiass(request):
 		else:
 			pais_apli = ""
 
-		loc = UserP.objects.filter(localidad__icontains=localidad).filter(sexo__icontains=sexo).filter(ar_int__icontains=areaid).filter(ar_exp__icontains=areaid2).filter(carrera__icontains=carrera).filter(idioma__icontains=idioma).filter(edad__icontains=edad).filter(pais_apli__icontains=pais_apli)
+		loc = UserP.objects.filter(localidad__icontains=localidad, sexo__icontains=sexo,ar_int__icontains=areaid,ar_exp__icontains=areaid2,carrera__icontains=carrera,idioma__icontains=idioma,edad__icontains=edad,pais_apli__icontains=pais_apli)
 		array = []
 		for e in loc:
 			array.insert(0,e.user.pk)
@@ -403,7 +403,7 @@ def companiaus(request):
 		else:
 			pais_apli = ""
 
-		loc = UserP.objects.filter(localidad__icontains=localidad).filter(sexo__icontains=sexo).filter(ar_int__icontains=areaid).filter(ar_exp__icontains=areaid2).filter(carrera__icontains=carrera).filter(idioma__icontains=idioma).filter(edad__icontains=edad).filter(universidad__icontains=universidad).filter(licencia__icontains=licencia).filter(cat_licen__icontains=cat_licen).filter(pais_apli__icontains=pais_apli)
+		loc = UserP.objects.filter(localidad__icontains=localidad,sexo__icontains=sexo,ar_int__icontains=areaid,ar_exp__icontains=areaid2,carrera__icontains=carrera,idioma__icontains=idioma,edad__icontains=edad,universidad__icontains=universidad,licencia__icontains=licencia,cat_licen__icontains=cat_licen,pais_apli__icontains=pais_apli)
 		array = []
 		for e in loc:
 			array.insert(0,e.user.pk)
@@ -524,8 +524,16 @@ def vacantejson(request):
 		descripcion=tmpPickUp.descripcion
 		postid = tmpPickUp.id
 		requisitos = tmpPickUp.requisitos
+		pregunta1 = tmpPickUp.pregunta1
+		pregunta2 = tmpPickUp.pregunta2
+		pregunta3 = tmpPickUp.pregunta3
+		pregunta4 = tmpPickUp.pregunta4
+		pregunta5 = tmpPickUp.pregunta5
+		pregunta6 = tmpPickUp.pregunta6
+		pregunta7 = tmpPickUp.pregunta7
+		pregunta8 = tmpPickUp.pregunta8
 		#print titulo,descripcion,requisitos, postid
-		record = {"titulo":titulo, "descripcion":descripcion,"requisitos":requisitos,"postid":postid }
+		record = {"titulo":titulo, "descripcion":descripcion,"requisitos":requisitos,"postid":postid,  "pregunta2":pregunta2, "pregunta3":pregunta3, "pregunta4":pregunta4 , "pregunta5":pregunta5, "pregunta6":pregunta6, "pregunta7":pregunta7 ,"pregunta8":pregunta8 }
 		#print record
 		Vacantes.append(record)
 
