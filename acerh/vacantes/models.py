@@ -45,7 +45,9 @@ class Vacante(models.Model):
 	pregunta6 = models.TextField(blank=True)
 	pregunta7 = models.TextField(blank=True)
 	pregunta8 = models.TextField(blank=True)
-
+	
+	class Meta:
+		ordering = ["-creatd_date"]
 
 	def __str__(self):
 		return str(self.id )
