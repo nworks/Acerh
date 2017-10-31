@@ -29,7 +29,7 @@ class UserP(models.Model):
 	cat_licen = models.CharField(max_length=25, blank=True)
 	pais_apli = models.CharField(max_length=50, blank=True)
 
-	def __str__(self):
+	def __unicode__(self):
 		return self.user.username
 
 class UserPC(models.Model):
@@ -38,7 +38,7 @@ class UserPC(models.Model):
 	company = models. BooleanField()
 	descripcion = models.TextField()
 	
-	def __str__(self):
+	def __unicode__(self):
 		return self.user.username
 
 class notify(models.Model):
@@ -46,7 +46,7 @@ class notify(models.Model):
 	message = models.TextField()
 	company = models.OneToOneField(User, related_name='company')
 	
-	def __str__(self):
+	def __unicode__(self):
 		return self.user.username        
 
 
