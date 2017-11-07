@@ -8,7 +8,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="icon" type="image/png" sizes="16x16" href="{% static '/plugins/images/favicon.png' %}">
-<title>ACERH - VACANTES</title>
+<title>ACERHGROUP - APLICACIONES</title>
 <!-- Bootstrap Core CSS -->
 <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
 <!-- Menu CSS -->
@@ -40,7 +40,8 @@
 
 </script>
 </head>
-
+{% if request.user.userpc.company %}
+{%else%}
 <body>
 <!-- Preloader -->
 <div class="preloader">
@@ -50,7 +51,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-default navbar-static-top m-b-0">
     <div class="navbar-header"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
-      <div class="top-left-part"><a class="logo" href="index.html"><b></b><span class="hidden-xs"><img height="40" width="108" src="{% static 'plugins/logo4.png' %}" alt="home" class="dark-logo" /><img height="40" width="108" src="{% static 'plugins/logo4.png' %}" alt="home" class="light-logo" /></span></a></div>
+      <div class="top-left-part"><a class="logo" href="index.html"><b></b><span class="hidden-xs"><img src="{% static 'plugins/images/eliteadmin-text.png' %}" alt="home" class="dark-logo" /><img height="40" width="108" src="{% static 'plugins/logo4.png' %}" alt="home" class="light-logo" /></span></a></div>
       <ul class="nav navbar-top-links navbar-left hidden-xs">
         <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a></li>
         
@@ -63,7 +64,7 @@
             <li>
               <div class="drop-title">Tienes un nuevo mensaje</div>
             </li>
-            {% for noficacion in noficaciones %}
+           {% for noficacion in noficaciones %}
             <li>
 
               <div class="message-center"> <a href="#">
@@ -82,8 +83,9 @@
         <!-- /.dropdown -->
        
         <!-- /.dropdown -->
-        <li><a href="{% url 'logout' %}"><i class="fa fa-power-off"></i> Logout</a></li>
         
+        
+        <li><a href="{% url 'logout' %}"><i class="fa fa-power-off"></i> Logout</a></li>
         <!-- /.dropdown -->
       </ul>
     </div>
@@ -96,15 +98,14 @@
     <div class="sidebar-nav navbar-collapse slimscrollsidebar">
        <div class="user-profile">
         <div class="dropdown user-pro-body">
-         {% if request.user.userp.picture %}
+          {% if request.user.userp.picture %}
           <div><img src="{{request.user.userp.picture.url}}" alt="user-img" class="img-circle" style="width: 64px; height: 64px;"></div>
           {% else %}
           <div><img src="{% static 'assets/img/user.png' %}" alt="user-img" class="img-circle" style="width: 64px; height: 64px;"></div>
           {% endif %}
           <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>{{request.user.first_name}} {{request.user.last_name}}</strong> <span class="caret"></span></a>
               <ul class="dropdown-menu animated flipInY">
-                <li><a href="/userdetail"><i class="ti-user"></i> Mi Perfil</a></li>
-
+                <li><a href="/userdetail"><i class="ti-user"></i>Mi Perfil</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="/preguntas"><i class="ti-help-alt"></i> Preguntas</a></li>
                 <li role="separator" class="divider"></li>
@@ -125,9 +126,6 @@
         
         <li class="nav-small-cap m-t-10">--- Main Menu</li>
         
-     
-        
-        </li>
         {% if request.user.is_staff %}
 
         <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
@@ -155,227 +153,135 @@
   </div>
   <!-- Left navbar-header end -->
   <!-- Page Content -->
-
   <div id="page-wrapper">
     <div class="container-fluid">
       <div class="row bg-title">
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-          <h4 class="page-title">Vacantes Disponibles</h4>
+          <h4 class="page-title">Tus Vacantes</h4>
         </div>
         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
          
           <ol class="breadcrumb">
-            <li><a href="index.html">Vacantes</a></li>
-            <li class="active">Disponibles</li>
+            <li><a href="/vacantes">Tus Vacantes</a></li>
+            <li class="active">Aplicaciones</li>
           </ol>
         </div>
         <!-- /.col-lg-12 -->
-
       </div>
-{% if request.user.userpc.company %}
-
-{%else%}
+     
       <div class="row">
-      {% for post in posts %}
-      <div id="getid{{ post.id }}div" class="white-box">
-            <h3 class="box-title">{{post.titulo}}</h3>
-            <p class="text-muted m-b-30">Tienes talento para esto?
-            {%if post.pregunta1 %}
-            <button id="getid{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{ post.id }}()" data-target=myFuction2()>Aplicar</button>
-            {%else%}
-            <button id="getids{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-rounded" onclick="otherway{{ post.id }}()" data-target=otherway()>Aplicar</button></p>
-            {%endif%}
-            <div class="vtabs">
-              <ul class="nav tabs-vertical">
-                <li class="tab active"><a data-toggle="tab" href="#home3{{ post.id }}" aria-expanded="true"> <span class="visible-xs"><i class="ti-home"></i></span> <span class="hidden-xs">Descripcion</span> </a> </li>
-                <li class="tab"><a data-toggle="tab" href="#profile3{{ post.id }}" aria-expanded="false"> <span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Requisitos</span> </a> </li>
-                {% if post.pregunta1 %}<li class="tab"><a aria-expanded="false" data-toggle="tab" href="#messages3{{ post.id }}"> <span class="visible-xs"><i class="ti-email"></i></span> <span class="hidden-xs">Preguntas</span> </a> </li>
-                {%endif%}
-              </ul>
-              </ul>
-              <div class="tab-content">
-                <div id="home3{{ post.id }}" class="tab-pane active">
-                  <div class="">
-                    <h3>{{post.descripcion}}</h3>
-                    <h4>{{post.creatd_date}}</h4>
+      {% for aplicado in aplicados %}
+        <div id="getid{{ aplicado.aplico.id }}div" class="col-md-4 col-sm-12 col-xs-12">
+         <div class="panel panel-default">
+
+            <div class="panel-heading">{{aplicado.aplico.titulo}}
+              <div class="panel-action"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> <a href="#" data-perform="panel-dismiss"><i class="ti-close"></i></a></div>
+            </div>
+            <div class="panel-wrapper collapse in" aria-expanded="true">
+              <div class="panel-body">
+                <center><p>{{aplicado.aplico.descripcion}}</p></center>
+                <center><button id="getid{{ aplicado.aplico.id }}" value="{{ aplicado.aplico.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{ aplicado.aplico.id }}()" data-target=myFuction2()>Retirar Aplicacion</button>{% if aplicado.estatus2 %}
+                <button type="button" href="#{{app.pk}}" class="btn btn-success btn-rounded" data-toggle="modal" data-target="#delete{{aplicado.id}}"><i class="fa fa-check-square"></i>Ver Resultado</button></center>
+                </br>
+                {% endif %}</center> </div>
+
+
+
+              <div class="panel-footer"> <center>{{aplicado.aplico.creatd_date}}<span class="label label-rounded label-info">{{aplicado.estatus}}</span></center> </div>
+            </div>
+
+          </div>
+        
+        </div>
+
+        <div id="delete{{aplicado.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <center><h4 class="modal-title">Resultados <strong>{{aplicado.usuario.first_name}} {{aplicado.usuario.last_name}} #ID {{aplicado.pk}}</strong> </h4></center>
                   </div>
-                  
-                  <div class="clearfix"></div>
-                </div>
-                <div id="profile3{{ post.id }}" class="tab-pane">
-                  <p>{{post.requisitos}}</p>
-                </div>
-                <div id="messages3{{ post.id }}" class="tab-pane">
-                   {%if post.pregunta1 %}
-                  <p>{{post.pregunta1}}</p>
-                  <div><textarea  class="form-control" id="pregunta1x{{ post.id }}" name="pregunta1x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
-                  {%else%}
-                  {%endif%}
-                   {%if post.pregunta2 %}
-                   <p>{{post.pregunta2}}</p>
-                  <div><textarea  class="form-control" id="pregunta2x{{ post.id }}" name="pregunta2x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
-                  {%else%}
-                  {%endif%}
-                  
-                  {%if post.pregunta3 %}
-                   <p>{{post.pregunta3}}</p>
-                  <div><textarea  class="form-control" id="pregunta3x{{ post.id }}" name="pregunta3x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
-                  {%else%}
-                  {%endif%}
+                  <div class="modal-body">
+                  <form id="msform" role="form" method="POST" class="form-material" enctype="multipart/form-data">
+                  {% csrf_token %}
+                    <center>
+                    {%if aplicado.usuario.userp.picture %}
+                    <img src="{{aplicado.usuario.userp.picture.url}}" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
+                    {% else %}
+                    <img src="{% static 'assets/img/user.png' %}" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
+                    {% endif %}
+                    <h3 class="media-heading"><strong>{{app.usuario.first_name}} {{app.usuario.last_name}}</strong></h3>
+                    <span><strong>Aplico para: </strong></span>
+                        <span class="label label-success">{{aplicado.aplico.titulo}}</span>
+                    </center>
 
-                  {%if post.pregunta4 %}
-                   <p>{{post.pregunta4}}</p>
-                  <div><textarea  class="form-control" id="pregunta4x{{ post.id }}" name="pregunta4x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
-                  {%else%}
-                  {%endif%}
+                    <hr>
+                    <center>
+                    <h2>{{aplicado.comentario}}</h2>
 
-                  {%if post.pregunta5 %}
-                   <p>{{post.pregunta5}}</p>
-                  <div><textarea  class="form-control" id="pregunta5x{{ post.id }}" name="pregunta5x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
-                  {%else%}
-                  {%endif%}
-                   
-                  {%if post.pregunta6 %}
-                   <p>{{post.pregunta6}}</p>
-                  <div><textarea  class="form-control" id="pregunta6x{{ post.id }}" name="pregunta6x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
-                  {%else%}
-                  {%endif%}
+                    <br>
+                    {%if aplicado.entrevista%}
+                     <span class="label label-success"></span><p class="text-left"><strong><center><a href="{{aplicado.entrevista.url}}"><span class="label label-success">Resultado Entrevista</span></a></center></strong>
+                    {%else%}
+                     <span class="label label-success"></span><p class="text-left"><strong><center><a href=""><span class="label label-danger">No tiene entrevista registrada</span></a></center></strong>
+                    {%endif%}
+                    
+                    </center>
+                  </div>
 
-                  {%if post.pregunta7 %}
-                   <p>{{post.pregunta7}}</p>
-                  <div><textarea  class="form-control" id="pregunta7x{{ post.id }}" name="pregunta7x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
-                  {%else%}
-                  {%endif%}
-
-                  {%if post.pregunta8 %}
-                   <p>{{post.pregunta8}}</p>
-                  <div><textarea  class="form-control" id="pregunta8x{{ post.id }}" name="pregunta8x{{ post.id }}" rows="2" cols="50" placeholder="respuestas" required></textarea></div>
-                  {%else%}
-                  {%endif%}
+                    
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-rounded" data-dismiss="modal">Cerrar</button>
+                  </div>
+                  </form>
                 </div>
               </div>
             </div>
-          </div>
-
-           <script type="text/javascript">
+          <script type="text/javascript">
             
-            function myFunction{{ post.id }}(p1) {
-            var ids = document.getElementById("getid{{ post.id }}").value;
-            var x1 = document.getElementById("pregunta1x{{ post.id }}").value;
-            
-            try {
-              var x2 = document.getElementById("pregunta2x{{ post.id }}").value;
-               } catch(err) {
-                  x2 = "Sin pregunta"
-               }
-            try {
-              var x3 = document.getElementById("pregunta3x{{ post.id }}").value;
-               } catch(err) {
-                  x3 = "no existe"
-               }
-            try {
-              var x4 = document.getElementById("pregunta4x{{ post.id }}").value;
-               } catch(err) {
-                  x4 = "no existe"
-               }
-             try {
-              var x5 = document.getElementById("pregunta5x{{ post.id }}").value;
-               } catch(err) {
-                  x5 = "no existe"
-               }
-
-             try {
-              var x6 = document.getElementById("pregunta6x{{ post.id }}").value;
-               } catch(err) {
-                  x6 = "no existe"
-               }
-            try {
-              var x7 = document.getElementById("pregunta7x{{ post.id }}").value;
-               } catch(err) {
-                  x7 = "no existe"
-               }
-
-            try {
-               var x8 = document.getElementById("pregunta8x{{ post.id }}").value;
-               } catch(err) {
-                  x8 = "no existe"
-               }
-            
-           
-            console.log(x1)
-            console.log(x2)
-            console.log(x3)
-            console.log(x4)
-            console.log(x5)
-            console.log(x6)
-            console.log(x7)
-            console.log(x8)
-            
-
-            if (x1 != "" && x2 != "" && x3 != "" && x4 != "" && x5 != "" && x6 != "" && x7 != "" && x8 != ""){
-            console.log(ids)
-            $.ajax({
-            data: {'id': ids ,'respuesta1':x1, 'respuesta2':x2, 'respuesta3':x3, 'respuesta4':x4, 'respuesta5':x5, 'respuesta6':x6, 'respuesta7':x7, 'respuesta8':x8, csrfmiddlewaretoken: '{{ csrf_token }}'},
-
-            url: '{% url 'solicitud'  %}',
-            type: 'POST',
-            success : function(data) {
-                   swal("Haz Aplicado!", "Presiona el boton para continuar!", "success")  
-                   var link = document.getElementById('getid{{ post.id }}div');
-                   link.style.display = 'none'; //or
-                   
-                  document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) + 1;
-                               },
-            error : function(message) {
-                   console.log(message);
-            }
-             });
-            }
-            
-          else{
-            swal("Pregunta!", "Debe responder la pregunta en esa aplicacion!", "warning")
-          }
-           
-          
-            }
-         </script>
-
-         <script type="text/javascript">
-            
-            function otherway{{ post.id }}(p1) {
-            var ids = document.getElementById("getids{{ post.id }}").value;
+            function myFunction{{ aplicado.aplico.id }}(p1) {
+            var ids = document.getElementById("getid{{ aplicado.aplico.id }}").value;
             console.log(ids)
             $.ajax({
             data: {'id': ids , csrfmiddlewaretoken: '{{ csrf_token }}'},
 
-            url: '{% url 'solicitud'  %}',
+            url: '{% url 'remover'  %}',
             type: 'POST',
             success : function(data) {
-                   swal("Haz Aplicado!", "Presiona el boton para continuar!", "success")  
-                   var link = document.getElementById('getid{{ post.id }}div');
-                   link.style.display = 'none'; //or
-                   
-                  document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) + 1;
-                               },
+                    swal({
+                          title: "Estas seguro?",
+                          text: "Eliminaras una aplicacion!",
+                          type: "error",
+                          showCancelButton: true,
+                          confirmButtonColor: "#DD6B55",
+                          confirmButtonText: "Si, Borralo!",
+                          closeOnConfirm: false
+                        },
+                        function(){
+                          swal("Borrado!", "Su aplicacion a sido removida.", "warning");
+                          var link = document.getElementById('getid{{ aplicado.aplico.id }}div');
+                          link.style.display = 'none'; //or
+                          document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) - 1;
+                        }); 
+                    
+                  
+            },
             error : function(message) {
                    console.log(message);
             }
              });
-                  
+          
             }
          </script>
-
  
-        
 
         {% endfor %}
       
       
-      
+    
     </div>
-
     <!-- /.container-fluid -->
-    <footer class="footer text-center"> 2017 &copy; AcerhApp by Nworksdev  </footer>
+    <footer class="footer text-center"> 2017 &copy; AcerhApp by Nworksdev   </footer>
   </div>
   <!-- /#page-wrapper -->
 </div>
@@ -406,13 +312,8 @@
 <script src="{% static 'js/dashboard2.js' %}"></script>
 <!--Style Switcher -->
 <script src="{% static 'plugins/bower_components/styleswitcher/jQuery.style.switcher.js' %}"></script>
-<script src="{% static 'js/toastr.js' %}"></script>
 <script src="{% static 'sweetalert/dist/sweetalert.min.js' %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'sweetalert/dist/sweetalert.css' %}">
-
-
-
-
 </body>
 {%endif%}
 </html>

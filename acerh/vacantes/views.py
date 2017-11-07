@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from vacantes.models import Vacante, Aplicado, Area, Preguntado, Provincia
+from vacantes.models import Vacante, Aplicado, Area, Preguntado, Provincia, Compania
 from users.models import UserP
 from django.db import models
 from users.models import notify
@@ -27,7 +27,7 @@ def vacantelist(request):
 	array = []
 	for i in decoded_data:
 		array.insert(0,i["fields"]["aplico"])
-	post = Vacante.objects.exclude(pk__in=array)
+	post = Vacante.objects.exclude(pk__in=array).filter(pais=request.user.userp.pais_apli)
 	postall = post.all()
 	post2 = Aplicado.objects.all()
 	cantidad = Aplicado.objects.filter(usuario=request.user.id).count()
@@ -39,7 +39,7 @@ def vacantelist(request):
 
 	
 	context = { "noficacion":noficacion,"noficaciones":noficacion.all(),"post":post, "posts":post.all(),"cantidad":cantidad,"area":area,"areas":area.all() }
-	return render(request, 'index2.html', context)
+	return render(request, 'vacantes.html', context)
 
 
 def list_vacant(request, id=None):
@@ -55,7 +55,7 @@ def aplicado(request):
 	post = Aplicado.objects.filter(usuario=request.user.id)
 	cantidad = post.count()
 	context = { "aplicado":post, "aplicados":post.all() ,"cantidad":cantidad}
-	return render(request, 'index3.html', context)
+	return render(request, 'aplicado.html', context)
 
 @login_required
 def solicitud(request):
@@ -108,16 +108,17 @@ def compania2(request):
 	
 	context = {"creada":creada,"creadas":creada.all(), "post":post,"usuario":usuario,"usuarios":usuario.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()}
 
-	return render(request, 'index4.html', context)
+	return render(request, 'compania.html', context)
 
 def compania(request):
-	contact_list = Vacante.objects.all()
+	contact_list = Vacante.objects.filter(pais=request.user.userp.pais_apli)
 	post2 = Aplicado.objects.all()
 	cantidad = post2.count()
 	cantidad2 = Vacante.objects.filter(compania=request.user).count()
 	cantidad3 = Aplicado.objects.filter(usuario=request.user.id).count()
 	cantidad4 = Vacante.objects.all().count()
 	area = Area.objects.all()
+	compania = Compania.objects.all()
 	usuario = User.objects.all()
 	creada = Vacante.objects.filter(compania=request.user)
 	paginator = Paginator(contact_list, 10) # Show 25 contacts per page
@@ -132,12 +133,13 @@ def compania(request):
 		# If page is out of range (e.g. 9999), deliver last page of results.
 		posts = paginator.page(paginator.num_pages)
 
-	return render(request, 'index4.html', {'posts': posts ,"creada":creada,"creadas":creada.all(),"usuario":usuario,"usuarios":usuario.all(), "cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()})
+	return render(request, 'compania.html', {'compania': compania,'companias': compania.all(),'posts': posts ,"creada":creada,"creadas":creada.all(),"usuario":usuario,"usuarios":usuario.all(), "cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()})
 
 @login_required
 def solicitudcompania(request):
 	titulo = request.POST.get('titulo')
 	area = request.POST.get('area')
+	compania = request.POST.get('compania')
 	requisitos = request.POST.get('requisitos')
 	pregunta1 = request.POST.get('pregunta1')
 	pregunta2 = request.POST.get('pregunta2')
@@ -149,9 +151,14 @@ def solicitudcompania(request):
 	pregunta8 = request.POST.get('pregunta8')
 	descripcion = request.POST.get('descripcion')
 	requerimientos = request.POST.get('req')
+	print compania
 	area2 = Area.objects.get(titulo=area)
-	
-	solicit =  Vacante.objects.create(compania=request.user, titulo=titulo, descripcion=descripcion, area_id=area2.id, requisitos=requisitos,pregunta1=pregunta1,pregunta2=pregunta2,pregunta3=pregunta3,pregunta4=pregunta4,pregunta5=pregunta5,pregunta6=pregunta6,pregunta7=pregunta7,pregunta8=pregunta8)
+	compania2 = Compania.objects.get(titulo=compania)
+	pais = request.user.userp.pais_apli
+	print pais
+	print area2
+	print compania
+	solicit =  Vacante.objects.create(compania=request.user, titulo=titulo, descripcion=descripcion, area_id=area2.id, requisitos=requisitos,pregunta1=pregunta1,pregunta2=pregunta2,pregunta3=pregunta3,pregunta4=pregunta4,pregunta5=pregunta5,pregunta6=pregunta6,pregunta7=pregunta7,pregunta8=pregunta8, pais=pais, compania2_id=compania2.id)
 	solicit.save()
 	return HttpResponse('/compania')
 
@@ -166,7 +173,7 @@ def removerc(request):
 
 @login_required
 def companiass(request):
-	app = Aplicado.objects.filter(~Q(estatus2='Procesado'))
+	app = Aplicado.objects.filter(~Q(estatus2='Procesado')).filter(pais=request.user.userp.pais_apli)
 	are = Area.objects.all()
 	prov = Provincia.objects.all()
 	entreform = EntrevistaForm(data=request.FILES)
@@ -220,9 +227,9 @@ def companiass(request):
 		array = []
 		for e in loc:
 			array.insert(0,e.user.pk)
-		app = Aplicado.objects.filter(~Q(estatus2='Procesado')) & Aplicado.objects.filter(usuario_id__in=array)
+		app = Aplicado.objects.filter(~Q(estatus2='Procesado')).filter(pais=request.user.userp.pais_apli) & Aplicado.objects.filter(usuario_id__in=array)
 			
-		return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform,'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()} )
+		return render(request, 'companiass.html', {"app":app,"apps":app.all(), 'entreform':entreform,'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()} )
 	
 
 	elif request.method == 'POST':
@@ -239,11 +246,11 @@ def companiass(request):
 			post.com_interno = request.POST["com_interno"]
 			post.estatus2 = 'Procesado'
 			post.save()
-			return render(request, 'index5.html', {"app":app,"apps":app.all(), 'entreform':entreform,'are':are, 'areas':are.all() ,'prov':prov, 'provincias':prov.all()})
+			return render(request, 'companiass.html', {"app":app,"apps":app.all(), 'entreform':entreform,'are':are, 'areas':are.all() ,'prov':prov, 'provincias':prov.all()})
 		else:
 			entreform = EntrevistaForm(data=request.FILES)
 
-	return render(request, 'index5.html',  {'entreform':entreform,'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
+	return render(request, 'companiass.html',  {'entreform':entreform,'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
 
 def passwordrecovery(request):
 	app = Aplicado.objects.all()
@@ -339,7 +346,7 @@ def vacantedit(request):
 
 @login_required
 def companiaus(request):
-	app = Aplicado.objects.filter(estatus2='Procesado')
+	app = Aplicado.objects.filter(estatus2='Procesado').filter(pais=request.user.userp.pais_apli)
 	are = Area.objects.all()
 	prov = Provincia.objects.all()
 	if request.method == 'GET':
@@ -407,9 +414,9 @@ def companiaus(request):
 		array = []
 		for e in loc:
 			array.insert(0,e.user.pk)
-		app = Aplicado.objects.filter(estatus2='Procesado') & Aplicado.objects.filter(usuario_id__in=array)
+		app = Aplicado.objects.filter(estatus2='Procesado').filter(pais=request.user.userp.pais_apli) & Aplicado.objects.filter(usuario_id__in=array)
 		
-	return render(request, 'index6.html',  {'app':app, 'apps':app.all(),'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
+	return render(request, 'companiaus.html',  {'app':app, 'apps':app.all(),'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
 
 @login_required
 def registerusers(request):
@@ -483,8 +490,7 @@ def registerusers(request):
 		array = []
 		for e in loc:
 			array.insert(0,e.user.pk)
-		user = User.objects.filter(id__in=array)
-		
+		user = User.objects.filter(id__in=array) 		
 	return render(request, 'users.html',  {'user':user, 'users':user.all(),'app':app, 'apps':app.all(),'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
 
 

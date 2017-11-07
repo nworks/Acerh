@@ -3,6 +3,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from django.db import models
 
+class Compania(models.Model):
+	titulo = models.CharField(max_length=100)
+	descripcion = models.TextField()
+	creatd_date = models.DateTimeField(auto_now_add=True, auto_now=False)
+	pais = models.CharField(max_length=50)
+	def __str__(self):
+		return self.titulo
 
 
 def upload_location(instancia, filename):
@@ -33,6 +40,7 @@ class Vacante(models.Model):
 	descripcion = models.TextField()
 	picturep = models.ImageField(upload_to='vacantes/', blank=True)
 	compania = models.ForeignKey(User)
+	compania2 = models.ForeignKey(Compania)
 	creatd_date = models.DateTimeField(auto_now_add=True, auto_now=False)
 	vigencia = models.CharField(max_length=100)
 	requisitos = models.TextField()
@@ -45,6 +53,7 @@ class Vacante(models.Model):
 	pregunta6 = models.TextField(blank=True)
 	pregunta7 = models.TextField(blank=True)
 	pregunta8 = models.TextField(blank=True)
+	pais = models.CharField(max_length=50)
 	
 	class Meta:
 		ordering = ["-creatd_date"]
@@ -76,6 +85,7 @@ class Aplicado(models.Model):
 	respuesta7 = models.TextField(blank=True)
 	respuesta8 = models.TextField(blank=True)
 	com_interno = models.TextField()
+	pais = models.CharField(max_length=50)
 
 	
 	def __str__(self):
@@ -105,4 +115,5 @@ class Preguntado(models.Model):
 	
 	def __str__(self):
 		return self.titulo
+
 

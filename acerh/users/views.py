@@ -507,15 +507,15 @@ def export_excel(request):
 	#ciclo que busca todos los objetos con estatus 195(por enviar) para ser escritos en el excel
 	for obj in User.objects.all():
 		#indica desde que celda se escribe el titulo de los id de los objetos
-		worksheet.write_string(cell,0, str(obj.id))
+		worksheet.write_string(cell,0, str(obj.id)).encode('utf-8')
 		#indica desde que celda se escribiran los emails
-		worksheet.write_string(cell,1, obj.email)
+		worksheet.write_string(cell,1, obj.email).encode('utf-8')
 		#indica desde que celda se escribiran los codigos de pss
-		worksheet.write_string(cell,2, str(obj.first_name))
+		worksheet.write_string(cell,2, str(obj.first_name)).encode('utf-8')
 		#indica desde que celda se escribiran la ruta de los archivos
-		worksheet.write_string(cell,3, obj.last_name)
+		worksheet.write_string(cell,3, obj.last_name).encode('utf-8')
 		#escribre el username
-		worksheet.write_string(cell,4, obj.username)
+		worksheet.write_string(cell,4, obj.username).encode('utf-8')
 		
 		#Se realiza el aumento de la celda para seguir escribiendo hacia abajo
 		cell = cell + 1 
@@ -570,17 +570,17 @@ def export_excel2(request):
 	cell = 8
 	#ciclo que busca todos los objetos con estatus 195(por enviar) para ser escritos en el excel
 	for obj in UserP.objects.filter(localidad=""):
-		userm = User.objects.get(username=obj.user)
+		userm = User.objects.get(username=obj.user).encode('utf-8')
 		#indica desde que celda se escribe el titulo de los id de los objetos
-		worksheet.write_string(cell,0, str(obj.id))
+		worksheet.write_string(cell,0, str(obj.id)).encode('utf-8')
 		#indica desde que celda se escribiran los emails
-		worksheet.write_string(cell,1, str(obj.user))
+		worksheet.write_string(cell,1, str(obj.user)).encode('utf-8')
 		#indica desde que celda se escribiran los codigos de pss
-		worksheet.write_string(cell,2, str(userm.email))
+		worksheet.write_string(cell,2, str(userm.email)).encode('utf-8')
 		#indica desde que celda se escribiran la ruta de los archivos
-		worksheet.write_string(cell,3, str(userm.first_name))
+		worksheet.write_string(cell,3, str(userm.first_name)).encode('utf-8')
 		#escribre el username
-		worksheet.write_string(cell,4, str(userm.last_name))
+		worksheet.write_string(cell,4, str(userm.last_name)).encode('utf-8')
 		
 		#Se realiza el aumento de la celda para seguir escribiendo hacia abajo
 		cell = cell + 1 

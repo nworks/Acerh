@@ -8,7 +8,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="icon" type="image/png" sizes="16x16" href="{% static '/plugins/images/favicon.png' %}">
-<title>Acerh - Administrador</title>
+<title>ACERHGROUP - Administrador</title>
 <!-- Bootstrap Core CSS -->
 <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
 <!-- Menu CSS -->
@@ -383,6 +383,14 @@
                       {% endfor %}
                       </select>
                    </div>
+                    <div class="form-group">
+                     <label>Compania</label>
+                      <select id="compania{{post.id}}" name="area" class="form-control"> 
+                      {% for compania in companias %}                                      
+                       <option value="{{compania.titulo}}">{{compania.titulo}}</option>
+                      {% endfor %}
+                      </select>
+                   </div>
                    
                   
                  
@@ -460,6 +468,7 @@
             var pregunta7 = document.getElementById("pregunta7x{{ post.id }}").value;
             var pregunta8 = document.getElementById("pregunta8x{{ post.id }}").value;
             var area = document.getElementById("area{{ post.id }}").value;
+            var compania = document.getElementById("compania{{ post.id }}").value;
             var requisitos = document.getElementById("requisitos{{ post.id }}").value;
             console.log(ids)
             console.log(pregunta1)
@@ -471,7 +480,7 @@
             console.log(pregunta7)
             console.log(pregunta8)
             $.ajax({
-            data: {'id': ids , csrfmiddlewaretoken: '{{ csrf_token }}', 'titulo':titulo , 'descripcion':descripcion, 'pregunta1':pregunta1,'pregunta2':pregunta2,'pregunta3':pregunta3 ,'pregunta4':pregunta4,'pregunta5':pregunta5,'pregunta6':pregunta6,'pregunta7':pregunta7,'pregunta8':pregunta8 ,'area':area, 'requisitos':requisitos},
+            data: {'id': ids , csrfmiddlewaretoken: '{{ csrf_token }}', 'titulo':titulo , 'descripcion':descripcion, 'pregunta1':pregunta1,'pregunta2':pregunta2,'pregunta3':pregunta3 ,'pregunta4':pregunta4,'pregunta5':pregunta5,'pregunta6':pregunta6,'pregunta7':pregunta7,'pregunta8':pregunta8 ,'area':area, 'requisitos':requisitos,'compania':compania},
             url: '{% url 'vacantedit'  %}',
             type: 'POST',
             success : function(data) {
@@ -546,6 +555,16 @@
                                          {% endfor %}
                                          </select>
                                                             </div>
+
+                                                             <label>Compania</label>
+                                        <select id="compania" name="compania" class="form-control"> 
+                                         {% for compania in companias %}                                       
+
+                                         <option value="{{compania.titulo}}">{{compania.titulo}}</option>
+                                         {% endfor %}
+                                         </select>
+                                                        
+
                                                           
                                                             <div class="col-md-12 m-b-20">
                                                             
@@ -583,8 +602,9 @@
             var pregunta8 = document.getElementById("pregunta8x").value;
 
             var area = document.getElementById("area").value;
+            var compania = document.getElementById("compania").value;
             $.ajax({
-            data: {'descripcion': descripcion ,'titulo': titulo ,'requisitos': requisitos ,'pregunta1': pregunta1 ,'pregunta2': pregunta2 ,'pregunta3': pregunta3,'pregunta4': pregunta4 ,'pregunta5': pregunta5 ,'pregunta6': pregunta6 ,'pregunta7': pregunta7 ,'pregunta8': pregunta8 ,'area': area , csrfmiddlewaretoken: '{{ csrf_token }}',},
+            data: {'descripcion': descripcion ,'titulo': titulo ,'requisitos': requisitos ,'pregunta1': pregunta1 ,'pregunta2': pregunta2 ,'pregunta3': pregunta3,'pregunta4': pregunta4 ,'pregunta5': pregunta5 ,'pregunta6': pregunta6 ,'pregunta7': pregunta7 ,'pregunta8': pregunta8 ,'area': area , csrfmiddlewaretoken: '{{ csrf_token }}','compania':compania},
 
             url: '{% url 'solicitudcompania'  %}',
             type: 'POST',
