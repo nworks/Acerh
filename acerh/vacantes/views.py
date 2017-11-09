@@ -48,7 +48,7 @@ def list_vacant(request, id=None):
 		"app":aplicado, "apps":aplicado.all()
 	}
 
-	return render(request, 'index6.html', context)	
+	return render(request, 'companiaus.html', context)	
 
 @login_required
 def aplicado(request):
@@ -603,3 +603,9 @@ def removermov(request):
 	post = Aplicado.objects.get(id=data3["id"] , usuario=mouser.user) 
 	post.delete()
 	return HttpResponse(json.dumps("Deleted"), content_type='application/json')
+
+
+def actualizapais(request):
+	app = Aplicado.objects.all().update(pais='Republica Dominicana')
+
+	return HttpResponse('Done')
