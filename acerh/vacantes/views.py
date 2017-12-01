@@ -119,7 +119,6 @@ def compania(request):
 	cantidad4 = Vacante.objects.all().count()
 	area = Area.objects.all()
 	compania = Compania.objects.all()
-	usuario = User.objects.all()
 	creada = Vacante.objects.filter(compania=request.user)
 	paginator = Paginator(contact_list, 10) # Show 25 contacts per page
 
@@ -133,7 +132,7 @@ def compania(request):
 		# If page is out of range (e.g. 9999), deliver last page of results.
 		posts = paginator.page(paginator.num_pages)
 
-	return render(request, 'compania.html', {'compania': compania,'companias': compania.all(),'posts': posts ,"creada":creada,"creadas":creada.all(),"usuario":usuario,"usuarios":usuario.all(), "cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()})
+	return render(request, 'compania.html', {'compania': compania,'companias': compania.all(),'posts': posts ,"creada":creada,"creadas":creada.all(), "cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()})
 
 @login_required
 def solicitudcompania(request):
