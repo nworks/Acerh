@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.http import HttpResponseRedirect ,HttpResponse
 from users.forms import LoginForm ,UserP, UsuarioForm2, UserPr,PasswordResetRequestForm,SetPasswordForm, UsuarioForm, UserPr2,UserPr3
@@ -25,6 +26,11 @@ import StringIO
 import io
 import os
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import sys
+# sys.setdefaultencoding() does not exist, here!
+reload(sys)  # Reload does the trick!
+sys.setdefaultencoding('UTF8')
+
 # Create your views here.
 
 def user_detail(request, id=None):
@@ -111,8 +117,8 @@ def register(request):
 				profile.user = user
 				profile.save()
 				registered = True
-				username = user_form.cleaned_data['username']
-				password = user_form.cleaned_data['password']
+				username = user_form.cleaned_data['username'].encode('utf8')
+				password = user_form.cleaned_data['password'].encode('utf8')
 				if 'file' in request.FILES:
 					profile.file = request.FILES['file']
 				else:
@@ -123,22 +129,22 @@ def register(request):
 				else:
 					profile.picture = request.FILES['picture']
 
-				profile.cedula = request.POST['cedula']
-				profile.sexo = request.POST['sexo']
-				profile.idioma = request.POST['idioma']
-				profile.carrera = request.POST['carrera']
-				profile.ar_int = request.POST['ar_int']
-				profile.salario = request.POST['salario']
-				profile.telefono = request.POST['telefono']
-				profile.localidad = request.POST['localidad']
-				profile.estudio = request.POST['estudio']
-				profile.edad = request.POST['edad']
-				profile.experiencia = request.POST['experiencia']
-				profile.nacionalidad = request.POST['nacionalidad']
-				profile.universidad = request.POST['universidad']
-				profile.licencia = request.POST['licencia']
-				profile.cat_licen = request.POST['cat_licen']
-				profile.pais_apli = request.POST['pais_apli']
+				profile.cedula = request.POST['cedula'].encode('utf8')
+				profile.sexo = request.POST['sexo'].encode('utf8')
+				profile.idioma = request.POST['idioma'].encode('utf8')
+				profile.carrera = request.POST['carrera'].encode('utf8')
+				profile.ar_int = request.POST['ar_int'].encode('utf8')
+				profile.salario = request.POST['salario'].encode('utf8')
+				profile.telefono = request.POST['telefono'].encode('utf8')
+				profile.localidad = request.POST['localidad'].encode('utf8')
+				profile.estudio = request.POST['estudio'].encode('utf8')
+				profile.edad = request.POST['edad'].encode('utf8')
+				profile.experiencia = request.POST['experiencia'].encode('utf8')
+				profile.nacionalidad = request.POST['nacionalidad'].encode('utf8')
+				profile.universidad = request.POST['universidad'].encode('utf8')
+				profile.licencia = request.POST['licencia'].encode('utf8')
+				profile.cat_licen = request.POST['cat_licen'].encode('utf8')
+				profile.pais_apli = request.POST['pais_apli'].encode('utf8')
 				
 				profile.save()
 				usuario = authenticate(username=username,password=password)
@@ -209,7 +215,7 @@ def userdetail(request):
 				if request.user.userp.file:
 					profile.picture = request.user.userp.picture
 				else:
-				    profile.picture =  static('/user.png')
+					profile.picture =  static('/user.png')
 			else:
 				profile.picture = request.FILES['picture']
 			
@@ -270,6 +276,7 @@ def email(request):
 import json
 def consulta(request): 
 	search_text = request.GET.get('ajax')
+	array = []
 	print search_text
 	if search_text is not None:
 		if request.is_ajax(): 
@@ -281,8 +288,16 @@ def consulta(request):
 				return HttpResponse(json.dumps( list(array)), content_type='application/json' ) 
 			else:
 				print "No Existe"
-				array = []
-				array.insert(0,"Este Correo Electronico Esta Disponible")
+				try:
+					email = EmailMessage()
+					email.subject = "METODO VERIFICACION ACERH"
+					email.body = "Este es un correo automatico generado por al aplicacion de ACERHGROUP para verificacione de correos electronicos, favor ignorar este correo"
+					email.to = [ search_text ]
+					email.send()
+					array.insert(0,"Este Correo Electronico Esta Disponible")
+				except:
+
+					array.insert(0,"Este correo no es real o no existe")
 				return HttpResponse( json.dumps( list(array)), content_type='application/json' ) 
 	else: 
 		return HttpResponse("")
@@ -629,12 +644,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 class logouttk(APIView):
-    queryset = User.objects.all()
+	queryset = User.objects.all()
 
-    def get(self, request, format=None):
-        # simply delete the token to force a login
-        request.user.auth_token.delete()
-        return Response(status=status.HTTP_200_OK)
+	def get(self, request, format=None):
+		# simply delete the token to force a login
+		request.user.auth_token.delete()
+		return Response(status=status.HTTP_200_OK)
 
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
