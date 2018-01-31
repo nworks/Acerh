@@ -1,418 +1,209 @@
-<!DOCTYPE html>  
-<html lang="en">
-<head>
- {% load staticfiles %}
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="icon" type="image/png" sizes="16x16" href="{% static '/plugins/images/favicon.png' %}">
-<title>ACERHGROUP - VACANTES</title>
-<!-- Bootstrap Core CSS -->
-<link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
-<!-- Menu CSS -->
-<link href="{% static 'plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css' %}" rel="stylesheet">
-<!-- vector map CSS -->
-<link href="{% static 'plugins/bower_components/vectormap/jquery-jvectormap-2.0.2.css' %}" rel="stylesheet" />
-<link href="{% static 'plugins/bower_components/css-chart/css-chart.css' %}" rel="stylesheet">
-<!-- animation CSS -->
-<link href="{% static 'css/animate.css' %}" rel="stylesheet">
-<!-- Custom CSS -->
-<link href="{% static 'css/style.css' %}" rel="stylesheet">
-<!-- color CSS -->
-<link href="{% static 'css/colors/default.css' %}" id="theme"  rel="stylesheet">
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+{% extends 'base.html' %}
+{% block content %}
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+{% for post in posts %}
+ <div id="getid{{ post.id }}div" class="card">
+                                 <div class="card-header">
+                                     <h4 class="card-title">{{post.titulo}} -
+                                         <small class="category">Tienes talento para esto?</small>
+                                         {%if post.pregunta1 %}
+                                         <button id="getid{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-round" onclick="myFunction{{ post.id }}()" data-target=myFuction2()>Aplicar</button>
+                                         {%else%}
+                                         <button id="getids{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-round" onclick="otherway{{ post.id }}()" data-target=otherway()>Aplicar</button></p>
+                                         {%endif%}
+                                     </h4>
 
-  ga('create', 'UA-19175540-9', 'auto');
-  ga('send', 'pageview');
 
-</script>
-</head>
+                                 </div>
+                                 <div class="card-content">
+                                     <div class="row">
+                                         <div class="col-md-4">
+                                             <ul class="nav nav-pills nav-pills-danger nav-stacked">
+                                                 <li class="active">
+                                                     <a href="#descripcion{{ post.id }}" data-toggle="tab" aria-expanded="true">Decripcion</a>
+                                                 </li>
+                                                 <li class="">
+                                                     <a href="#requisitos{{ post.id }}" data-toggle="tab" aria-expanded="false">Requisitos</a>
+                                                 </li>
+                                                 {% if post.pregunta1 %}
+                                                 <li class="">
+                                                     <a href="#pregunta{{ post.id }}" data-toggle="tab" aria-expanded="false">Preguntas</a>
+                                                 </li>
+                                                  {%endif%}
+                                             </ul>
+                                         </div>
+                                         <div class="col-md-8">
+                                             <div class="tab-content">
+                                                 <div class="tab-pane active" id="descripcion{{ post.id }}">
+                                                     {{post.descripcion}}
+                                                 </div>
+                                                 <div class="tab-pane" id="requisitos{{ post.id }}">
+                                                     {{post.requisitos}}
+                                                 </div>
+                                                 <div class="tab-pane" id="pregunta{{ post.id }}">
+               {%if post.pregunta1 %}
+               <p>{{post.pregunta1}}</p>
+               <div><textarea  class="form-control" id="pregunta1x{{ post.id }}" name="pregunta1x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
+               {%else%}
+               <p>{{post.pregunta1}}</p>
+               {%endif%}
+                {%if post.pregunta2 %}
+                <p>{{post.pregunta2}}</p>
+               <div><textarea  class="form-control" id="pregunta2x{{ post.id }}" name="pregunta2x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
+               {%else%}
+               {%endif%}
 
-<body>
-<!-- Preloader -->
-<div class="preloader">
-  <div class="cssload-speeding-wheel"></div>
-</div>
-<div id="wrapper">
-  <!-- Navigation -->
-  <nav class="navbar navbar-default navbar-static-top m-b-0">
-    <div class="navbar-header"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
-      <div class="top-left-part"><a class="logo" href="index.html"><b></b><span class="hidden-xs"><img height="40" width="108" src="{% static 'plugins/logo4.png' %}" alt="home" class="dark-logo" /><img height="40" width="108" src="{% static 'plugins/logo4.png' %}" alt="home" class="light-logo" /></span></a></div>
-      <ul class="nav navbar-top-links navbar-left hidden-xs">
-        <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a></li>
-        
-      </ul>
-      <ul class="nav navbar-top-links navbar-right pull-right">
-        <li class="dropdown"> <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"><i class="icon-envelope"></i>
-          <div class="notify">{%if notificacion%}<span class="heartbit"></span>{%else%}{%endif%}<span class="point"></span></div>
-          </a>
-          <ul class="dropdown-menu mailbox animated bounceInDown">
-            <li>
-              <div class="drop-title">Tienes un nuevo mensaje</div>
-            </li>
-            {% for noficacion in noficaciones %}
-            <li>
+               {%if post.pregunta3 %}
+                <p>{{post.pregunta3}}</p>
+               <div><textarea  class="form-control" id="pregunta3x{{ post.id }}" name="pregunta3x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
+               {%else%}
+               {%endif%}
 
-              <div class="message-center"> <a href="#">
-                <div class="user-img"> <img src="{% static 'plugins/logo1.png' %}" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
-                <div class="mail-contnet">
-                  <h5>{{noficacion.company}}</h5>
-                  <span class="mail-desc">{{noficacion.message}}</span> <span class="time">9:30 AM</span> </div>
-                </a> <a href="#">
-                
-            </li>
-            {% endfor %}
-            <li> <a class="text-center" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="fa fa-angle-right"></i> </a></li>
-          </ul>
-          <!-- /.dropdown-messages -->
-        </li>
-        <!-- /.dropdown -->
-       
-        <!-- /.dropdown -->
-        <li><a href="{% url 'logout' %}"><i class="fa fa-power-off"></i> Logout</a></li>
-        
-        <!-- /.dropdown -->
-      </ul>
-    </div>
-    <!-- /.navbar-header -->
-    <!-- /.navbar-top-links -->
-    <!-- /.navbar-static-side -->
-  </nav>
-  <!-- Left navbar-header -->
-  <div class="navbar-default sidebar" role="navigation">
-    <div class="sidebar-nav navbar-collapse slimscrollsidebar">
-       <div class="user-profile">
-        <div class="dropdown user-pro-body">
-         {% if request.user.userp.picture %}
-          <div><img src="{{request.user.userp.picture.url}}" alt="user-img" class="img-circle" style="width: 64px; height: 64px;"></div>
-          {% else %}
-          <div><img src="{% static 'assets/img/user.png' %}" alt="user-img" class="img-circle" style="width: 64px; height: 64px;"></div>
-          {% endif %}
-          <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>{{request.user.first_name}} {{request.user.last_name}}</strong> <span class="caret"></span></a>
-              <ul class="dropdown-menu animated flipInY">
-                <li><a href="/userdetail"><i class="ti-user"></i> Mi Perfil</a></li>
+               {%if post.pregunta4 %}
+                <p>{{post.pregunta4}}</p>
+               <div><textarea  class="form-control" id="pregunta4x{{ post.id }}" name="pregunta4x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
+               {%else%}
+               {%endif%}
 
-                <li role="separator" class="divider"></li>
-                <li><a href="/preguntas"><i class="ti-help-alt"></i> Preguntas</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="{% url 'logout' %}"><i class="fa fa-power-off"></i> Logout</a></li>
-              </ul>
-        </div>
-      </div>
-      <ul class="nav" id="side-menu">
-        <li class="sidebar-search hidden-sm hidden-md hidden-lg">
-          <!-- input-group -->
-          <div class="input-group custom-search-form">
-            <input type="text" class="form-control" placeholder="Search...">
-            <span class="input-group-btn">
-            <button class="btn btn-default" type="button"> <i class="fa fa-search"></i> </button>
-            </span> </div>
-          <!-- /input-group -->
-        </li>
-        
-        <li class="nav-small-cap m-t-10">--- Main Menu</li>
-        
-     
-        
-        </li>
-        {% if request.user.is_staff %}
+               {%if post.pregunta5 %}
+                <p>{{post.pregunta5}}</p>
+               <div><textarea  class="form-control" id="pregunta5x{{ post.id }}" name="pregunta5x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
+               {%else%}
+               {%endif%}
 
-        <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
-        
-        </li>
-        <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span id="cantidad" class="label label-rouded label-info pull-right">{{cantidad}}</span> </span></a>
-        {% endif %}
-        {% if request.user.userpc.company %}
-        
-        <li><a href="/compania" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Va)<span class="fa arrow"></span></span></a>
-         
-        </li>
-        <li><a href="/companiass" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Administrador(Ap)<span class="fa arrow"></span></span></a>
-         
-        </li>
-        {% else %}
-           <li><a href="/vacantes" class="waves-effect"><i data-icon="&#xe009;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Vacantes<span class="fa arrow"></span></span></a>
-        
-        </li>
-        <li> <a href="/aplicado" class="waves-effect"><i data-icon="&#xe012;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Tus Vacantes<span class="fa arrow"></span> <span id="cantidad" class="label label-rouded label-info pull-right">{{cantidad}}</span> </span></a>
-        {% endif %}
-        
-      </ul>
-    </div>
-  </div>
-  <!-- Left navbar-header end -->
-  <!-- Page Content -->
+               {%if post.pregunta6 %}
+                <p>{{post.pregunta6}}</p>
+               <div><textarea  class="form-control" id="pregunta6x{{ post.id }}" name="pregunta6x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
+               {%else%}
+               {%endif%}
 
-  <div id="page-wrapper">
-    <div class="container-fluid">
-      <div class="row bg-title">
-        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-          <h4 class="page-title">Vacantes Disponibles</h4>
-        </div>
-        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-         
-          <ol class="breadcrumb">
-            <li><a href="index.html">Vacantes</a></li>
-            <li class="active">Disponibles</li>
-          </ol>
-        </div>
-        <!-- /.col-lg-12 -->
+               {%if post.pregunta7 %}
+                <p>{{post.pregunta7}}</p>
+               <div><textarea  class="form-control" id="pregunta7x{{ post.id }}" name="pregunta7x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
+               {%else%}
+               {%endif%}
 
-      </div>
-{% if request.user.userpc.company %}
+               {%if post.pregunta8 %}
+                <p>{{post.pregunta8}}</p>
+               <div><textarea  class="form-control" id="pregunta8x{{ post.id }}" name="pregunta8x{{ post.id }}" rows="2" cols="50" placeholder="respuestas" required></textarea></div>
+               {%else%}
+                                                 </div>
+                                             </div>
+                                             {%endif%}
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
 
-{%else%}
-      <div class="row">
-      {% for post in posts %}
-      <div id="getid{{ post.id }}div" class="white-box">
-            <h3 class="box-title">{{post.titulo}}</h3>
-            <p class="text-muted m-b-30">Tienes talento para esto?
-            {%if post.pregunta1 %}
-            <button id="getid{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-rounded" onclick="myFunction{{ post.id }}()" data-target=myFuction2()>Aplicar</button>
-            {%else%}
-            <button id="getids{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-rounded" onclick="otherway{{ post.id }}()" data-target=otherway()>Aplicar</button></p>
-            {%endif%}
-            <div class="vtabs">
-              <ul class="nav tabs-vertical">
-                <li class="tab active"><a data-toggle="tab" href="#home3{{ post.id }}" aria-expanded="true"> <span class="visible-xs"><i class="ti-home"></i></span> <span class="hidden-xs">Descripcion</span> </a> </li>
-                <li class="tab"><a data-toggle="tab" href="#profile3{{ post.id }}" aria-expanded="false"> <span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Requisitos</span> </a> </li>
-                {% if post.pregunta1 %}<li class="tab"><a aria-expanded="false" data-toggle="tab" href="#messages3{{ post.id }}"> <span class="visible-xs"><i class="ti-email"></i></span> <span class="hidden-xs">Preguntas</span> </a> </li>
-                {%endif%}
-              </ul>
-              </ul>
-              <div class="tab-content">
-                <div id="home3{{ post.id }}" class="tab-pane active">
-                  <div class="">
-                    <h3>{{post.descripcion}}</h3>
-                    <h4>{{post.creatd_date}}</h4><h4>{{post.compania2}}</h4>
-                  </div>
-                  
-                  <div class="clearfix"></div>
-                </div>
-                <div id="profile3{{ post.id }}" class="tab-pane">
-                  <p>{{post.requisitos}}</p>
-                </div>
-                <div id="messages3{{ post.id }}" class="tab-pane">
-                   {%if post.pregunta1 %}
-                  <p>{{post.pregunta1}}</p>
-                  <div><textarea  class="form-control" id="pregunta1x{{ post.id }}" name="pregunta1x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
-                  {%else%}
-                  {%endif%}
-                   {%if post.pregunta2 %}
-                   <p>{{post.pregunta2}}</p>
-                  <div><textarea  class="form-control" id="pregunta2x{{ post.id }}" name="pregunta2x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
-                  {%else%}
-                  {%endif%}
-                  
-                  {%if post.pregunta3 %}
-                   <p>{{post.pregunta3}}</p>
-                  <div><textarea  class="form-control" id="pregunta3x{{ post.id }}" name="pregunta3x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
-                  {%else%}
-                  {%endif%}
 
-                  {%if post.pregunta4 %}
-                   <p>{{post.pregunta4}}</p>
-                  <div><textarea  class="form-control" id="pregunta4x{{ post.id }}" name="pregunta4x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
-                  {%else%}
-                  {%endif%}
+                             <script type="text/javascript">
 
-                  {%if post.pregunta5 %}
-                   <p>{{post.pregunta5}}</p>
-                  <div><textarea  class="form-control" id="pregunta5x{{ post.id }}" name="pregunta5x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
-                  {%else%}
-                  {%endif%}
-                   
-                  {%if post.pregunta6 %}
-                   <p>{{post.pregunta6}}</p>
-                  <div><textarea  class="form-control" id="pregunta6x{{ post.id }}" name="pregunta6x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
-                  {%else%}
-                  {%endif%}
+           function myFunction{{ post.id }}(p1) {
+           var ids = document.getElementById("getid{{ post.id }}").value;
+           var x1 = document.getElementById("pregunta1x{{ post.id }}").value;
 
-                  {%if post.pregunta7 %}
-                   <p>{{post.pregunta7}}</p>
-                  <div><textarea  class="form-control" id="pregunta7x{{ post.id }}" name="pregunta7x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
-                  {%else%}
-                  {%endif%}
-
-                  {%if post.pregunta8 %}
-                   <p>{{post.pregunta8}}</p>
-                  <div><textarea  class="form-control" id="pregunta8x{{ post.id }}" name="pregunta8x{{ post.id }}" rows="2" cols="50" placeholder="respuestas" required></textarea></div>
-                  {%else%}
-                  {%endif%}
-                </div>
-              </div>
-            </div>
-          </div>
-
-           <script type="text/javascript">
-            
-            function myFunction{{ post.id }}(p1) {
-            var ids = document.getElementById("getid{{ post.id }}").value;
-            var x1 = document.getElementById("pregunta1x{{ post.id }}").value;
-            
+           try {
+             var x2 = document.getElementById("pregunta2x{{ post.id }}").value;
+              } catch(err) {
+                 x2 = "Sin pregunta"
+              }
+           try {
+             var x3 = document.getElementById("pregunta3x{{ post.id }}").value;
+              } catch(err) {
+                 x3 = "no existe"
+              }
+           try {
+             var x4 = document.getElementById("pregunta4x{{ post.id }}").value;
+              } catch(err) {
+                 x4 = "no existe"
+              }
             try {
-              var x2 = document.getElementById("pregunta2x{{ post.id }}").value;
-               } catch(err) {
-                  x2 = "Sin pregunta"
-               }
-            try {
-              var x3 = document.getElementById("pregunta3x{{ post.id }}").value;
-               } catch(err) {
-                  x3 = "no existe"
-               }
-            try {
-              var x4 = document.getElementById("pregunta4x{{ post.id }}").value;
-               } catch(err) {
-                  x4 = "no existe"
-               }
-             try {
-              var x5 = document.getElementById("pregunta5x{{ post.id }}").value;
-               } catch(err) {
-                  x5 = "no existe"
-               }
-
-             try {
-              var x6 = document.getElementById("pregunta6x{{ post.id }}").value;
-               } catch(err) {
-                  x6 = "no existe"
-               }
-            try {
-              var x7 = document.getElementById("pregunta7x{{ post.id }}").value;
-               } catch(err) {
-                  x7 = "no existe"
-               }
+             var x5 = document.getElementById("pregunta5x{{ post.id }}").value;
+              } catch(err) {
+                 x5 = "no existe"
+              }
 
             try {
-               var x8 = document.getElementById("pregunta8x{{ post.id }}").value;
-               } catch(err) {
-                  x8 = "no existe"
-               }
-            
-           
-            console.log(x1)
-            console.log(x2)
-            console.log(x3)
-            console.log(x4)
-            console.log(x5)
-            console.log(x6)
-            console.log(x7)
-            console.log(x8)
-            
+             var x6 = document.getElementById("pregunta6x{{ post.id }}").value;
+              } catch(err) {
+                 x6 = "no existe"
+              }
+           try {
+             var x7 = document.getElementById("pregunta7x{{ post.id }}").value;
+              } catch(err) {
+                 x7 = "no existe"
+              }
 
-            if (x1 != "" && x2 != "" && x3 != "" && x4 != "" && x5 != "" && x6 != "" && x7 != "" && x8 != ""){
-            console.log(ids)
-            $.ajax({
-            data: {'id': ids ,'respuesta1':x1, 'respuesta2':x2, 'respuesta3':x3, 'respuesta4':x4, 'respuesta5':x5, 'respuesta6':x6, 'respuesta7':x7, 'respuesta8':x8, csrfmiddlewaretoken: '{{ csrf_token }}'},
-
-            url: '{% url 'solicitud'  %}',
-            type: 'POST',
-            success : function(data) {
-                   swal("Haz Aplicado!", "Presiona el boton para continuar!", "success")  
-                   var link = document.getElementById('getid{{ post.id }}div');
-                   link.style.display = 'none'; //or
-                   
-                  document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) + 1;
-                               },
-            error : function(message) {
-                   console.log(message);
-            }
-             });
-            }
-            
-          else{
-            swal("Pregunta!", "Debe responder la pregunta en esa aplicacion!", "warning")
-          }
-           
-          
-            }
-         </script>
-
-         <script type="text/javascript">
-            
-            function otherway{{ post.id }}(p1) {
-            var ids = document.getElementById("getids{{ post.id }}").value;
-            console.log(ids)
-            $.ajax({
-            data: {'id': ids , csrfmiddlewaretoken: '{{ csrf_token }}'},
-
-            url: '{% url 'solicitud'  %}',
-            type: 'POST',
-            success : function(data) {
-                   swal("Haz Aplicado!", "Presiona el boton para continuar!", "success")  
-                   var link = document.getElementById('getid{{ post.id }}div');
-                   link.style.display = 'none'; //or
-                   
-                  document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) + 1;
-                               },
-            error : function(message) {
-                   console.log(message);
-            }
-             });
-                  
-            }
-         </script>
-
- 
-        
-
-        {% endfor %}
-      
-      
-      
-    </div>
-
-    <!-- /.container-fluid -->
-    <footer class="footer text-center"> 2017 &copy; AcerhApp by Nworksdev  </footer>
-  </div>
-  <!-- /#page-wrapper -->
-</div>
-<!-- /#wrapper -->
-<!-- jQuery -->
-<script src="{% static 'plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
-<!-- Bootstrap Core JavaScript -->
-<script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
-<!-- Menu Plugin JavaScript -->
-<script src="{% static 'plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js' %}"></script>
-<!--slimscroll JavaScript -->
-<script src="{% static 'js/jquery.slimscroll.js' %}"></script>
-<!--Wave Effects -->
-<script src="js/waves.js' %}"></script>
-<!-- Flot Charts JavaScript -->
-<script src="{% static 'plugins/bower_components/flot/jquery.flot.js' %}"></script>
-<script src="{% static 'plugins/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js' %}"></script>
-<!-- google maps api -->
-<script src="{% static 'plugins/bower_components/vectormap/jquery-jvectormap-2.0.2.min.js' %}"></script>
-<script src="{% static 'plugins/bower_components/vectormap/jquery-jvectormap-world-mill-en.js' %}"></script>
-<!-- Sparkline charts -->
-<script src="{% static 'plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
-<!-- EASY PIE CHART JS -->
-<script src="{% static 'plugins/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js' %}"></script>
-<script src="{% static 'plugins/bower_components/jquery.easy-pie-chart/easy-pie-chart.init.js' %}"></script>
-<!-- Custom Theme JavaScript -->
-<script src="{% static 'js/custom.min.js' %}"></script>
-<script src="{% static 'js/dashboard2.js' %}"></script>
-<!--Style Switcher -->
-<script src="{% static 'plugins/bower_components/styleswitcher/jQuery.style.switcher.js' %}"></script>
-<script src="{% static 'js/toastr.js' %}"></script>
-<script src="{% static 'sweetalert/dist/sweetalert.min.js' %}"></script>
-<link rel="stylesheet" type="text/css" href="{% static 'sweetalert/dist/sweetalert.css' %}">
+           try {
+              var x8 = document.getElementById("pregunta8x{{ post.id }}").value;
+              } catch(err) {
+                 x8 = "no existe"
+              }
 
 
+           console.log(x1)
+           console.log(x2)
+           console.log(x3)
+           console.log(x4)
+           console.log(x5)
+           console.log(x6)
+           console.log(x7)
+           console.log(x8)
 
 
-</body>
-{%endif%}
-</html>
+           if (x1 != "" && x2 != "" && x3 != "" && x4 != "" && x5 != "" && x6 != "" && x7 != "" && x8 != ""){
+           console.log(ids)
+           $.ajax({
+           data: {'id': ids ,'respuesta1':x1, 'respuesta2':x2, 'respuesta3':x3, 'respuesta4':x4, 'respuesta5':x5, 'respuesta6':x6, 'respuesta7':x7, 'respuesta8':x8, csrfmiddlewaretoken: '{{ csrf_token }}'},
+
+           url: '{% url 'solicitud'  %}',
+           type: 'POST',
+           success : function(data) {
+                  swal("Haz Aplicado!", "Presiona el boton para continuar!", "success")
+                  var link = document.getElementById('getid{{ post.id }}div');
+                  link.style.display = 'none'; //or
+
+                 document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) + 1;
+                              },
+           error : function(message) {
+                  console.log(message);
+           }
+            });
+           }
+
+         else{
+           swal("Pregunta!", "Debe responder la pregunta en esa aplicacion!", "warning")
+         }
+
+
+           }
+        </script>
+
+        <script type="text/javascript">
+
+           function otherway{{ post.id }}(p1) {
+           var ids = document.getElementById("getids{{ post.id }}").value;
+           console.log(ids)
+           $.ajax({
+           data: {'id': ids , csrfmiddlewaretoken: '{{ csrf_token }}'},
+
+           url: '{% url 'solicitud'  %}',
+           type: 'POST',
+           success : function(data) {
+                  swal("Haz Aplicado!", "Presiona el boton para continuar!", "success")
+                  var link = document.getElementById('getid{{ post.id }}div');
+                  link.style.display = 'none'; //or
+
+                 document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) + 1;
+                              },
+           error : function(message) {
+                  console.log(message);
+           }
+            });
+
+           }
+        </script>
+
+ {% endfor %}
+
+{% endblock %}

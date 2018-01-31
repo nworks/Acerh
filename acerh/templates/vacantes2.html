@@ -1,0 +1,209 @@
+{% extends 'base2.html' %}
+{% block content %}
+
+{% for post in posts %}
+ <div id="getid{{ post.id }}div" class="card">
+                                 <div class="card-header">
+                                     <h4 class="card-title">{{post.titulo}} -
+                                         <small class="category">You have talent for this?</small>
+                                         {%if post.pregunta1 %}
+                                         <button id="getid{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-round" onclick="myFunction{{ post.id }}()" data-target=myFuction2()>Apply</button>
+                                         {%else%}
+                                         <button id="getids{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-round" onclick="otherway{{ post.id }}()" data-target=otherway()>Apply</button></p>
+                                         {%endif%}
+                                     </h4>
+
+
+                                 </div>
+                                 <div class="card-content">
+                                     <div class="row">
+                                         <div class="col-md-4">
+                                             <ul class="nav nav-pills nav-pills-danger nav-stacked">
+                                                 <li class="active">
+                                                     <a href="#descripcion{{ post.id }}" data-toggle="tab" aria-expanded="true">Description</a>
+                                                 </li>
+                                                 <li class="">
+                                                     <a href="#requisitos{{ post.id }}" data-toggle="tab" aria-expanded="false">Requirements</a>
+                                                 </li>
+                                                 {% if post.pregunta1 %}
+                                                 <li class="">
+                                                     <a href="#pregunta{{ post.id }}" data-toggle="tab" aria-expanded="false">Questions</a>
+                                                 </li>
+                                                  {%endif%}
+                                             </ul>
+                                         </div>
+                                         <div class="col-md-8">
+                                             <div class="tab-content">
+                                                 <div class="tab-pane active" id="descripcion{{ post.id }}">
+                                                     {{post.descripcion}}
+                                                 </div>
+                                                 <div class="tab-pane" id="requisitos{{ post.id }}">
+                                                     {{post.requisitos}}
+                                                 </div>
+                                                 <div class="tab-pane" id="pregunta{{ post.id }}">
+               {%if post.pregunta1 %}
+               <p>{{post.pregunta1}}</p>
+               <div><textarea  class="form-control" id="pregunta1x{{ post.id }}" name="pregunta1x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
+               {%else%}
+               <p>{{post.pregunta1}}</p>
+               {%endif%}
+                {%if post.pregunta2 %}
+                <p>{{post.pregunta2}}</p>
+               <div><textarea  class="form-control" id="pregunta2x{{ post.id }}" name="pregunta2x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
+               {%else%}
+               {%endif%}
+
+               {%if post.pregunta3 %}
+                <p>{{post.pregunta3}}</p>
+               <div><textarea  class="form-control" id="pregunta3x{{ post.id }}" name="pregunta3x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
+               {%else%}
+               {%endif%}
+
+               {%if post.pregunta4 %}
+                <p>{{post.pregunta4}}</p>
+               <div><textarea  class="form-control" id="pregunta4x{{ post.id }}" name="pregunta4x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
+               {%else%}
+               {%endif%}
+
+               {%if post.pregunta5 %}
+                <p>{{post.pregunta5}}</p>
+               <div><textarea  class="form-control" id="pregunta5x{{ post.id }}" name="pregunta5x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
+               {%else%}
+               {%endif%}
+
+               {%if post.pregunta6 %}
+                <p>{{post.pregunta6}}</p>
+               <div><textarea  class="form-control" id="pregunta6x{{ post.id }}" name="pregunta6x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
+               {%else%}
+               {%endif%}
+
+               {%if post.pregunta7 %}
+                <p>{{post.pregunta7}}</p>
+               <div><textarea  class="form-control" id="pregunta7x{{ post.id }}" name="pregunta7x{{ post.id }}" rows="2" cols="50" placeholder="respuesta" required></textarea></div>
+               {%else%}
+               {%endif%}
+
+               {%if post.pregunta8 %}
+                <p>{{post.pregunta8}}</p>
+               <div><textarea  class="form-control" id="pregunta8x{{ post.id }}" name="pregunta8x{{ post.id }}" rows="2" cols="50" placeholder="respuestas" required></textarea></div>
+               {%else%}
+                                                 </div>
+                                             </div>
+                                             {%endif%}
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+
+
+                             <script type="text/javascript">
+
+           function myFunction{{ post.id }}(p1) {
+           var ids = document.getElementById("getid{{ post.id }}").value;
+           var x1 = document.getElementById("pregunta1x{{ post.id }}").value;
+
+           try {
+             var x2 = document.getElementById("pregunta2x{{ post.id }}").value;
+              } catch(err) {
+                 x2 = "Sin pregunta"
+              }
+           try {
+             var x3 = document.getElementById("pregunta3x{{ post.id }}").value;
+              } catch(err) {
+                 x3 = "no existe"
+              }
+           try {
+             var x4 = document.getElementById("pregunta4x{{ post.id }}").value;
+              } catch(err) {
+                 x4 = "no existe"
+              }
+            try {
+             var x5 = document.getElementById("pregunta5x{{ post.id }}").value;
+              } catch(err) {
+                 x5 = "no existe"
+              }
+
+            try {
+             var x6 = document.getElementById("pregunta6x{{ post.id }}").value;
+              } catch(err) {
+                 x6 = "no existe"
+              }
+           try {
+             var x7 = document.getElementById("pregunta7x{{ post.id }}").value;
+              } catch(err) {
+                 x7 = "no existe"
+              }
+
+           try {
+              var x8 = document.getElementById("pregunta8x{{ post.id }}").value;
+              } catch(err) {
+                 x8 = "no existe"
+              }
+
+
+           console.log(x1)
+           console.log(x2)
+           console.log(x3)
+           console.log(x4)
+           console.log(x5)
+           console.log(x6)
+           console.log(x7)
+           console.log(x8)
+
+
+           if (x1 != "" && x2 != "" && x3 != "" && x4 != "" && x5 != "" && x6 != "" && x7 != "" && x8 != ""){
+           console.log(ids)
+           $.ajax({
+           data: {'id': ids ,'respuesta1':x1, 'respuesta2':x2, 'respuesta3':x3, 'respuesta4':x4, 'respuesta5':x5, 'respuesta6':x6, 'respuesta7':x7, 'respuesta8':x8, csrfmiddlewaretoken: '{{ csrf_token }}'},
+
+           url: '{% url 'solicitud'  %}',
+           type: 'POST',
+           success : function(data) {
+                  swal("Make Applied!", "Press the button to continue!", "success")
+                  var link = document.getElementById('getid{{ post.id }}div');
+                  link.style.display = 'none'; //or
+
+                 document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) + 1;
+                              },
+           error : function(message) {
+                  console.log(message);
+           }
+            });
+           }
+
+         else{
+           swal("Question!", "You must answer the question in that application!", "warning")
+         }
+
+
+           }
+        </script>
+
+        <script type="text/javascript">
+
+           function otherway{{ post.id }}(p1) {
+           var ids = document.getElementById("getids{{ post.id }}").value;
+           console.log(ids)
+           $.ajax({
+           data: {'id': ids , csrfmiddlewaretoken: '{{ csrf_token }}'},
+
+           url: '{% url 'solicitud'  %}',
+           type: 'POST',
+           success : function(data) {
+                  swal("Make Applied!", "Press the button to continue!", "success")
+                  var link = document.getElementById('getid{{ post.id }}div');
+                  link.style.display = 'none'; //or
+
+                 document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) + 1;
+                              },
+           error : function(message) {
+                  console.log(message);
+           }
+            });
+
+           }
+        </script>
+
+ {% endfor %}
+
+{% endblock %}

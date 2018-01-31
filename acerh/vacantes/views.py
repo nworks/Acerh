@@ -34,12 +34,35 @@ def vacantelist(request):
 	area = Area.objects.all()
 	noficacion = notify.objects.all()
 
-	
 
 
-	
+
+
 	context = { "noficacion":noficacion,"noficaciones":noficacion.all(),"post":post, "posts":post.all(),"cantidad":cantidad,"area":area,"areas":area.all() }
 	return render(request, 'vacantes.html', context)
+
+
+def vacantelist2(request):
+	if request.user.is_staff:
+		return redirect('/compania')
+	result1 = serializers.serialize("json",Aplicado.objects.filter(usuario=request.user.id))
+	decoded_data = json.loads(result1)
+	array = []
+	for i in decoded_data:
+		array.insert(0,i["fields"]["aplico"])
+	post = Vacante.objects.exclude(pk__in=array).filter(pais=request.user.userp.pais_apli)
+	postall = post.all()
+	post2 = Aplicado.objects.all()
+	cantidad = Aplicado.objects.filter(usuario=request.user.id).count()
+	area = Area.objects.all()
+	noficacion = notify.objects.all()
+
+
+
+
+
+	context = { "noficacion":noficacion,"noficaciones":noficacion.all(),"post":post, "posts":post.all(),"cantidad":cantidad,"area":area,"areas":area.all() }
+	return render(request, 'vacantes2.html', context)
 
 
 def list_vacant(request, id=None):
@@ -48,7 +71,7 @@ def list_vacant(request, id=None):
 		"app":aplicado, "apps":aplicado.all()
 	}
 
-	return render(request, 'companiaus.html', context)	
+	return render(request, 'companiaus.html', context)
 
 @login_required
 def aplicado(request):
@@ -56,6 +79,13 @@ def aplicado(request):
 	cantidad = post.count()
 	context = { "aplicado":post, "aplicados":post.all() ,"cantidad":cantidad}
 	return render(request, 'aplicado.html', context)
+
+@login_required
+def aplicado2(request):
+	post = Aplicado.objects.filter(usuario=request.user.id)
+	cantidad = post.count()
+	context = { "aplicado":post, "aplicados":post.all() ,"cantidad":cantidad}
+	return render(request, 'aplicado2.html', context)
 
 @login_required
 def solicitud(request):
@@ -70,11 +100,13 @@ def solicitud(request):
 		respuesta6 = request.POST.get('respuesta6')
 		respuesta7 = request.POST.get('respuesta7')
 		respuesta8 = request.POST.get('respuesta8')
+		pais = request.user.userp.pais_apli
 
-		solicit =  Aplicado.objects.create(usuario=request.user, aplico_id=post.id, estatus_id=2,respuesta=respuesta1,respuesta2=respuesta2,respuesta3=respuesta3,respuesta4=respuesta4,respuesta5=respuesta5,respuesta6=respuesta6,respuesta7=respuesta7,respuesta8=respuesta8)
+		solicit =  Aplicado.objects.create(usuario=request.user, aplico_id=post.id, estatus_id=2,respuesta=respuesta1,respuesta2=respuesta2,respuesta3=respuesta3,respuesta4=respuesta4,respuesta5=respuesta5,respuesta6=respuesta6,respuesta7=respuesta7,respuesta8=respuesta8, pais=pais)
 		solicit.save()
 	else:
-		solicit =  Aplicado.objects.create(usuario=request.user, aplico_id=post.id, estatus_id=2)
+		pais = request.user.userp.pais_apli
+		solicit =  Aplicado.objects.create(usuario=request.user, aplico_id=post.id, estatus_id=2, pais=pais)
 		solicit.save()
 	return HttpResponse('/vacantes')
 
@@ -82,7 +114,7 @@ def solicitud(request):
 def remover(request):
 	idview = request.POST.get('id')
 	print idview
-	post = Aplicado.objects.get(aplico=idview , usuario=request.user) 
+	post = Aplicado.objects.get(aplico=idview , usuario=request.user)
 	post.delete()
 	return HttpResponse('/vacantes')
 
@@ -92,9 +124,9 @@ def compania2(request):
 	decoded_data = json.loads(result1)
 	array = []
 	for i in decoded_data:
-		
+
 		array.insert(0,i["fields"]["aplico"])
-		
+
 	post = Vacante.objects.all()
 	postall = post.all()
 	post2 = Aplicado.objects.all()
@@ -105,7 +137,7 @@ def compania2(request):
 	area = Area.objects.all()
 	usuario = User.objects.all()
 	creada = Vacante.objects.filter(compania=request.user)
-	
+
 	context = {"creada":creada,"creadas":creada.all(), "post":post,"usuario":usuario,"usuarios":usuario.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()}
 
 	return render(request, 'compania.html', context)
@@ -132,7 +164,7 @@ def compania(request):
 		# If page is out of range (e.g. 9999), deliver last page of results.
 		posts = paginator.page(paginator.num_pages)
 
-	return render(request, 'compania.html', {'compania': compania,'companias': compania.all(),'posts': posts ,"creada":creada,"creadas":creada.all(), "cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()})
+	return render(request, 'vacantetabla.html', {'compania': compania,'companias': compania.all(),'posts': posts ,"creada":creada,"creadas":creada.all(), "cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()})
 
 @login_required
 def solicitudcompania(request):
@@ -166,7 +198,7 @@ def solicitudcompania(request):
 def removerc(request):
 	idview = request.POST.get('id')
 	print idview
-	post = Vacante.objects.get(id=idview , compania=request.user) 
+	post = Vacante.objects.get(id=idview , compania=request.user)
 	post.delete()
 	return HttpResponse('/vacantes')
 
@@ -179,12 +211,12 @@ def companiass(request):
 	if request.method == 'GET':
 		if 'localidad' in request.GET:
 			localidad = request.GET.get('localidad')
-			
+
 		else:
-			localidad = "" 
+			localidad = ""
 		if 'sexo' in request.GET:
 			sexo = request.GET.get('sexo')
-			
+
 		else:
 			sexo = ""
 		if 'ar_int' in request.GET:
@@ -192,24 +224,24 @@ def companiass(request):
 			print ar_int
 			areaid =  Area.objects.get(titulo=ar_int)
 			print areaid
-			
+
 		else:
 			areaid = ""
 		if 'ar_exp' in request.GET:
 			ar_exp = request.GET.get('ar_exp')
 			areaid2 =  Area.objects.get(titulo=ar_exp)
 			print areaid2
-			
+
 		else:
 			areaid2 = ""
 		if 'carrera' in request.GET:
 			carrera = request.GET.get('carrera')
-			
+
 		else:
 			carrera = ""
 		if 'idioma' in request.GET:
 			idioma = request.GET.get('idioma')
-			
+
 		else:
 			idioma = ""
 		if 'edad' in request.GET:
@@ -227,9 +259,9 @@ def companiass(request):
 		for e in loc:
 			array.insert(0,e.user.pk)
 		app = Aplicado.objects.filter(~Q(estatus2='Procesado')).filter(pais=request.user.userp.pais_apli) & Aplicado.objects.filter(usuario_id__in=array)
-			
+
 		return render(request, 'companiass.html', {"app":app,"apps":app.all(), 'entreform':entreform,'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()} )
-	
+
 
 	elif request.method == 'POST':
 		entreform = EntrevistaForm(data=request.POST)
@@ -263,13 +295,13 @@ def proceso(request):
 	idview = request.POST.get('id')
 	print idview
 	post = Aplicado.objects.get(pk=idview)
-	
+
 	if 'entrevista' in request.FILES:
 		entreform.entrevista = request.FILES['entrevista']
 		entreform.save()
 		post.estatus2 = "Procesado"
 		post.comentario = request.POST.get('comentario')
-		
+
 		post.save()
 	else:
 		entreform.save()
@@ -301,7 +333,7 @@ def preguntas(request):
 			titulomo = request.POST.get('titulomodal')
 			preguntamodal = request.POST.get('preguntamodal')
 			destinatariou = request.POST.get('destinatario')
-		 
+
 			solicit =  Preguntado.objects.create(emisor=request.user, destinatario=request.user, pregunta=preguntamodal, titulo=titulomo, estatus="espera")
 			solicit.save()
 
@@ -313,7 +345,7 @@ def preguntas(request):
 		email.body = mensaje
 		email.to = [ "seleccion@acerhempleos.com"]
 		email.send()
-	
+
 
 	return render(request, 'preguntas.html', context)
 
@@ -351,12 +383,12 @@ def companiaus(request):
 	if request.method == 'GET':
 		if 'localidad' in request.GET:
 			localidad = request.GET.get('localidad')
-			
+
 		else:
-			localidad = "" 
+			localidad = ""
 		if 'sexo' in request.GET:
 			sexo = request.GET.get('sexo')
-			
+
 		else:
 			sexo = ""
 		if 'ar_int' in request.GET:
@@ -364,24 +396,24 @@ def companiaus(request):
 			print ar_int
 			areaid =  Area.objects.get(titulo=ar_int)
 			print areaid
-			
+
 		else:
 			areaid = ""
 		if 'ar_exp' in request.GET:
 			ar_exp = request.GET.get('ar_exp')
 			areaid2 =  Area.objects.get(titulo=ar_exp)
 			print areaid2
-			
+
 		else:
 			areaid2 = ""
 		if 'carrera' in request.GET:
 			carrera = request.GET.get('carrera')
-			
+
 		else:
 			carrera = ""
 		if 'idioma' in request.GET:
 			idioma = request.GET.get('idioma')
-			
+
 		else:
 			idioma = ""
 		if 'edad' in request.GET:
@@ -398,7 +430,7 @@ def companiaus(request):
 			licencia = request.GET.get('licencia')
 		else:
 			licencia = ""
-		
+
 		if 'cat_licen' in request.GET:
 			cat_licen = request.GET.get('cat_licen')
 		else:
@@ -414,7 +446,7 @@ def companiaus(request):
 		for e in loc:
 			array.insert(0,e.user.pk)
 		app = Aplicado.objects.filter(estatus2='Procesado').filter(pais=request.user.userp.pais_apli) & Aplicado.objects.filter(usuario_id__in=array)
-		
+
 	return render(request, 'companiaus.html',  {'app':app, 'apps':app.all(),'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
 
 @login_required
@@ -423,16 +455,31 @@ def registerusers(request):
 	user = User.objects.filter()
 	are = Area.objects.all()
 	prov = Provincia.objects.all()
-	
+	rdusers = UserP.objects.filter(pais_apli='Republica Dominicana').count()
+	salvador = UserP.objects.filter(pais_apli='El Salvador').count()
+	guatemala = UserP.objects.filter(pais_apli='Guatemala').count()
+	honduras = UserP.objects.filter(pais_apli='Honduras').count()
+	jamaica = UserP.objects.filter(pais_apli='Jamaica').count()
+	nicaragua = UserP.objects.filter(pais_apli='Nicaragua').count()
+	tb = UserP.objects.filter(pais_apli='Trinidad y Tobago').count()
+
+	rdapli = Aplicado.objects.filter(pais='Republica Dominicana').count()
+	saapli = Aplicado.objects.filter(pais='El Salvador').count()
+	guapli = Aplicado.objects.filter(pais='Guatemala').count()
+	hoapli = Aplicado.objects.filter(pais='Honduras').count()
+	jaapli = Aplicado.objects.filter(pais='Jamaica').count()
+	niapli = Aplicado.objects.filter(pais='Nicaragua').count()
+	tbapli = Aplicado.objects.filter(pais='Trinidad y Tobago').count()
+
 	if request.method == 'GET':
 		if 'localidad' in request.GET:
 			localidad = request.GET.get('localidad')
-			
+
 		else:
-			localidad = "" 
+			localidad = ""
 		if 'sexo' in request.GET:
 			sexo = request.GET.get('sexo')
-			
+
 		else:
 			sexo = ""
 		if 'ar_int' in request.GET:
@@ -440,24 +487,24 @@ def registerusers(request):
 			print ar_int
 			areaid =  Area.objects.get(titulo=ar_int)
 			print areaid
-			
+
 		else:
 			areaid = ""
 		if 'ar_exp' in request.GET:
 			ar_exp = request.GET.get('ar_exp')
 			areaid2 =  Area.objects.get(titulo=ar_exp)
 			print areaid2
-			
+
 		else:
 			areaid2 = ""
 		if 'carrera' in request.GET:
 			carrera = request.GET.get('carrera')
-			
+
 		else:
 			carrera = ""
 		if 'idioma' in request.GET:
 			idioma = request.GET.get('idioma')
-			
+
 		else:
 			idioma = ""
 		if 'edad' in request.GET:
@@ -474,7 +521,7 @@ def registerusers(request):
 			licencia = request.GET.get('licencia')
 		else:
 			licencia = ""
-		
+
 		if 'cat_licen' in request.GET:
 			cat_licen = request.GET.get('cat_licen')
 		else:
@@ -489,8 +536,8 @@ def registerusers(request):
 		array = []
 		for e in loc:
 			array.insert(0,e.user.pk)
-		user = User.objects.filter(id__in=array) 		
-	return render(request, 'users.html',  {'user':user, 'users':user.all(),'app':app, 'apps':app.all(),'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
+		user = User.objects.filter(id__in=array)
+	return render(request, 'users.html',{'saapli':saapli,'niapli':niapli,'tbapli':tbapli,'hoapli':hoapli,'jaapli':jaapli,'guapli':guapli,'rdapli':rdapli,'jamaica':jamaica,'tb':tb,'guatemala':guatemala,'nicaragua':nicaragua,'honduras':honduras,'salvador':salvador,'rdusers':rdusers,'user':user, 'users':user.all(),'app':app, 'apps':app.all(),'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
 
 
 def companiapag(request):
@@ -504,8 +551,8 @@ def companiapag(request):
 		paged = paginator.page(1)
 	except EmptyPage:
 		paged = paginator.page(paginator.num_pages)
-	 
-	context = {'paged': paged,"creada":creada,"creadas":creada.all(), "post":post,"usuario":usuario,"usuarios":usuario.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()}
+
+	context = { 'paged': paged,"creada":creada,"creadas":creada.all(), "post":post,"usuario":usuario,"usuarios":usuario.all(), "posts":post.all(),"cantidad":cantidad ,"cantidad2":cantidad2,"cantidad3":cantidad3,"cantidad4":cantidad4,"area":area,"areas":area.all()}
 	return render(request, 'index4.html', { context })
 
 
@@ -542,10 +589,10 @@ def vacantejson(request):
 		#print record
 		Vacantes.append(record)
 
-		#pickup_records = json.dumps(pickup_records) 
-		pickup_records = json.dumps(Vacantes) 
+		#pickup_records = json.dumps(pickup_records)
+		pickup_records = json.dumps(Vacantes)
 		pickup_response={"vacantes":Vacantes}
-	return JsonResponse(pickup_response , safe=False) 
+	return JsonResponse(pickup_response , safe=False)
 
 
 
@@ -571,7 +618,7 @@ def aplicadomov(request):
 	data3 = json.loads(request.body)
 	print json.loads(request.body)
 	mouser = Token.objects.get(key=data3["token"])
-	print "mouser" , mouser.user 
+	print "mouser" , mouser.user
 	vacante_dict = {}
 	Aplicados=[]
 	vjs = Aplicado.objects.filter(usuario=mouser.user)
@@ -580,13 +627,13 @@ def aplicadomov(request):
 		vacan = Vacante.objects.get(id=tmpPickUp.aplico.id)
 		titulo = vacan.titulo
 		descripcion = vacan.descripcion
-		
+
 		idpost = tmpPickUp.id
 		print idpost
 		record = { "idpost":idpost, "titulo":titulo, "descripcion":descripcion}
 		print record
 		Aplicados.append(record)
-		pickup_records = json.dumps(Aplicados) 
+		pickup_records = json.dumps(Aplicados)
 		pickup_response={"aplicados":Aplicados}
 
 
@@ -599,7 +646,7 @@ def removermov(request):
 	data3["id"]
 	mouser = Token.objects.get(key=data3["token"])
 	print "mouser" , mouser.user
-	post = Aplicado.objects.get(id=data3["id"] , usuario=mouser.user) 
+	post = Aplicado.objects.get(id=data3["id"] , usuario=mouser.user)
 	post.delete()
 	return HttpResponse(json.dumps("Deleted"), content_type='application/json')
 

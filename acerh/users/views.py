@@ -21,7 +21,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from xlsxwriter.workbook import Workbook
-import sys  
+import sys
 import StringIO
 import io
 import os
@@ -32,6 +32,15 @@ reload(sys)  # Reload does the trick!
 sys.setdefaultencoding('UTF8')
 
 # Create your views here.
+
+
+def idioma(request):
+	context = {
+
+	}
+
+	return render(request, 'idioma.html', context)
+
 
 def user_detail(request, id=None):
 	cliente = get_object_or_404(User, id=id)
@@ -66,19 +75,22 @@ def LoginRequest(request):
 
 					return HttpResponseRedirect('/compania')
 				else:
-					return HttpResponseRedirect('/vacantes')
+					if request.user.userp.pais_apli == 'Jamaica' or request.user.userp.pais_apli == 'Trinidad y Tobago':
+						return HttpResponseRedirect('/vacantes2')
+					else:
+						return HttpResponseRedirect('/vacantes')
 			# De lo contrario devolver al Login
 			else:
-				render(request, "login2.html", {'form':form})
-				return render(request, "login2.html", {'form':form, 'message':message})
+				render(request, "loginmaterial.html", {'form':form})
+				return render(request, "loginmaterial.html", {'form':form, 'message':message})
 		# Si el formulario es invalido devolver al login
 		else:
-			
-			return render(request, "login2.html", {'form':form } )
+
+			return render(request, "loginmaterial", {'form':form } )
 	else:
 		form = LoginForm()
 		context = {'form':form}
-		return render(request, "login2.html", {'form':form})
+		return render(request, "loginmaterial.html", {'form':form})
 
 
 def LogoutRequest(request):
@@ -106,8 +118,8 @@ def register(request):
 			message = "Este correo electronico fue regustrado"
 			return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form, 'message':message})
 
-		
-		 
+
+
 		else:
 			if user_form.is_valid() and profile_form.is_valid():
 				user = user_form.save()
@@ -145,18 +157,91 @@ def register(request):
 				profile.licencia = request.POST['licencia'].encode('utf8')
 				profile.cat_licen = request.POST['cat_licen'].encode('utf8')
 				profile.pais_apli = request.POST['pais_apli'].encode('utf8')
-				
+
 				profile.save()
 				usuario = authenticate(username=username,password=password)
 				login(request,usuario)
 				return HttpResponseRedirect('/vacantes')
-			
+
 	else:
 		user_form = UsuarioForm2()
-		profile_form = UserPr()	
+		profile_form = UserPr()
 		area = Area.objects.all()
 		provincia = Provincia.objects.all()
 		return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form,'area':area,'areas':area.all(),'provincia':provincia,'provincias':provincia.all()})
+
+
+def register2(request):
+	context = RequestContext(request)
+	registered = False
+	area = Area.objects.all()
+	provincia = Provincia.objects.all()
+	message = ""
+	if request.method == 'POST':
+		user_form = UsuarioForm2(data=request.POST)
+		profile_form = UserPr(data=request.FILES)
+		data2 = request.POST['username']
+		if User.objects.filter(username=data2).exists():
+			message = "This Username is already in use, try another"
+			return render (request,'registerbeta2.html',{'user_form':user_form, 'profile_form': profile_form, 'message':message})
+
+
+		data = request.POST['email']
+		if User.objects.filter(email=data).exists():
+			message = "This email was registered"
+			return render (request,'registerbeta2.html',{'user_form':user_form, 'profile_form': profile_form, 'message':message})
+
+
+
+		else:
+			if user_form.is_valid() and profile_form.is_valid():
+				user = user_form.save()
+				user.set_password(user.password)
+				user.save()
+				profile = profile_form.save(commit=False)
+				profile.user = user
+				profile.save()
+				registered = True
+				username = user_form.cleaned_data['username'].encode('utf8')
+				password = user_form.cleaned_data['password'].encode('utf8')
+				if 'file' in request.FILES:
+					profile.file = request.FILES['file']
+				else:
+					profile.file = static('/nocv.txt')
+
+				if 'picture' not in request.FILES:
+					profile.picture =  static('/user.png')
+				else:
+					profile.picture = request.FILES['picture']
+
+				profile.cedula = request.POST['cedula'].encode('utf8')
+				profile.sexo = request.POST['sexo'].encode('utf8')
+				profile.idioma = request.POST['idioma'].encode('utf8')
+				profile.carrera = request.POST['carrera'].encode('utf8')
+				profile.ar_int = request.POST['ar_int'].encode('utf8')
+				profile.salario = request.POST['salario'].encode('utf8')
+				profile.telefono = request.POST['telefono'].encode('utf8')
+				profile.localidad = request.POST['localidad'].encode('utf8')
+				profile.estudio = request.POST['estudio'].encode('utf8')
+				profile.edad = request.POST['edad'].encode('utf8')
+				profile.experiencia = request.POST['experiencia'].encode('utf8')
+				profile.nacionalidad = request.POST['nacionalidad'].encode('utf8')
+				profile.universidad = request.POST['universidad'].encode('utf8')
+				profile.licencia = request.POST['licencia'].encode('utf8')
+				profile.cat_licen = request.POST['cat_licen'].encode('utf8')
+				profile.pais_apli = request.POST['pais_apli'].encode('utf8')
+
+				profile.save()
+				usuario = authenticate(username=username,password=password)
+				login(request,usuario)
+				return HttpResponseRedirect('/vacantes2')
+
+	else:
+		user_form = UsuarioForm2()
+		profile_form = UserPr()
+		area = Area.objects.all()
+		provincia = Provincia.objects.all()
+		return render (request,'registerbeta2.html',{'user_form':user_form, 'profile_form': profile_form,'area':area,'areas':area.all(),'provincia':provincia,'provincias':provincia.all()})
 
 
 
@@ -173,7 +258,7 @@ def userdetail2(request):
 		user_form = UsuarioForm(data=request.POST)
 		profile_form = UserPr(data=request.FILES)
 		if user_form.is_valid() and profile_form.is_valid():
-			
+
 			user = user_form.save()
 			user.username = request.user.username
 			user.save()
@@ -183,7 +268,7 @@ def userdetail2(request):
 			profile.estudio = request.POST['estudio']
 			profile.edad = request.POST['edad']
 			profile.experiencia = request.POST['experiencia']
-			
+
 			profile.user = user
 			profile.save()
 			registered = True
@@ -200,7 +285,7 @@ def userdetail(request):
 	user_form = UsuarioForm(data=request.POST, instance=userinfo)
 	profile_form = UserPr3(data=request.POST,files=request.FILES, instance=userdetalle)
 	if request.method == 'POST':
-		
+
 		if user_form.is_valid() and profile_form.is_valid():
 			profile = profile_form.save(commit=False)
 			if 'file' in request.FILES:
@@ -209,7 +294,7 @@ def userdetail(request):
 				if request.user.userp.file:
 					profile.file = request.user.userp.file
 				else:
-					profile.file = static('/nocv.txt')	
+					profile.file = static('/nocv.txt')
 
 			if 'picture' not in request.FILES:
 				if request.user.userp.file:
@@ -218,7 +303,7 @@ def userdetail(request):
 					profile.picture =  static('/user.png')
 			else:
 				profile.picture = request.FILES['picture']
-			
+
 			user = user_form.save()
 			if 'first_name' in request.POST:
 				user.first_name = request.POST['first_name']
@@ -234,11 +319,11 @@ def userdetail(request):
 				user.email = request.POST['email']
 			else:
 				user.email = request.user.email
-			
+
 			user.username = request.user.username
 			user.save()
-			
-		
+
+
 			profile.cedula = request.POST['cedula']
 			profile.sexo = request.POST['sexo']
 			profile.idioma = request.POST['idioma']
@@ -255,7 +340,7 @@ def userdetail(request):
 			profile.licencia = request.POST['licencia']
 			profile.cat_licen = request.POST['cat_licen']
 			profile.pais_apli = request.POST['pais_apli']
-			
+
 			profile.user = user
 			profile.save()
 			registered = True
@@ -263,7 +348,7 @@ def userdetail(request):
 		else:
 			user_form = UsuarioForm(data=request.POST, instance=userinfo)
 			profile_form = UserPr3(data=request.POST,files=request.FILES, instance=userinfo)
-	return render(request, 'profile.html', {'user_form':user_form,'profile_form':profile_form, 'area':area, 'areas':area.all(), 'provincia':provincia,'provincias':provincia.all()})
+	return render(request, 'profile.html', {'user_form':user_form,'profile_form':profile_form, 'aplicado':aplicado, 'aplicados':aplicado.all(),'area':area, 'areas':area.all(), 'provincia':provincia,'provincias':provincia.all()})
 
 
 def email(request):
@@ -274,79 +359,79 @@ def email(request):
 	email.send()
 
 import json
-def consulta(request): 
+def consulta(request):
 	search_text = request.GET.get('ajax')
 	array = []
 	print search_text
 	if search_text is not None:
-		if request.is_ajax(): 
+		if request.is_ajax():
 			clientes = User.objects.filter(email=search_text)
 			if clientes.exists():
 				print "Existe"
 				array = []
-				array.insert(0,"Este Correo Electronico Existe, Use Otro")
-				return HttpResponse(json.dumps( list(array)), content_type='application/json' ) 
+				array.insert(0,"This Email Exists, Use Other")
+				return HttpResponse(json.dumps( list(array)), content_type='application/json' )
 			else:
 				print "No Existe"
 				try:
 					email = EmailMessage()
 					email.subject = "METODO VERIFICACION ACERH"
-					email.body = "Este es un correo automatico generado por al aplicacion de ACERHGROUP para verificacione de correos electronicos, favor ignorar este correo"
+					email.body = "This is an automatic email generated by the application of ACERHGROUP to verify emails, please ignore this email"
 					email.to = [ search_text ]
 					email.send()
-					array.insert(0,"Este Correo Electronico Esta Disponible")
+					array.insert(0,"This Email is Available")
 				except:
 
-					array.insert(0,"Este correo no es real o no existe")
-				return HttpResponse( json.dumps( list(array)), content_type='application/json' ) 
-	else: 
+					array.insert(0,"This email is not real or does not exist")
+				return HttpResponse( json.dumps( list(array)), content_type='application/json' )
+	else:
 		return HttpResponse("")
 
-def consultaur(request): 
+def consultaur(request):
 	search_text = request.GET.get('ajax')
 	print search_text
 	if search_text is not None:
-		if request.is_ajax(): 
+		if request.is_ajax():
 			clientes = User.objects.filter(username=search_text)
 			if clientes.exists():
 				print "Existe"
 				array = []
 				array.insert(0,"Este Username Existe, Use Otro")
-				return HttpResponse(json.dumps( list(array)), content_type='application/json' ) 
+				return HttpResponse(json.dumps( list(array)), content_type='application/json' )
 			else:
 				print "No Existe"
 				array = []
 				array.insert(0,"Este Username Esta Disponible")
-				return HttpResponse( json.dumps( list(array)), content_type='application/json' ) 
-	else: 
+				return HttpResponse( json.dumps( list(array)), content_type='application/json' )
+	else:
 		return HttpResponse("")
 
 
-def consultan(request): 
+def consultan(request):
 	search_text = request.GET.get('ajax')
 	print search_text
 	if search_text is not None:
-		if request.is_ajax(): 
+		if request.is_ajax():
 			clientes = User.objects.filter(username=search_text)
 			if clientes.exists():
 				print "Existe"
 				array = []
 				array.insert(0,"Este Username Esta en Uso,Ingrese Otro")
-				return HttpResponse(json.dumps( list(array)), content_type='application/json' ) 
+				return HttpResponse(json.dumps( list(array)), content_type='application/json' )
 			else:
 				print "No Existe"
 				array = []
 				array.insert(0,"Este Username Esta Disponible")
-				return HttpResponse( json.dumps( list(array)), content_type='application/json' ) 
-	else: 
+				return HttpResponse( json.dumps( list(array)), content_type='application/json' )
+	else:
 		return HttpResponse("")
 
 from django.core import serializers
-def consultauser(request): 
+def consultauser(request):
 	search_text = request.GET.get('ajax')
 	print search_text
 	if search_text is not None:
-		if request.is_ajax(): 
+		if request.is_ajax():
 			clientes = User.objects.filter(first_name__icontains=search_text)
 			if clientes.exists():
 				data = serializers.serialize("json", clientes)
@@ -354,13 +439,13 @@ def consultauser(request):
 					print cliente.username
 					array = []
 					array.insert(0,cliente.id)
-				return HttpResponse(json.dumps(list(clientes.values('pk','first_name', 'last_name','email'))), content_type='application/json' ) 
+				return HttpResponse(json.dumps(list(clientes.values('pk','first_name', 'last_name','email'))), content_type='application/json' )
 			else:
 				print "No Existe"
 				array = []
 				array.insert(0,"Este Username Esta Disponible")
-				return HttpResponse( json.dumps( list(array)), content_type='application/json' ) 
-	else: 
+				return HttpResponse( json.dumps( list(array)), content_type='application/json' )
+	else:
 		return HttpResponse("")
 
 
@@ -428,9 +513,9 @@ class ResetPasswordRequestView(FormView):
 							'token': default_token_generator.make_token(user),
 							'protocol': 'http',
 							}
-						subject_template_name='registration/password_reset_subject.txt' 
+						subject_template_name='registration/password_reset_subject.txt'
 						# copied from django/contrib/admin/templates/registration/password_reset_subject.txt to templates directory
-						email_template_name='registration/password_reset_email.html'    
+						email_template_name='registration/password_reset_email.html'
 						# copied from django/contrib/admin/templates/registration/password_reset_email.html to templates directory
 						subject = loader.render_to_string(subject_template_name, c)
 						# Email subject *must not* contain newlines
@@ -508,15 +593,15 @@ class PasswordResetConfirmView(FormView):
 			messages.error(request,'El enlace de reinicio ya no es valido.')
 			return self.form_invalid(form)
 
-#FUNCION ENCARGADA DE LA CREACION DEL REPORTE EN EXCEL 
+#FUNCION ENCARGADA DE LA CREACION DEL REPORTE EN EXCEL
 def export_excel(request):
 	#Llamada a la libreria para escribir en bits
 	output = io.BytesIO()
-	
+
 	#Se inicializa el workbook de excel en cache
 	workbook = Workbook(output, {'in_memory': True})
 	worksheet = workbook.add_worksheet()
-	
+
 	#se setea la variable cell con 8 para que empieze a escribir desde la celda 8
 	cell = 8
 	#ciclo que busca todos los objetos con estatus 195(por enviar) para ser escritos en el excel
@@ -531,9 +616,9 @@ def export_excel(request):
 		worksheet.write_string(cell,3, obj.last_name).encode('utf-8')
 		#escribre el username
 		worksheet.write_string(cell,4, obj.username).encode('utf-8')
-		
+
 		#Se realiza el aumento de la celda para seguir escribiendo hacia abajo
-		cell = cell + 1 
+		cell = cell + 1
 
 
 
@@ -543,7 +628,7 @@ def export_excel(request):
 	#Variable que define el tamanio de las letras
 	size = workbook.add_format({'font_size': 20})
 	#Define el color rojo de las celdas
-	green = workbook.add_format({'bg_color': 'red', 'bold': 1}) 
+	green = workbook.add_format({'bg_color': 'red', 'bold': 1})
 	#Escriben los enunciados del reporte de excel y ejecuta el logo
 	worksheet.write('C5', 'Reporte en excel de Acerh, Todos los usuarios',size)
 	worksheet.insert_image('B4', 'static/plugins/logo2.png', {'x_scale': 0.3, 'y_scale': 0.3})
@@ -569,18 +654,18 @@ def export_excel(request):
 	response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	response['Content-Disposition'] = "attachment; filename=UserReport.xlsx"
 
-	#funcion de retorno 
+	#funcion de retorno
 	return response
 
 
 def export_excel2(request):
 	#Llamada a la libreria para escribir en bits
 	output = io.BytesIO()
-	
+
 	#Se inicializa el workbook de excel en cache
 	workbook = Workbook(output, {'in_memory': True})
 	worksheet = workbook.add_worksheet()
-	
+
 	#se setea la variable cell con 8 para que empieze a escribir desde la celda 8
 	cell = 8
 	#ciclo que busca todos los objetos con estatus 195(por enviar) para ser escritos en el excel
@@ -596,9 +681,9 @@ def export_excel2(request):
 		worksheet.write_string(cell,3, str(userm.first_name)).encode('utf-8')
 		#escribre el username
 		worksheet.write_string(cell,4, str(userm.last_name)).encode('utf-8')
-		
+
 		#Se realiza el aumento de la celda para seguir escribiendo hacia abajo
-		cell = cell + 1 
+		cell = cell + 1
 
 
 
@@ -608,7 +693,7 @@ def export_excel2(request):
 	#Variable que define el tamanio de las letras
 	size = workbook.add_format({'font_size': 20})
 	#Define el color rojo de las celdas
-	green = workbook.add_format({'bg_color': 'red', 'bold': 1}) 
+	green = workbook.add_format({'bg_color': 'red', 'bold': 1})
 	#Escriben los enunciados del reporte de excel y ejecuta el logo
 	worksheet.write('C5', 'Reporte en excel de Acerh, Usuarios Perfiles en blanco',size)
 	worksheet.insert_image('B4', 'static/plugins/logo2.png', {'x_scale': 0.3, 'y_scale': 0.3})
@@ -634,7 +719,7 @@ def export_excel2(request):
 	response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	response['Content-Disposition'] = "attachment; filename=UserReport.xlsx"
 
-	#funcion de retorno 
+	#funcion de retorno
 	return response
 
 
@@ -670,10 +755,8 @@ def usermov(request):
 	Registros=[]
 	record = { "id":userbasic.id, "user":userbasic.username, "first_name":userbasic.first_name, "last_name":userbasic.last_name, "email":userbasic.email, "picture":userpro.picture.url,"localidad":userpro.localidad, "estudio":userpro.estudio,"edad":userpro.edad,"experiencia":userpro.experiencia,"idioma":userpro.idioma,"ar_int":userpro.ar_int,"carrera":userpro.carrera,"sexo":userpro.sexo,"cedula":userpro.cedula, "nacionalidad":userpro.nacionalidad,"universidad":userpro.universidad,"pais_apli":userpro.pais_apli}
 	Registros.append(record)
-	pickup_records = json.dumps(Registros) 
+	pickup_records = json.dumps(Registros)
 	pickup_response={"registros":Registros}
 
 
 	return JsonResponse(pickup_response, safe=False)
-
-	

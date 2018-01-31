@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+{% load staticfiles %}
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<title>ACERHGROUP - REGISTER</title>
+
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+  <link rel="icon" href="http://www.acerhrd.com/wp-content/uploads/2018/01/cropped-Identidad-02-32x32.png" sizes="32x32">
+
+	<!--     Fonts and icons     -->
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+
+	<!-- CSS Files -->
+	<link href="{% static 'assetsre/css/bootstrap.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'assetsre/css/material-bootstrap-wizard.css' %}" rel="stylesheet" />
+
+     <script src="{% static 'assetsre/js/jquery-2.2.4.min.js' %}" type="text/javascript"></script>
+	<!-- CSS Just for demo purpose, don't include it in your project -->
+	<link href="{% static 'assetsre/css/demo.css' %}" rel="stylesheet" />
+
+    </head>
+
+<body>
+	<div class="image-container set-full-height" style="background-image: url('{% static 'assets10/img/register.jpg' %}">
+	    <!--   Creative Tim Branding   -->
+	         <div class="logo-container">
+	         <img height="70" width="200" src="{% static 'assets10/img/logo4.png' %}" alt="Home" />
+
+	            <div class="brand">
+
+	            </div>
+	        </div>
+	    </a>
+
+
+
+	    <!--   Big container   -->
+	    <div class="container">
+	        <div class="row">
+		        <div class="col-sm-8 col-sm-offset-2">
+		            <!--      Wizard container        -->
+		            <div class="wizard-container">
+		                <div class="card wizard-card" data-color="red" id="wizard">
+
+		                    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+		                <!--        You can switch " data-color="blue" "  with one of the next bright colors: "green", "orange", "red", "purple"             -->
+
+		                    	<div class="wizard-header">
+		                        	<h3 class="wizard-title">
+		                        		Register
+		                        	</h3>
+									<h5>Let us know everything about you</h5>
+		                    	</div>
+								<div class="wizard-navigation">
+									<ul>
+			                            <li><a href="#details" data-toggle="tab">Web Profile</a></li>
+			                            <li><a href="#account" data-toggle="tab">Requirements</a></li>
+			                            <li><a href="#description" data-toggle="tab">Basic information</a></li>
+			                        </ul>
+								</div>
+                                {% if message %}
+                                <center><div class="alert alert-danger">{{message}}</div></center>
+                                {% endif %}
+                                <center><div style="display: none;" id="testo" class="alert alert-danger"><div id="error"></div></div></center>
+
+		                        <div class="tab-content">
+		                            <div class="tab-pane" id="account">
+		                                <h4 class="info-text"> Information to improve your experience with us </h4>
+		                                <div class="row">
+		                                   <div class="col-sm-6">
+		                                        <div class="form-group label-floating">
+		                                        	<label class="control-label">Sex</label>
+	                                        		<select name="sexo" class="form-control">
+														<option value="N/A" selected="">Select your sex</option>
+	                                                	<option value="Masculino">Masculino</option>
+	                                                	<option value="Femenino">Femenino </option>
+		                                        	</select>
+		                                    	</div>
+		                                    </div>
+		                                    <div class="col-sm-6">
+		                                         <div class="form-group ">
+		                                         <label >Languages</label>
+                                                 <input placeholder="Enter the languages you speak" name="idioma" type="text" class="form-control">
+
+                                                </div>
+		                                    </div>
+
+		                                    <div class="col-sm-6">
+		                                        <div class="form-group label-floating">
+		                                            <div class="form-group label-floating">
+		                                        	<label class="control-label">Career</label>
+	                                        		<select name="carrera" class="form-control">
+														<option value="N/A" selected="">Select Area</option>
+	                                                	{%for area in areas%}
+	                                                	<option value="{{area.titulo}}">{{area.titulo}}</option>
+	                                                	{%endfor%}
+
+		                                        	</select>
+		                                    	</div>
+		                                        </div>
+		                                    </div>
+		                                    <div class="col-sm-6">
+		                                        <div class="form-group label-floating">
+		                                           <div class="form-group label-floating">
+		                                        	<label class="control-label">Interest Area</label>
+	                                        		<select name="ar_int" class="form-control">
+														<option value="N/A" selected="">Select Area</option>
+	                                                	{%for area in areas%}
+	                                                	<option value="{{area.titulo}}">{{area.titulo}}</option>
+	                                                	{%endfor%}
+
+
+		                                        	</select>
+		                                    	</div>
+		                                        </div>
+		                                    </div>
+		                                    <div class="col-sm-6">
+		                                        <div class="form-group label-floating">
+		                                            <label class="control-label">DNI</label>
+		                                            <input id="cedula" name="cedula" type="text" data-mask="000-0000000-0" class="form-control">
+		                                        </div>
+		                                    </div>
+		                                    <div class="col-sm-6">
+		                                        <div class="form-group label-floating">
+		                                             <div class="form-group label-floating">
+		                                           <div class="form-group label-floating">
+		                                        	<label class="control-label">Salary to which he aspires</label>
+	                                        		<input id="salario" name="salario" data-mask="#,##0.00" data-mask-reverse="true" type="text" class="form-control">
+		                                    	</div>
+		                                        </div>
+		                                        </div>
+		                                    </div>
+		                                </div>
+		                            </div>
+
+		                            <div class="tab-pane" id="details">
+		                            	<div class="row">
+			                            	<div class="col-sm-12">
+			                                	<h4 class="info-text"> Let's start with the basic information</h4>
+			                            	</div>
+		                                	<div class="col-sm-6">
+												<div class="input-group">
+													<span class="input-group-addon">
+														<i class="material-icons">account_box</i>
+													</span>
+													<div class="form-group label-floating">
+			                                          	<label class="control-label">Username</label>
+			                                     <input name="username" id="username" type="text" class="form-control" onchange="myUsername()">
+			                                        </div>
+												</div>
+
+												<div class="input-group">
+													<span class="input-group-addon">
+														<i class="material-icons">lock_outline</i>
+													</span>
+													<div class="form-group label-floating">
+			                                          	<label class="control-label">Your Password</label>
+			                                          	<input name="password" type="password" class="form-control">
+			                                        </div>
+												</div>
+
+												<div class="input-group">
+													<span class="input-group-addon">
+														<i class="material-icons">email</i>
+													</span>
+													<div class="form-group label-floating">
+			                                          	<label class="control-label">Your Email</label>
+			                                          	<input name="email" id="email" type="text" class="form-control" onchange="myFunction()">
+			                                          	<span class="help-block"><small>Must fill this field is mandatory and unique.</small></span>
+			                                        </div>
+												</div>
+
+		                                	</div>
+		                                	<div class="col-sm-6">
+		                                  <div class="picture-container">
+                                          <div class="picture">
+                                              <img src="{% static 'assets/img/user.png' %}" class="picture-src" id="wizardPicturePreview" title=""/>
+                                              <input name="picture" type="file" id="wizard-picture">
+                                          </div>
+                                          <h6>Choose your Photo</h6>
+                                      </div>
+											<div class="form-group label-floating">
+			                                          	<label class="control-label">Location</label>
+			                                          	<input name="localidad" id="localidad" class="form-control">
+			                                        </div>
+
+		                                	</div>
+		                            	</div>
+		                            </div>
+
+		                            <div class="tab-pane" id="description">
+		                                <div class="row">
+		                                    <div class="col-sm-6">
+												<div class="input-group">
+													<span class="input-group-addon">
+														<i class="material-icons">account_box</i>
+													</span>
+													<div class="form-group label-floating">
+			                                          	<label class="control-label">Name</label>
+			                                          	<input name="first_name" type="text" class="form-control">
+			                                        </div>
+												</div>
+											</div>
+		                                </div>
+
+		                                <div class="row">
+		                                    <div class="col-sm-6">
+												<div class="input-group">
+													<span class="input-group-addon">
+														<i class="material-icons">account_box</i>
+													</span>
+													<div class="form-group label-floating">
+			                                          	<label class="control-label">Last Name</label>
+			                                          	<input name="last_name" type="text" class="form-control">
+			                                        </div>
+
+
+												</div>
+
+												<div class="form-group label-floating">
+		                                            <label class="control-label">Phone</label>
+		                                            <input name="telefono" type="text" class="form-control">
+		                                        </div>
+
+		                                        <div class="form-group label-floating">
+		                                        	<label class="control-label">Preparation</label>
+	                                        		<select name="estudio" class="form-control">
+	                                        		    <option value="N/A" selected="">Sin estudios</option>
+														<option value="Basico">Basico </option>
+                                                        <option value="Bachillerato"> Bachillerato </option>
+                                                        <option value="Universitario(incompleto)"> Universitario(incompleto) </option>
+                                                        <option value="Profesional"> Profesional </option>
+		                                        	</select>
+
+		                                        	<div class="form-group label-floating">
+			                                          	<label class="control-label">Nationality</label>
+			                                          	<input name="nacionalidad" type="text" class="form-control">
+			                                        </div>
+
+			                                        <div class="form-group label-floating">
+			                                          	<label class="control-label">college</label>
+			                                          	<input name="universidad" type="text" class="form-control">
+			                                        </div>
+		                                    	</div>
+												<span class="btn btn-default btn-file"><input value="{% static 'assets/img/user.png' %}" name="file" type="file"><span>Select your CV(OPTIONAL)</span></span>
+											</div>
+											<div class="col-sm-6">
+
+		                                    </div>
+
+											<div class="col-sm-6">
+
+
+			                                       <div class="form-group label-floating">
+		                                        	<label class="control-label">Driver's license?</label>
+	                                        		<select name="licencia" class="form-control">
+	                                                	<option value="No tengo"> No tengo </option>
+                                                        <option value="Si tengo"> Si tengo </option>
+
+		                                        	</select>
+		                                    	</div>
+		                                    	<div class="form-group label-floating">
+		                                        	<label class="control-label">Category License</label>
+	                                        		<select name="cat_licen" class="form-control">
+														<option value="Categoria 1"> Sin, Categoria </option>
+	                                                	<option value="Categoria 1"> Categoria 1 </option>
+                                                        <option value="Categoria 2"> Categoria 2 </option>
+                                                        <option value="Categoria 3"> Categoria 3 </option>
+                                                        <option value="Categoria 4"> Categoria 4 </option>
+                                                        <option value="Categoria 5"> Categoria 5 </option>
+		                                        	</select>
+		                                    	</div>
+		                                    	<div class="form-group label-floating">
+		                                        	<label class="control-label">Experience</label>
+	                                        		<select name="experiencia" class="form-control">
+	                                                	<option value="1-2"> Sin experiencia </option>
+	                                                	<option value="1-2"> 1-2 </option>
+                                                        <option value="2-5"> 2-5 </option>
+                                                        <option value="5-10"> 5-10 </option>
+                                                        <option value="10-15"> 10-15 </option>
+                                                        <option value="15+"> 15+ </option>
+		                                        	</select>
+		                                    	</div>
+		                                    	<div class="form-group label-floating">
+		                                        	<label class="control-label">Age range</label>
+	                                        		<select name="edad" class="form-control">
+	                                                	<option value="18-25"> 18-25 </option>
+                                                        <option value="25-30"> 25-30 </option>
+                                                        <option value="30-35"> 30-35 </option>
+                                                        <option value="35-40"> 35-40 </option>
+                                                        <option value="40+"> 40+ </option>
+		                                        	</select>
+		                                    	</div>
+		                                    	<div class="form-group label-floating">
+		                                        	<label class="control-label">Country for the one that applies</label>
+	                                        		<select name="pais_apli" class="form-control">
+	                                                	<option value="El Salvador">El Salvador</option>
+	                                                	<option value="Guatemala">Guatemala</option>
+	                                                	<option value="Honduras">Honduras</option>
+	                                                	<option value="Jamaica">Jamaica</option>
+	                                                	<option value="Nicaragua">Nicaragua</option>
+	                                                	<option value="Republica Dominicana">Republica Dominicana</option>
+	                                                	<option value="Trinidad y Tobago">Trinidad y Tobago</option>
+
+		                                        	</select>
+		                                    	</div>
+
+											</div>
+		                                </div>
+
+
+		                            </div>
+		                        </div>
+
+	                        	<div class="wizard-footer">
+	                            	<div class="pull-right">
+	                                    <input type='button' class='btn btn-next btn-fill btn-danger btn-wd' name='next' value='NEXT' />
+	                                    <input type='submit' class='btn btn-finish btn-fill btn-danger btn-wd' value='TO LOOK FOR A JOB' />
+	                                </div>
+	                                <div class="pull-left">
+	                                    <input type='button' class='btn btn-previous btn-fill btn-default btn-wd' name='previous' value='PREVIOUS' />
+
+
+	                                </div>
+	                                <div class="clearfix"></div>
+	                        	</div>
+		                    </form>
+		                </div>
+		            </div> <!-- wizard container -->
+		        </div>
+	    	</div> <!-- row -->
+		</div> <!--  big container -->
+
+	    <div class="footer">
+
+	    </div>
+	</div>
+
+	<script type="text/javascript">
+
+
+            function myFunction() {
+            var html = ""
+            consulta = $("#email").val();
+            var n = consulta.includes(".");
+            console.log(n)
+            $('#error').html(html);
+            console.log(consulta)
+            if (n == true){
+            $.ajax({
+            data: {'ajax': consulta},
+            url: '/consulta/',
+            type: 'GET',
+            success : function(data) {
+
+                    console.log(data[0]);
+                    html += '<center>'+'<div class="alert alert-danger">'+ data.responseText  +" "+'</div>'+'</center>';
+                    document.getElementById("error").innerHTML = data[0];
+                    var myElement = document.querySelector("#testo");
+                    myElement.style.display = "block";
+            },
+            error : function(message) {
+                   console.log(message);
+
+            }
+             });
+            }
+            else{
+
+            }
+
+
+            }
+         </script>
+
+         <script type="text/javascript">
+
+            function myUsername() {
+            var html = ""
+            consulta = $("#username").val();
+
+            console.log(consulta)
+            $('#error').html(html);
+            console.log(consulta)
+
+            $.ajax({
+            data: {'ajax': consulta},
+            url: '/consultaur/',
+            type: 'GET',
+            success : function(data) {
+
+                    console.log(data[0]);
+                    html += '<center>'+'<div class="alert alert-danger">'+ data.responseText  +" "+'</div>'+'</center>';
+                    document.getElementById("error").innerHTML = data[0];
+                    var myElement = document.querySelector("#testo");
+                    myElement.style.display = "block";
+            },
+            error : function(message) {
+                   console.log(message);
+
+            }
+             });
+
+
+
+            }
+         </script>
+
+
+
+</body>
+
+
+    <script src="{% static 'assetsre/js/jquery.mask.js' %}" type="text/javascript"></script>
+
+	<script src="{% static 'assetsre/js/bootstrap.min.js' %}" type="text/javascript"></script>
+	<script src="{% static 'assetsre/js/jquery.bootstrap.js' %}" type="text/javascript"></script>
+
+	<!--  Plugin for the Wizard -->
+	<script src="{% static 'assetsre/js/material-bootstrap-wizard.js' %}"></script>
+
+	<!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
+	<script src="{% static 'assetsre/js/jquery.validate.min.js' %}"></script>
+	<!-- <script src="{% static 'assetsre/js/bootstrap-select.js' %}"></script> -->
+
+
+</html>

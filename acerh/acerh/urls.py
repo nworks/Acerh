@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from users.views import LoginRequest ,LogoutRequest, register,email, ResetPasswordRequestView,PasswordResetConfirmView,consulta, consultauser, user_detail, consultaur,export_excel, export_excel2, logouttk,usermov
-from vacantes.views import vacantedit, vacantelist, aplicado, solicitud, remover,removerc, compania,companiass,companiaus, solicitudcompania, passwordrecovery, proceso, preguntas,registerusers, list_vacant,vacantejson,solcomjs,aplicadomov,removermov, actualizapais
+from users.views import LoginRequest ,LogoutRequest, register, register2,email, ResetPasswordRequestView,PasswordResetConfirmView,consulta, consultauser, user_detail, consultaur,export_excel, export_excel2, logouttk,usermov,idioma
+from vacantes.views import vacantedit, vacantelist,vacantelist2, aplicado,aplicado2, solicitud, remover,removerc, compania,companiass,companiaus, solicitudcompania, passwordrecovery, proceso, preguntas,registerusers, list_vacant,vacantejson,solcomjs,aplicadomov,removermov, actualizapais
 from users.views import userdetail
 from django.conf import settings
 from django.conf.urls.static import static
@@ -71,9 +71,13 @@ except:
 	url(r'^login/',LoginRequest ),
 	url(r'^$',LoginRequest ),
 	url(r'^vacantes/',vacantelist ),
+	url(r'^vacantes2/',vacantelist2 ),
 	url(r'^aplicado/',aplicado ),
+	url(r'^aplicado2/',aplicado2 ),
+	url(r'^idioma/',idioma ),
 	url(r'logout/', LogoutRequest, name="logout"),
 	url(r'register/$', register),
+	url(r'register2/$', register2),
 	url(r'^solicitud/', solicitud, name="solicitud"),
 	url(r'^proceso/', proceso, name="proceso"),
 	url(r'^remover/', remover, name="remover"),
@@ -105,11 +109,7 @@ except:
 	url(r'^usermov/',usermov),
 	url(r'^actualizapais/',actualizapais),
 	url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
- 
- 
+
+
 
 	]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-
-
-
