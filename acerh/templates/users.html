@@ -22,7 +22,7 @@
                                                             </td>
                                                             <td>Republica Dominicana</td>
                                                             <td class="text-right">
-                                                                {{rdusers}}
+                                                                {{rdposts}}
                                                             </td>
                                                             <td class="text-right">
                                                                 {{rdapli}}
@@ -124,17 +124,18 @@
                             </div>
                         </div>
                     </div>
+<div class="row">
+{% for post in posts %}
 
-{%for user in users%}
 <div class="col-lg-3 col-md-6 col-sm-6">
     <div class="card card-stats">
         <div class="card-header" data-background-color="red">
             <i class="material-icons">person</i>
         </div>
         <div class="card-content">
-            <h3 class="category"><a href="{% url 'user_detail' id=user.id %}">{{user.first_name}} {{user.last_name}}</h3>
-            <p class="card-title">{{user.username}}</p>
-            <p class="card-title">{{user.email}}</p>
+            <h3 class="category"><a href="{% url 'user_detail' id=post.id %}">{{post.first_name}} {{post.last_name}}</h3>
+            <p class="card-title">{{post.postname}}</p>
+            <p class="card-title">{{post.email}}</p>
 
         </div>
         <div class="card-footer">
@@ -143,5 +144,11 @@
         </div>
     </div>
 </div>
+
 {%endfor%}
+</div>
+<div class="row">
+  <center> <ul class="pagination pagination-danger"> {% if posts.has_previous %} <li class="active"><a class="active" href="?page={{ posts.previous_page_number }}">Volver</a></li>{% endif %}{% if posts.has_next %}<li class="active"><a  href="?page={{ posts.next_page_number }}">Siguiente</a></li>{% endif %}</ul> </center>
+</div>
+
 {% endblock %}

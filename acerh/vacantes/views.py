@@ -208,6 +208,21 @@ def companiass(request):
 	are = Area.objects.all()
 	prov = Provincia.objects.all()
 	entreform = EntrevistaForm(data=request.FILES)
+
+	paginator = Paginator(app, 20) # Show 25 contacts per page
+
+	page = request.GET.get('page')
+	try:
+		apps = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		apps = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		apps = paginator.page(paginator.num_pages)
+
+
+
 	if request.method == 'GET':
 		if 'localidad' in request.GET:
 			localidad = request.GET.get('localidad')
@@ -260,7 +275,7 @@ def companiass(request):
 			array.insert(0,e.user.pk)
 		app = Aplicado.objects.filter(~Q(estatus2='Procesado')).filter(pais=request.user.userp.pais_apli) & Aplicado.objects.filter(usuario_id__in=array)
 
-		return render(request, 'companiass.html', {"app":app,"apps":app.all(), 'entreform':entreform,'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()} )
+		return render(request, 'companiass.html', {"apps":apps, 'entreform':entreform,'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()} )
 
 
 	elif request.method == 'POST':
@@ -380,6 +395,20 @@ def companiaus(request):
 	app = Aplicado.objects.filter(estatus2='Procesado').filter(pais=request.user.userp.pais_apli)
 	are = Area.objects.all()
 	prov = Provincia.objects.all()
+
+	paginator = Paginator(app, 20) # Show 25 contacts per page
+
+	page = request.GET.get('page')
+	try:
+		apps = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		apps = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		apps = paginator.page(paginator.num_pages)
+
+
 	if request.method == 'GET':
 		if 'localidad' in request.GET:
 			localidad = request.GET.get('localidad')
@@ -447,7 +476,7 @@ def companiaus(request):
 			array.insert(0,e.user.pk)
 		app = Aplicado.objects.filter(estatus2='Procesado').filter(pais=request.user.userp.pais_apli) & Aplicado.objects.filter(usuario_id__in=array)
 
-	return render(request, 'companiaus.html',  {'app':app, 'apps':app.all(),'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
+	return render(request, 'companiaus.html',  {'apps':apps,'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
 
 @login_required
 def registerusers(request):
@@ -470,6 +499,18 @@ def registerusers(request):
 	jaapli = Aplicado.objects.filter(pais='Jamaica').count()
 	niapli = Aplicado.objects.filter(pais='Nicaragua').count()
 	tbapli = Aplicado.objects.filter(pais='Trinidad y Tobago').count()
+
+	paginator = Paginator(user, 8) # Show 25 contacts per page
+
+	page = request.GET.get('page')
+	try:
+		posts = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		posts = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		posts = paginator.page(paginator.num_pages)
 
 	if request.method == 'GET':
 		if 'localidad' in request.GET:
@@ -537,7 +578,7 @@ def registerusers(request):
 		for e in loc:
 			array.insert(0,e.user.pk)
 		user = User.objects.filter(id__in=array)
-	return render(request, 'users.html',{'saapli':saapli,'niapli':niapli,'tbapli':tbapli,'hoapli':hoapli,'jaapli':jaapli,'guapli':guapli,'rdapli':rdapli,'jamaica':jamaica,'tb':tb,'guatemala':guatemala,'nicaragua':nicaragua,'honduras':honduras,'salvador':salvador,'rdusers':rdusers,'user':user, 'users':user.all(),'app':app, 'apps':app.all(),'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
+	return render(request, 'users.html',{'posts': posts,'saapli':saapli,'niapli':niapli,'tbapli':tbapli,'hoapli':hoapli,'jaapli':jaapli,'guapli':guapli,'rdapli':rdapli,'jamaica':jamaica,'tb':tb,'guatemala':guatemala,'nicaragua':nicaragua,'honduras':honduras,'salvador':salvador,'rdusers':rdusers,'user':user, 'users':user.all(),'app':app, 'apps':app.all(),'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()})
 
 
 def companiapag(request):

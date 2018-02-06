@@ -78,20 +78,8 @@
                                     url: '{% url 'remover'  %}',
                                     type: 'POST',
                                     success : function(data) {
-                                            swal({
-                                                  title: "Estas seguro?",
-                                                  text: "Eliminaras una aplicacion!",
-                                                  type: "error",
-                                                  showCancelButton: true,
-                                                  confirmButtonColor: "#DD6B55",
-                                                  confirmButtonText: "Si, Borralo!",
-                                                  closeOnConfirm: false
-                                                },
-                                                function(){
-                                                  swal("Borrado!", "Su aplicacion a sido removida.", "warning");
-                                                  document.getElementById('getid{{ aplicado.aplico.id }}div').style.display = "none";
-
-                                                });
+                                    swal("Borrado!", "Su Aplicacion a sido removida!", "error")
+                                    document.getElementById('getid{{ aplicado.aplico.id }}div').style.display = "none";
 
 
                                     },
