@@ -22,7 +22,7 @@
                                                             </td>
                                                             <td>Republica Dominicana</td>
                                                             <td class="text-right">
-                                                                {{rdposts}}
+                                                                {{rdusers}}
                                                             </td>
                                                             <td class="text-right">
                                                                 {{rdapli}}
@@ -124,7 +124,10 @@
                             </div>
                         </div>
                     </div>
+
+                      <a class="btn btn-danger btn-block" href="{% url 'export_excel' %}"><i class="fa fa-cloud-download"></i>Exportar Usuarios</a>
 <div class="row">
+
 {% for post in posts %}
 
 <div class="col-lg-3 col-md-6 col-sm-6">

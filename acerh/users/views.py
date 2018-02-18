@@ -607,15 +607,15 @@ def export_excel(request):
 	#ciclo que busca todos los objetos con estatus 195(por enviar) para ser escritos en el excel
 	for obj in User.objects.all():
 		#indica desde que celda se escribe el titulo de los id de los objetos
-		worksheet.write_string(cell,0, str(obj.id)).encode('utf-8')
+		worksheet.write_string(cell,0, str(obj.id))
 		#indica desde que celda se escribiran los emails
-		worksheet.write_string(cell,1, obj.email).encode('utf-8')
+		worksheet.write_string(cell,1, obj.email)
 		#indica desde que celda se escribiran los codigos de pss
-		worksheet.write_string(cell,2, str(obj.first_name)).encode('utf-8')
+		worksheet.write_string(cell,2, str(obj.first_name).encode('ascii','ignore'))
 		#indica desde que celda se escribiran la ruta de los archivos
-		worksheet.write_string(cell,3, obj.last_name).encode('utf-8')
+		worksheet.write_string(cell,3, (obj.last_name).encode('ascii','ignore'))
 		#escribre el username
-		worksheet.write_string(cell,4, obj.username).encode('utf-8')
+		worksheet.write_string(cell,4, (obj.username).encode('ascii','ignore'))
 
 		#Se realiza el aumento de la celda para seguir escribiendo hacia abajo
 		cell = cell + 1
