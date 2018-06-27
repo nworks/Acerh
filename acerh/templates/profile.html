@@ -1,156 +1,158 @@
-{% extends 'base.html' %}
-{% load staticfiles %}
-{% block content %}
+{% extends 'base.html' %} {% load staticfiles %} {% block content %}
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Informaciones -
+                        <small class="category">Registradas</small>
+                    </h4>
+                </div>
+                <div class="card-content">
                     <div class="row">
-                      <div class="col-md-8">
-                          <div class="card">
-                              <div class="card-header">
-                                  <h4 class="card-title">Informaciones -
-                                      <small class="category">Registradas</small>
-                                  </h4>
-                              </div>
-                              <div class="card-content">
-                                  <div class="row">
-                                      <div class="col-md-4">
-                                          <ul class="nav nav-pills nav-pills-icons nav-pills-danger nav-stacked" role="tablist">
-                                              <!--
+                        <div class="col-md-4">
+                            <ul class="nav nav-pills nav-pills-icons nav-pills-danger nav-stacked" role="tablist">
+                                <!--
                                   color-classes: "nav-pills-primary", "nav-pills-info", "nav-pills-success", "nav-pills-warning","nav-pills-danger"
                               -->
-                                              <li class="active">
-                                                  <a href="#dashboard-2" role="tab" data-toggle="tab">
-                                                      <i class="material-icons">info</i> Informacion
-                                                  </a>
-                                              </li>
-                                              <li>
-                                                  <a href="#schedule-2" role="tab" data-toggle="tab">
-                                                      <i class="material-icons">schedule</i> Actividad
-                                                  </a>
-                                              </li>
-                                              <li>
-                                                  <a href="#ed-2" role="tab" data-toggle="tab">
-                                                      <i class="material-icons">edit</i> Editar
-                                                  </a>
-                                              </li>
+                                <li class="active">
+                                    <a href="#dashboard-2" role="tab" data-toggle="tab">
+                                        <i class="material-icons">info</i> Informacion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#schedule-2" role="tab" data-toggle="tab">
+                                        <i class="material-icons">schedule</i> Actividad
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#ed-2" role="tab" data-toggle="tab">
+                                        <i class="material-icons">edit</i> Editar
+                                    </a>
+                                </li>
 
-                                          </ul>
-                                      </div>
-                                      <div class="col-md-8">
-                                          <div class="tab-content">
-                                              <div class="tab-pane active" id="dashboard-2">
-                                                <h6 class="category text-gray">Nombre Completo</h6>
-                                                <h4 class="card-title">{{request.user.first_name}} {{request.user.last_name}}</h4>
+                            </ul>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="dashboard-2">
+                                    <h6 class="category text-gray">Nombre Completo</h6>
+                                    <h4 class="card-title">{{request.user.first_name}} {{request.user.last_name}}</h4>
 
-                                                <h6 class="category text-gray">Documento Identidad</h6>
-                                                <h4 class="card-title">{{request.user.userp.cedula}}</h4>
+                                    <h6 class="category text-gray">Documento Identidad</h6>
+                                    <h4 class="card-title">{{request.user.userp.cedula}}</h4>
 
-                                                <h6 class="category text-gray">Nacionalidad</h6>
-                                                <h4 class="card-title">{{request.user.userp.nacionalidad}}</h4>
+                                    <h6 class="category text-gray">Nacionalidad</h6>
+                                    <h4 class="card-title">{{request.user.userp.nacionalidad}}</h4>
 
-                                                <h6 class="category text-gray">Email</h6>
-                                                <h4 class="card-title">{{request.user.email}}</h4>
+                                    <h6 class="category text-gray">Email</h6>
+                                    <h4 class="card-title">{{request.user.email}}</h4>
 
-                                                <h6 class="category text-gray">Localidad</h6>
-                                                <h4 class="card-title">{{request.user.userp.localidad}}</h4>
+                                    <h6 class="category text-gray">Telefono</h6>
+                                    <h4 class="card-title">{{request.user.userp.telefono}}</h4>
 
-                                                <h6 class="category text-gray">Edad</h6>
-                                                <h4 class="card-title">{{request.user.userp.edad}}</h4>
+                                    <h6 class="category text-gray">Localidad</h6>
+                                    <h4 class="card-title">{{request.user.userp.localidad}}</h4>
 
-                                                <h6 class="category text-gray">Sexo</h6>
-                                                <h4 class="card-title">{{request.user.userp.sexo}}</h4>
+                                    <h6 class="category text-gray">Edad</h6>
+                                    <h4 class="card-title">{{request.user.userp.edad}}</h4>
 
-                                                <h6 class="category text-gray">Experiencia Laboral</h6>
-                                                <h4 class="card-title">{{request.user.userp.experiencia}}</h4>
+                                    <h6 class="category text-gray">Sexo</h6>
+                                    <h4 class="card-title">{{request.user.userp.sexo}}</h4>
 
-                                                <h6 class="category text-gray">Idiomas</h6>
-                                                <h4 class="card-title">{{request.user.userp.idioma}}</h4>
+                                    <h6 class="category text-gray">Experiencia Laboral</h6>
+                                    <h4 class="card-title">{{request.user.userp.experiencia}}</h4>
 
-                                                <h6 class="category text-gray">Universidad</h6>
-                                                <h4 class="card-title">{{request.user.userp.universidad}}</h4>
+                                    <h6 class="category text-gray">Idiomas</h6>
+                                    <h4 class="card-title">{{request.user.userp.idioma}}</h4>
 
-                                                <h6 class="category text-gray">Licencia</h6>
-                                                <h4 class="card-title">{{request.user.userp.licencia}}</h4>
+                                    <h6 class="category text-gray">Universidad</h6>
+                                    <h4 class="card-title">{{request.user.userp.universidad}}</h4>
 
-                                                <h6 class="category text-gray">Categoria Licencia</h6>
-                                                <h4 class="card-title">{{request.user.userp.cat_licen}}</h4>
+                                    <h6 class="category text-gray">Licencia</h6>
+                                    <h4 class="card-title">{{request.user.userp.licencia}}</h4>
 
-
-
-
-
+                                    <h6 class="category text-gray">Categoria Licencia</h6>
+                                    <h4 class="card-title">{{request.user.userp.cat_licen}}</h4>
 
 
 
-                                              </div>
-                                              <div class="tab-pane" id="schedule-2">
-                                                  <ul class="timeline">
-                                                {% for aplicado in aplicados %}
-                                                                                      <li class="timeline-inverted">
-                                                                                          <div class="timeline-badge danger">
-                                                                                              <i class="material-icons">card_travel</i>
-                                                                                          </div>
-                                                                                          <div class="timeline-panel">
-                                                                                              <div class="timeline-heading">
-                                                                                                  <span class="label label-danger">Aplico</span>
-                                                                                              </div>
-                                                                                              <div class="timeline-body">
-                                                                                                  {{aplicado.aplico.titulo}}
-                                                                                              </div>
-                                                                                              <h6>
-                                                                                                  <i class="ti-time"></i> {{aplicado.user.username}}
-                                                                                              </h6>
-                                                                                          </div>
-                                                                                      </li>
 
 
 
-                                              {% endfor %}
 
-                                               </ul>
 
-                                              </div>
+                                </div>
+                                <div class="tab-pane" id="schedule-2">
+                                    <ul class="timeline">
+                                        {% for aplicado in aplicados %}
+                                        <li class="timeline-inverted">
+                                            <div class="timeline-badge danger">
+                                                <i class="material-icons">card_travel</i>
+                                            </div>
+                                            <div class="timeline-panel">
+                                                <div class="timeline-heading">
+                                                    <span class="label label-danger">Aplico</span>
+                                                </div>
+                                                <div class="timeline-body">
+                                                    {{aplicado.aplico.titulo}}
+                                                </div>
+                                                <h6>
+                                                    <i class="ti-time"></i> {{aplicado.user.username}}
+                                                </h6>
+                                            </div>
+                                        </li>
 
-                                              <div class="tab-pane" id="ed-2">
 
-                                                <form class="form-horizontal form-material" role="form" action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
 
-                  <div class="">
-                  <H2><font color="red">Llenar todos los campos en blanco</font></H2>
-                    <div class="col-sm-12">
-                    {%if user_form %}
-                    <label>Imagen Usuario</label>
-                    <input type="file" name="picture" value="{{request.user.userp.picture.url}}">
-                    <label>Nombres</label>
-                    <input type="text" name="first_name" class="form-control" value="{{request.user.first_name}}">
-                    <label>Apellidos</label>
-                    <input type="text" name="last_name" class="form-control" value="{{request.user.last_name}}" >
-                    <label>Email</label>
-                     <input type="text" name="email" class="form-control" value="{{request.user.email}}"
-                    <label>Localidad</label>
-                    <select name="localidad" class="form-control">
+                                        {% endfor %}
+
+                                    </ul>
+
+                                </div>
+
+                                <div class="tab-pane" id="ed-2">
+
+                                    <form class="form-horizontal form-material" role="form" action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+                                        <div class="">
+                                            <H2>
+                                                <font color="red">Llenar todos los campos en blanco</font>
+                                            </H2>
+                                            <div class="col-sm-12">
+                                                {%if user_form %}
+                                                <label>Imagen Usuario</label>
+                                                <input type="file" name="picture" value="{{request.user.userp.picture.url}}">
+                                                <label>Nombres</label>
+                                                <input type="text" name="first_name" class="form-control" value="{{request.user.first_name}}">
+                                                <label>Apellidos</label>
+                                                <input type="text" name="last_name" class="form-control" value="{{request.user.last_name}}">
+                                                <label>Email</label>
+                                                <input type="text" name="email" class="form-control" value="{{request.user.email}}" <label>Localidad</label>
+                                                <select name="localidad" class="form-control">
                             <option value="sin seleccion" selected="">Seleccione una provincia</option>
                                                     {%for provincia in provincias%}
                                                     <option value="{{provincia.provincia}}">{{provincia.provincia}}</option>
                                                     {%endfor%}
                                               </select>
-                    <label>Preparacion</label>
-                    <select name="estudio" class="form-control">
+                                                <label>Preparacion</label>
+                                                <select name="estudio" class="form-control">
                                                   <option value="N/A" selected="">Sin estudios</option>
                             <option value="Basico">Basico </option>
                                                         <option value="Bachillerato"> Bachillerato </option>
                                                         <option value="Universitario(incompleto)"> Universitario(incompleto) </option>
                                                         <option value="Profesional"> Profesional </option>
                                               </select>
-                    <label>Edad</label>
-                    <select name="edad" class="form-control">
+                                                <label>Edad</label>
+                                                <select name="edad" class="form-control">
                                                     <option value="18-25"> 18-25 </option>
                                                         <option value="25-30"> 25-30 </option>
                                                         <option value="30-35"> 30-35 </option>
                                                         <option value="35-40"> 35-40 </option>
                                                         <option value="40+"> 40+ </option>
                                               </select>
-                    <label>Experiencia</label>
-                    <select name="experiencia" class="form-control">
+                                                <label>Experiencia</label>
+                                                <select name="experiencia" class="form-control">
                                                     <option value="1-2"> Sin experiencia </option>
                                                     <option value="1-2"> 1-2 </option>
                                                         <option value="2-5"> 2-5 </option>
@@ -158,10 +160,9 @@
                                                         <option value="10-15"> 10-15 </option>
                                                         <option value="15+"> 15+ </option>
                                               </select>
-                    <label>Idioma</label>
-                    <input type="text" name="idioma" class="form-control" value="{{request.user.userp.idioma}}"
-                    <label>Area Experiencia</label>
-                    <select name="ar_ex" class="form-control">
+                                                <label>Idioma</label>
+                                                <input type="text" name="idioma" class="form-control" value="{{request.user.userp.idioma}}" <label>Area Experiencia</label>
+                                                <select name="ar_ex" class="form-control">
                             <option value="N/A" selected="">Seleccione el Area</option>
                                                     {%for area in areas%}
                                                     <option value="{{area.titulo}}">{{area.titulo}}</option>
@@ -169,8 +170,8 @@
 
 
                                               </select>
-                    <label>Area Interes</label>
-                    <select name="ar_int" class="form-control">
+                                                <label>Area Interes</label>
+                                                <select name="ar_int" class="form-control">
                             <option value="N/A" selected="">Seleccione el Area</option>
                                                     {%for area in areas%}
                                                     <option value="{{area.titulo}}">{{area.titulo}}</option>
@@ -178,10 +179,10 @@
 
 
                                               </select>
-                    <label>Universidad</label>
-                    <input type="text" name="universidad" class="form-control" value="{{request.user.userp.universidad}}">
-                    <label>Carrera</label>
-                    <select name="carrera" class="form-control">
+                                                <label>Universidad</label>
+                                                <input type="text" name="universidad" class="form-control" value="{{request.user.userp.universidad}}">
+                                                <label>Carrera</label>
+                                                <select name="carrera" class="form-control">
                             <option value="N/A" selected="">Seleccione el Area</option>
                                                     {%for area in areas%}
                                                     <option value="{{area.titulo}}">{{area.titulo}}</option>
@@ -189,14 +190,14 @@
 
 
                                               </select>
-                    <label>Sexo</label>
-                    <select name="sexo" class="form-control">
+                                                <label>Sexo</label>
+                                                <select name="sexo" class="form-control">
                             <option value="N/A" selected="">Seleccione su sexo</option>
                                                     <option value="Masculino">Masculino</option>
                                                     <option value="Femenino">Femenino </option>
                                               </select>
-                    <label>Pais para el que aplica</label>
-                    <select name="pais_apli" class="form-control">
+                                                <label>Pais para el que aplica</label>
+                                                <select name="pais_apli" class="form-control">
                                                     <option value="Republica Dominicana">Republica Dominicana</option>
                                                     <option value="Guatemala">Guatemala</option>
                                                     <option value="Nicaragua">Nicaragua</option>
@@ -204,16 +205,16 @@
                                                     <option value="El Salvador">El Salvador</option>
 
                                               </select>
-                    <label>Cedula</label>
-                    <input type="text" name="cedula" class="form-control" value="{{request.user.userp.cedula}}" >
-                    <label>licencia</label>
-                    <select name="licencia" class="form-control">
+                                                <label>Cedula</label>
+                                                <input type="text" name="cedula" class="form-control" value="{{request.user.userp.cedula}}">
+                                                <label>licencia</label>
+                                                <select name="licencia" class="form-control">
                                                     <option value="No tengo"> No tengo </option>
                                                         <option value="Si tengo"> Si tengo </option>
 
                                               </select>
-                    <label>Categoria Licencia</label>
-                    <select name="cat_licen" class="form-control">
+                                                <label>Categoria Licencia</label>
+                                                <select name="cat_licen" class="form-control">
                             <option value="Categoria 1"> Sin, Categoria </option>
                                                     <option value="Categoria 1"> Categoria 1 </option>
                                                         <option value="Categoria 2"> Categoria 2 </option>
@@ -221,56 +222,52 @@
                                                         <option value="Categoria 4"> Categoria 4 </option>
                                                         <option value="Categoria 5"> Categoria 5 </option>
                                               </select>
-                    <label>Salario</label>
-                    <input type="text" name="salario" class="form-control" value="{{request.user.userp.salario}}"
-                    <label>Nacionalidad</label>
-                    <input type="text" name="nacionalidad" class="form-control" value="{{request.user.userp.nacionalidad}}">
+                                                <label>Salario</label>
+                                                <input type="text" name="salario" class="form-control" value="{{request.user.userp.salario}}" <label>Nacionalidad</label>
+                                                <input type="text" name="nacionalidad" class="form-control" value="{{request.user.userp.nacionalidad}}">
 
-                    <label>CV</label>
-                    <input type="file" name="file" value="{{request.user.userp.file.url}}">
-                    {% endif %}
-                    </br>
-                      <button class="btn btn-danger">Actualizar perfil</button>
+                                                <label>CV</label>
+                                                <input type="file" name="file" value="{{request.user.userp.file.url}}"> {% endif %}
+                                                </br>
+                                                <button class="btn btn-danger">Actualizar perfil</button>
 
+                                            </div>
+                                        </div>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </form>
+                </div>
+            </div>
+        </div>
 
 
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-
-
-                        <div class="col-md-4">
-                            <div class="card card-profile">
-                                <div class="card-avatar">
-                                    <a href="#pablo">
+        <div class="col-md-4">
+            <div class="card card-profile">
+                <div class="card-avatar">
+                    <a href="#pablo">
                                       {% if request.user.userp.picture %}
                                         <img class="img" src="{{request.user.userp.picture.url}}">
                                         {% else %}
                                         <img class="img" src="{% static 'assets/img/user.png' %}">
                                       {% endif %}
                                     </a>
-                                </div>
-                                <div class="card-content">
-                                    <h6 class="category text-gray">{{request.user.email}}</h6>
-                                    <h4 class="card-title">{{request.user.first_name}} {{request.user.last_name}}</h4>
-                                    <p class="description">
-                                        Puedes encontrar cualquier informacion sobre mi en esta pagina
-                                    </p>
-                                    {%if request.user.userp.file%}
-                                    <a href="{{request.user.userp.file.url}}" class="btn btn-danger btn-round">Ver CV</a>
-                                    {%else%}
-                                    <a href="#notegistro" class="btn btn-danger btn-round">NO REGISTRO CV</a>
-                                    {%endif%}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+                <div class="card-content">
+                    <h6 class="category text-gray">{{request.user.email}}</h6>
+                    <h4 class="card-title">{{request.user.first_name}} {{request.user.last_name}}</h4>
+                    <p class="description">
+                        Puedes encontrar cualquier informacion sobre mi en esta pagina
+                    </p>
+                    {%if request.user.userp.file%}
+                    <a href="{{request.user.userp.file.url}}" class="btn btn-danger btn-round">Ver CV</a> {%else%}
+                    <a href="#notegistro" class="btn btn-danger btn-round">NO REGISTRO CV</a> {%endif%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

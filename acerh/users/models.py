@@ -21,13 +21,14 @@ class UserP(models.Model):
 	ar_int = models.CharField(max_length=100, blank=True)
 	carrera = models.CharField(max_length=100, blank=True)
 	sexo = models.CharField(max_length=100, blank=True)
-	cedula = models.CharField(max_length=100          , blank=True)
+	cedula = models.CharField(max_length=100, blank=True)
 	salario = models.CharField(max_length=100, blank=True)
 	nacionalidad = models.CharField(max_length=100, blank=True)
 	universidad = models.CharField(max_length=100, blank=True)
 	licencia = models.CharField(max_length=100, blank=True)
 	cat_licen = models.CharField(max_length=100, blank=True)
 	pais_apli = models.CharField(max_length=100, blank=True)
+	telefono = models.CharField(max_length=100, blank=True)
 
 	def __unicode__(self):
 		return self.user.username

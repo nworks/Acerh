@@ -1,145 +1,144 @@
-{% extends 'base.html' %}
-{% load staticfiles %}
-{% block content %}
+{% extends 'base.html' %} {% load staticfiles %} {% block content %}
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Informaciones -
+                        <small class="category">Registradas</small>
+                    </h4>
+                </div>
+                <div class="card-content">
                     <div class="row">
-                      <div class="col-md-8">
-                          <div class="card">
-                              <div class="card-header">
-                                  <h4 class="card-title">Informaciones -
-                                      <small class="category">Registradas</small>
-                                  </h4>
-                              </div>
-                              <div class="card-content">
-                                  <div class="row">
-                                      <div class="col-md-4">
-                                          <ul class="nav nav-pills nav-pills-icons nav-pills-danger nav-stacked" role="tablist">
-                                              <!--
+                        <div class="col-md-4">
+                            <ul class="nav nav-pills nav-pills-icons nav-pills-danger nav-stacked" role="tablist">
+                                <!--
                                   color-classes: "nav-pills-primary", "nav-pills-info", "nav-pills-success", "nav-pills-warning","nav-pills-danger"
                               -->
-                                              <li class="active">
-                                                  <a href="#dashboard-2" role="tab" data-toggle="tab">
-                                                      <i class="material-icons">info</i> Informacion
-                                                  </a>
-                                              </li>
-                                              <li>
-                                                  <a href="#schedule-2" role="tab" data-toggle="tab">
-                                                      <i class="material-icons">schedule</i> Actividad
-                                                  </a>
-                                              </li>
-                                            
-
-                                          </ul>
-                                      </div>
-                                      <div class="col-md-8">
-                                          <div class="tab-content">
-                                              <div class="tab-pane active" id="dashboard-2">
-                                                <h6 class="category text-gray">Nombre Completo</h6>
-                                                <h4 class="card-title">{{cliente.first_name}} {{cliente.last_name}}</h4>
-
-                                                <h6 class="category text-gray">Documento Identidad</h6>
-                                                <h4 class="card-title">{{cliente.userp.cedula}}</h4>
-
-                                                <h6 class="category text-gray">Nacionalidad</h6>
-                                                <h4 class="card-title">{{cliente.userp.nacionalidad}}</h4>
-
-                                                <h6 class="category text-gray">Email</h6>
-                                                <h4 class="card-title">{{cliente.email}}</h4>
-
-                                                <h6 class="category text-gray">Localidad</h6>
-                                                <h4 class="card-title">{{cliente.userp.localidad}}</h4>
-
-                                                <h6 class="category text-gray">Edad</h6>
-                                                <h4 class="card-title">{{cliente.userp.edad}}</h4>
-
-                                                <h6 class="category text-gray">Sexo</h6>
-                                                <h4 class="card-title">{{cliente.userp.sexo}}</h4>
-
-                                                <h6 class="category text-gray">Experiencia Laboral</h6>
-                                                <h4 class="card-title">{{cliente.userp.experiencia}}</h4>
-
-                                                <h6 class="category text-gray">Idiomas</h6>
-                                                <h4 class="card-title">{{cliente.userp.idioma}}</h4>
-
-                                                <h6 class="category text-gray">Universidad</h6>
-                                                <h4 class="card-title">{{cliente.userp.universidad}}</h4>
-
-                                                <h6 class="category text-gray">Licencia</h6>
-                                                <h4 class="card-title">{{cliente.userp.licencia}}</h4>
-
-                                                <h6 class="category text-gray">Categoria Licencia</h6>
-                                                <h4 class="card-title">{{cliente.userp.cat_licen}}</h4>
+                                <li class="active">
+                                    <a href="#dashboard-2" role="tab" data-toggle="tab">
+                                        <i class="material-icons">info</i> Informacion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#schedule-2" role="tab" data-toggle="tab">
+                                        <i class="material-icons">schedule</i> Actividad
+                                    </a>
+                                </li>
 
 
+                            </ul>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="dashboard-2">
+                                    <h6 class="category text-gray">Nombre Completo</h6>
+                                    <h4 class="card-title">{{cliente.first_name}} {{cliente.last_name}}</h4>
 
+                                    <h6 class="category text-gray">Documento Identidad</h6>
+                                    <h4 class="card-title">{{cliente.userp.cedula}}</h4>
 
+                                    <h6 class="category text-gray">Nacionalidad</h6>
+                                    <h4 class="card-title">{{cliente.userp.nacionalidad}}</h4>
 
+                                    <h6 class="category text-gray">Email</h6>
+                                    <h4 class="card-title">{{cliente.email}}</h4>
+
+                                    <h6 class="category text-gray">Telefono</h6>
+                                    <h4 class="card-title">{{cliente.userp.telefono}}</h4>
+
+                                    <h6 class="category text-gray">Localidad</h6>
+                                    <h4 class="card-title">{{cliente.userp.localidad}}</h4>
+
+                                    <h6 class="category text-gray">Edad</h6>
+                                    <h4 class="card-title">{{cliente.userp.edad}}</h4>
+
+                                    <h6 class="category text-gray">Sexo</h6>
+                                    <h4 class="card-title">{{cliente.userp.sexo}}</h4>
+
+                                    <h6 class="category text-gray">Experiencia Laboral</h6>
+                                    <h4 class="card-title">{{cliente.userp.experiencia}}</h4>
+
+                                    <h6 class="category text-gray">Idiomas</h6>
+                                    <h4 class="card-title">{{cliente.userp.idioma}}</h4>
+
+                                    <h6 class="category text-gray">Universidad</h6>
+                                    <h4 class="card-title">{{cliente.userp.universidad}}</h4>
+
+                                    <h6 class="category text-gray">Licencia</h6>
+                                    <h4 class="card-title">{{cliente.userp.licencia}}</h4>
+
+                                    <h6 class="category text-gray">Categoria Licencia</h6>
+                                    <h4 class="card-title">{{cliente.userp.cat_licen}}</h4>
 
 
 
-                                              </div>
-                                              <div class="tab-pane" id="schedule-2">
-                                                  <ul class="timeline">
-                                                {% for aplicado in aplicados %}
-                                                                                      <li class="timeline-inverted">
-                                                                                          <div class="timeline-badge danger">
-                                                                                              <i class="material-icons">card_travel</i>
-                                                                                          </div>
-                                                                                          <div class="timeline-panel">
-                                                                                              <div class="timeline-heading">
-                                                                                                  <span class="label label-danger">Aplico</span>
-                                                                                              </div>
-                                                                                              <div class="timeline-body">
-                                                                                                  {{aplicado.aplico.titulo}}
-                                                                                              </div>
-                                                                                              <h6>
-                                                                                                  <i class="ti-time"></i> {{aplicado.user.username}}
-                                                                                              </h6>
-                                                                                          </div>
-                                                                                      </li>
 
 
 
-                                              {% endfor %}
-
-                                               </ul>
-
-                                              </div>
 
 
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
+                                </div>
+                                <div class="tab-pane" id="schedule-2">
+                                    <ul class="timeline">
+                                        {% for aplicado in aplicados %}
+                                        <li class="timeline-inverted">
+                                            <div class="timeline-badge danger">
+                                                <i class="material-icons">card_travel</i>
+                                            </div>
+                                            <div class="timeline-panel">
+                                                <div class="timeline-heading">
+                                                    <span class="label label-danger">Aplico</span>
+                                                </div>
+                                                <div class="timeline-body">
+                                                    {{aplicado.aplico.titulo}}
+                                                </div>
+                                                <h6>
+                                                    <i class="ti-time"></i> {{aplicado.user.username}}
+                                                </h6>
+                                            </div>
+                                        </li>
 
 
-                        <div class="col-md-4">
-                            <div class="card card-profile">
-                                <div class="card-avatar">
-                                    <a href="#pablo">
+
+                                        {% endfor %}
+
+                                    </ul>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card card-profile">
+                <div class="card-avatar">
+                    <a href="#pablo">
                                       {% if cliente.userp.picture %}
                                         <img class="img" src="{{cliente.userp.picture.url}}">
                                         {% else %}
                                         <img class="img" src="{% static 'assets/img/user.png' %}">
                                       {% endif %}
                                     </a>
-                                </div>
-                                <div class="card-content">
-                                    <h6 class="category text-gray">{{cliente.email}}</h6>
-                                    <h4 class="card-title">{{cliente.first_name}} {{cliente.last_name}}</h4>
-                                    <p class="description">
-                                        Puedes encontrar cualquier informacion sobre mi en esta pagina
-                                    </p>
-                                    {%if cliente.userp.file%}
-                                    <a href="{{cliente.userp.file.url}}" class="btn btn-danger btn-round">Ver CV</a>
-                                    {%else%}
-                                    <a href="#notegistro" class="btn btn-danger btn-round">NO REGISTRO CV</a>
-                                    {%endif%}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+                <div class="card-content">
+                    <h6 class="category text-gray">{{cliente.email}}</h6>
+                    <h4 class="card-title">{{cliente.first_name}} {{cliente.last_name}}</h4>
+                    <p class="description">
+                        Puedes encontrar cualquier informacion sobre mi en esta pagina
+                    </p>
+                    {%if cliente.userp.file%}
+                    <a href="{{cliente.userp.file.url}}" class="btn btn-danger btn-round">Ver CV</a> {%else%}
+                    <a href="#notegistro" class="btn btn-danger btn-round">NO REGISTRO CV</a> {%endif%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

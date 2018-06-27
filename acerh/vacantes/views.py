@@ -27,7 +27,21 @@ def vacantelist(request):
 	array = []
 	for i in decoded_data:
 		array.insert(0,i["fields"]["aplico"])
+	
 	post = Vacante.objects.exclude(pk__in=array).filter(pais=request.user.userp.pais_apli)
+
+	paginator = Paginator(post, 2) # Show 25 contacts per page
+
+	page = request.GET.get('page')
+	try:
+		posts = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		posts = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		posts = paginator.page(paginator.num_pages)
+
 	postall = post.all()
 	post2 = Aplicado.objects.all()
 	cantidad = Aplicado.objects.filter(usuario=request.user.id).count()
@@ -38,7 +52,7 @@ def vacantelist(request):
 
 
 
-	context = { "noficacion":noficacion,"noficaciones":noficacion.all(),"post":post, "posts":post.all(),"cantidad":cantidad,"area":area,"areas":area.all() }
+	context = { "noficacion":noficacion,"noficaciones":noficacion.all(),"post":post, "posts":posts,"cantidad":cantidad,"area":area,"areas":area.all() }
 	return render(request, 'vacantes.html', context)
 
 
@@ -202,6 +216,9 @@ def removerc(request):
 	post.delete()
 	return HttpResponse('/vacantes')
 
+
+from itertools import chain
+
 @login_required
 def companiass(request):
 	app = Aplicado.objects.filter(~Q(estatus2='Procesado')).filter(pais=request.user.userp.pais_apli)
@@ -224,24 +241,23 @@ def companiass(request):
 
 
 	if request.method == 'GET':
-		if 'localidad' in request.GET:
-			localidad = request.GET.get('localidad')
+		if 'nombre' in request.GET:
+			nombre = request.GET.get('nombre')
 
 		else:
-			localidad = ""
-		if 'sexo' in request.GET:
-			sexo = request.GET.get('sexo')
+			nombre = ""
+		if 'apellido' in request.GET:
+			apellido = request.GET.get('apellido')
 
 		else:
-			sexo = ""
-		if 'ar_int' in request.GET:
-			ar_int = request.GET.get('ar_int')
-			print ar_int
-			areaid =  Area.objects.get(titulo=ar_int)
-			print areaid
+			apellido = ""
+		if 'correo' in request.GET:
+			correo = request.GET.get('correo')
+			
+			print correo
 
 		else:
-			areaid = ""
+			correo = ""
 		if 'ar_exp' in request.GET:
 			ar_exp = request.GET.get('ar_exp')
 			areaid2 =  Area.objects.get(titulo=ar_exp)
@@ -264,16 +280,26 @@ def companiass(request):
 		else:
 			edad = ""
 
-		if 'pais_apli' in request.GET:
-			pais_apli = request.GET.get('pais_apli')
+		if 'experiencia' in request.GET:
+			experiencia = request.GET.get('experiencia')
 		else:
-			pais_apli = ""
+			experiencia = ""
 
-		loc = UserP.objects.filter(localidad__icontains=localidad, sexo__icontains=sexo,ar_int__icontains=areaid,ar_exp__icontains=areaid2,carrera__icontains=carrera,idioma__icontains=idioma,edad__icontains=edad,pais_apli__icontains=pais_apli)
+		
+		print edad
+		lookups =  Q(ar_exp__icontains=experiencia) | Q(carrera__icontains=carrera) | Q(idioma__icontains=idioma) | Q(edad__icontains=edad) 
+		lookups1 = Q(first_name__icontains=nombre) | Q(last_name__icontains=apellido) | Q(email__icontains=correo)
+		loc1 = User.objects.filter(lookups1).distinct()
+		loc = UserP.objects.filter(lookups).distinct()
+		
+		results = chain(loc,loc1)
+		print results
+
 		array = []
 		for e in loc:
 			array.insert(0,e.user.pk)
-		app = Aplicado.objects.filter(~Q(estatus2='Procesado')).filter(pais=request.user.userp.pais_apli) & Aplicado.objects.filter(usuario_id__in=array)
+		app = Aplicado.objects.filter(~Q(estatus2='Procesado')).filter(pais=request.user.userp.pais_apli).filter(usuario_id__in=array)
+		 
 
 		return render(request, 'companiass.html', {"apps":apps, 'entreform':entreform,'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()} )
 

@@ -1,22 +1,73 @@
 {% extends 'base.html' %}
 {% block content %}
 
-{% for post in posts %}
- <div id="getid{{ post.id }}div" class="card">
-                                 <div class="card-header">
-                                     <h4 class="card-title">{{post.titulo}} -
-                                         <small class="category">Tienes talento para esto?</small>
-                                         {%if post.pregunta1 %}
-                                         <button id="getid{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-round" onclick="myFunction{{ post.id }}()" data-target=myFuction2()>Aplicar</button>
-                                         {%else%}
-                                         <button id="getids{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-round" onclick="otherway{{ post.id }}()" data-target=otherway()>Aplicar</button></p>
-                                         {%endif%}
-                                     </h4>
 
 
-                                 </div>
-                                 <div class="card-content">
-                                     <div class="row">
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div type="button" class="card-header card-header-icon" data-toggle="modal" data-target="#add-contact" data-background-color="red">
+                                    <i class="material-icons">assignment</i>
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">Vacantes Disponibles</h4>
+                                   
+                                    <div class="toolbar">
+                                        <!--        Here you can write extra buttons/actions for the toolbar              -->
+                                    </div>
+                                    <div class="material-datatables">
+                                        <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    
+                                                    <th>Titulo</th>
+                                                    <th>Descripcion</th>
+                                                    
+                                                    <th>Area</th>
+                                                    <th class="disabled-sorting text-right">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                  
+                                                  <th>Titulo</th>
+                                                  
+                                                  <th>Descripcion</th>
+                                                  <th>Area</th>
+                                                    <th class="text-right">Actiones</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                              {% for post in posts %}
+                                                <tr id="getid{{ post.id }}div">
+
+                                                    
+                                                    <td><b>{{post.titulo}}</b></td>
+                                                    <td>{{post.descripcion}}</td>
+                                                   
+                                                    <td>{{post.area}}</td>
+                                                    <td class="text-right">
+                                                        <a class="btn btn-danger btn-round" href="#{{post.id}}" data-toggle="modal"  data-target="#edit{{post.id}}"><i class="material-icons">info</i> Ver Vacante</a>
+
+
+                                                        
+                                                    </td>
+                                                </tr>
+
+                                                <!-- Modal -->
+                                                <!-- Modal -->
+                                                <div id="edit{{post.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                                              <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                  <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                    <center><h4 class="modal-title">Vacante - <strong>{{post.titulo}} #ID {{post.id}}</strong> </h4></center>
+                                                                  </div>
+                                                                  <div class="modal-body">
+                                                                  <form id="msform{{post.id}}" role="form" method="POST" class="form-horizontal form-material" enctype="multipart/form-data">
+                                                                                                       <div class="row">
                                          <div class="col-md-4">
                                              <ul class="nav nav-pills nav-pills-danger nav-stacked">
                                                  <li class="active">
@@ -92,16 +143,34 @@
                                              {%endif%}
                                          </div>
                                      </div>
-                                 </div>
-                             </div>
+                                                                  </form>
+                                                                </div>
+                                                              <div style="text-align: center;">
+                                                                  <h4>Tienes talento para esto?</h4>
+
+                                                                  {%if post.pregunta1 %}
+                                                                  <button id="getid{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-round" onclick="myFunction{{ post.id }}()" data-target=myFuction2() data-dismiss="modal">Aplicar</button>
+                                                                  {%else%}
+                                                                  <button id="getids{{ post.id }}" value="{{ post.id }}" class="btn btn-danger btn-round" onclick="otherway{{ post.id }}()" data-target=otherway() data-dismiss="modal">Aplicar</button></p>
+                                                                  {%endif%}
+                                                              </div>
+
+                                                              </div>
+                                                            </div>
 
 
-                             <script type="text/javascript">
+                                                                                    </tr>
+                                                                                  </tbody>
 
+
+                                                                                  <tfoot>
+
+
+
+           <script type="text/javascript">
            function myFunction{{ post.id }}(p1) {
            var ids = document.getElementById("getid{{ post.id }}").value;
            var x1 = document.getElementById("pregunta1x{{ post.id }}").value;
-
            try {
              var x2 = document.getElementById("pregunta2x{{ post.id }}").value;
               } catch(err) {
@@ -122,7 +191,6 @@
               } catch(err) {
                  x5 = "no existe"
               }
-
             try {
              var x6 = document.getElementById("pregunta6x{{ post.id }}").value;
               } catch(err) {
@@ -133,14 +201,11 @@
               } catch(err) {
                  x7 = "no existe"
               }
-
            try {
               var x8 = document.getElementById("pregunta8x{{ post.id }}").value;
               } catch(err) {
                  x8 = "no existe"
               }
-
-
            console.log(x1)
            console.log(x2)
            console.log(x3)
@@ -149,20 +214,16 @@
            console.log(x6)
            console.log(x7)
            console.log(x8)
-
-
            if (x1 != "" && x2 != "" && x3 != "" && x4 != "" && x5 != "" && x6 != "" && x7 != "" && x8 != ""){
            console.log(ids)
            $.ajax({
            data: {'id': ids ,'respuesta1':x1, 'respuesta2':x2, 'respuesta3':x3, 'respuesta4':x4, 'respuesta5':x5, 'respuesta6':x6, 'respuesta7':x7, 'respuesta8':x8, csrfmiddlewaretoken: '{{ csrf_token }}'},
-
            url: '{% url 'solicitud'  %}',
            type: 'POST',
            success : function(data) {
                   swal("Haz Aplicado!", "Presiona el boton para continuar!", "success")
                   var link = document.getElementById('getid{{ post.id }}div');
                   link.style.display = 'none'; //or
-
                  document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) + 1;
                               },
            error : function(message) {
@@ -170,40 +231,52 @@
            }
             });
            }
-
          else{
            swal("Pregunta!", "Debe responder la pregunta en esa aplicacion!", "warning")
          }
-
-
            }
         </script>
 
         <script type="text/javascript">
-
            function otherway{{ post.id }}(p1) {
            var ids = document.getElementById("getids{{ post.id }}").value;
            console.log(ids)
            $.ajax({
            data: {'id': ids , csrfmiddlewaretoken: '{{ csrf_token }}'},
-
            url: '{% url 'solicitud'  %}',
            type: 'POST',
            success : function(data) {
                   swal("Haz Aplicado!", "Presiona el boton para continuar!", "success")
                   var link = document.getElementById('getid{{ post.id }}div');
                   link.style.display = 'none'; //or
-
                  document.getElementById("cantidad").innerHTML = parseInt(document.getElementById("cantidad").textContent) + 1;
                               },
            error : function(message) {
                   console.log(message);
            }
             });
-
            }
         </script>
 
- {% endfor %}
+                                             {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- end content-->
+                            </div>
+                            <!--  end card  -->
+                        </div>
+                        <!-- end col-md-12 -->
+                    </div>
+                    <!-- end row -->
+                </div>
+            </div>
+
+<ul class="pager"> {% if posts.has_previous %}
+    <li><a href="?page={{ posts.previous_page_number }}">Previous</a></li>{% endif %}{% if posts.has_next %}
+    <li><a href="?page={{ posts.next_page_number }}">Next</a></li>{% endif %}</ul>
+
+
 
 {% endblock %}
