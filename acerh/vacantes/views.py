@@ -30,7 +30,7 @@ def vacantelist(request):
 	
 	post = Vacante.objects.exclude(pk__in=array).filter(pais=request.user.userp.pais_apli)
 
-	paginator = Paginator(post, 2) # Show 25 contacts per page
+	paginator = Paginator(post, 15) # Show 25 contacts per page
 
 	page = request.GET.get('page')
 	try:
