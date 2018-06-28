@@ -287,18 +287,16 @@ def companiass(request):
 
 		
 		print edad
-		lookups =  Q(ar_exp__icontains=experiencia) | Q(carrera__icontains=carrera) | Q(idioma__icontains=idioma) | Q(edad__icontains=edad) 
-		lookups1 = Q(first_name__icontains=nombre) | Q(last_name__icontains=apellido) | Q(email__icontains=correo)
-		loc1 = User.objects.filter(lookups1).distinct()
-		loc = UserP.objects.filter(lookups).distinct()
-		
-		results = chain(loc,loc1)
-		print results
+		lookups =  Q(email=correo) | Q(first_name=nombre)
 
+		loc = User.objects.filter(lookups).distinct()
+		
 		array = []
 		for e in loc:
-			array.insert(0,e.user.pk)
-		app = Aplicado.objects.filter(~Q(estatus2='Procesado')).filter(pais=request.user.userp.pais_apli).filter(usuario_id__in=array)
+			array.insert(0,e.id)
+		print array 
+		apps = Aplicado.objects.filter(usuario__id__in=array)
+		print apps
 		 
 
 		return render(request, 'companiass.html', {"apps":apps, 'entreform':entreform,'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()} )
