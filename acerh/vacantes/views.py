@@ -287,13 +287,13 @@ def companiass(request):
 
 		
 		print edad
-		lookups =  Q(email=correo) | Q(first_name=nombre)
+		lookups =  Q(user__email=correo) | Q(user__first_name=nombre) | Q(user__last_name=nombre) | Q(edad=edad) | Q(carrera=carrera)
 
-		loc = User.objects.filter(lookups).distinct()
+		loc = UserP.objects.filter(lookups).distinct()
 		
 		array = []
 		for e in loc:
-			array.insert(0,e.id)
+			array.insert(0,e.user.id)
 		print array 
 		apps = Aplicado.objects.filter(usuario__id__in=array)
 		print apps
