@@ -238,56 +238,91 @@ def companiass(request):
 		# If page is out of range (e.g. 9999), deliver last page of results.
 		apps = paginator.page(paginator.num_pages)
 
-
+	args_list = []
 
 	if request.method == 'GET':
 		if 'nombre' in request.GET:
-			nombre = request.GET.get('nombre')
+			nombre = request.GET['nombre']
+			if 'nombre' is not None and 'nombre' != '':
+			    nombre = request.GET.get('nombre')
+			    args_list.insert(0,Q(user__first_name__contains=nombre))
+			
 
 		else:
-			nombre = ""
+			print 'sin nombre'
 		if 'apellido' in request.GET:
-			apellido = request.GET.get('apellido')
+			apellido = request.GET['apellido']
+			if apellido is not None and apellido != '':
+			    apellido = request.GET.get('apellido')
+			    args_list.insert(0,Q(user__last_name__contains=apellido))
 
 		else:
-			apellido = ""
+			print 'no buscar apellido'
 		if 'correo' in request.GET:
-			correo = request.GET.get('correo')
+			correo = request.GET['correo']
+			if correo is not None and correo != '':
+			    correo = request.GET.get('correo')
+			    args_list.insert(0,Q(user__email=correo))
 			
 			print correo
 
 		else:
-			correo = ""
+			print 'No buscar correo'
 		if 'ar_exp' in request.GET:
 			ar_exp = request.GET.get('ar_exp')
 			areaid2 =  Area.objects.get(titulo=ar_exp)
 			print areaid2
 
 		else:
-			areaid2 = ""
+			print 'no buscar area interes 2'
+
 		if 'carrera' in request.GET:
-			carrera = request.GET.get('carrera')
+			carrera = request.GET['carrera']
+			if carrera is not None and carrera != '':
+			    carrera = request.GET.get('carrera')
+			    area = Area.objects.filter(titulo=carrera)
+			    args_list.insert(0,Q(carrera=area))
 
 		else:
-			carrera = ""
+			print 'carrera'
+
 		if 'idioma' in request.GET:
-			idioma = request.GET.get('idioma')
+			idioma = request.GET['idioma']
+			if idioma is not None and idioma != '':
+			    idioma = request.GET.get('idioma')
+			    args_list.insert(0,Q(idioma__contains=idioma))
 
 		else:
-			idioma = ""
+			print 'no buscar area interes 2'
+
 		if 'edad' in request.GET:
-			edad = request.GET.get('edad')
+			edad = request.GET['edad']
+			if edad is not None and edad != '':
+			    edad = request.GET.get('edad')
+			    args_list.insert(0,Q(edad=edad))
 		else:
-			edad = ""
+			print 'no buscar area interes 2'
 
 		if 'experiencia' in request.GET:
-			experiencia = request.GET.get('experiencia')
+			experiencia = request.GET['experiencia']
+			if experiencia is not None and experiencia != '':
+			    experiencia = request.GET.get('experiencia')
+			    args_list.insert(0,Q(experiencia=experiencia))
 		else:
-			experiencia = ""
+			print 'no buscar area interes 2'
 
 		
-		print edad
-		lookups =  Q(user__email=correo) | Q(user__first_name=nombre) | Q(user__last_name=nombre) | Q(edad=edad) | Q(carrera=carrera)
+
+
+		lookups =  Q()
+        
+		for campo in args_list:
+			lookups = lookups | campo
+
+		print lookups
+
+	
+		  #Q(user__first_name=nombre) | Q(user__last_name=nombre) | Q(edad=edad) | Q(carrera=carrera)
 
 		loc = UserP.objects.filter(lookups).distinct()
 		
@@ -297,7 +332,18 @@ def companiass(request):
 		print array 
 		apps = Aplicado.objects.filter(usuario__id__in=array)
 		print apps
-		 
+		
+		paginator = Paginator(apps, 20) # Show 25 contacts per page
+
+		page = request.GET.get('page')
+		try:
+			apps = paginator.page(page)
+		except PageNotAnInteger:
+			# If page is not an integer, deliver first page.
+			apps = paginator.page(1)
+		except EmptyPage:
+			# If page is out of range (e.g. 9999), deliver last page of results.
+			apps = paginator.page(paginator.num_pages)
 
 		return render(request, 'companiass.html', {"apps":apps, 'entreform':entreform,'are':are, 'areas':are.all(),'prov':prov, 'provincias':prov.all()} )
 
