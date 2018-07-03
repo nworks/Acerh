@@ -203,6 +203,7 @@ def register2(request):
 				profile.save()
 				registered = True
 				username = user_form.cleaned_data['username'].encode('utf8')
+				username = username.decode('unicode_escape').encode('ascii','ignore')
 				password = user_form.cleaned_data['password'].encode('utf8')
 				if 'file' in request.FILES:
 					profile.file = request.FILES['file']
@@ -330,7 +331,7 @@ def userdetail(request):
 			profile.carrera = request.POST['carrera']
 			profile.ar_int = request.POST['ar_int']
 			profile.salario = request.POST['salario']
-			#profile.telefono = request.POST['telefono']
+			profile.telefono = request.POST['telefono']
 			profile.localidad = request.POST['localidad']
 			profile.estudio = request.POST['estudio']
 			profile.edad = request.POST['edad']

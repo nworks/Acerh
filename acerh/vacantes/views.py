@@ -238,50 +238,46 @@ def companiass(request):
 		# If page is out of range (e.g. 9999), deliver last page of results.
 		apps = paginator.page(paginator.num_pages)
 
-	args_list = []
+	
 
 	if request.method == 'GET':
-		if 'nombre' in request.GET:
-			nombre = request.GET['nombre']
-			if 'nombre' is not None and 'nombre' != '':
-			    nombre = request.GET.get('nombre')
-			    args_list.insert(0,Q(user__first_name__contains=nombre))
-			
-
-		else:
-			print 'sin nombre'
+		args_list = []
+		
 		if 'apellido' in request.GET:
 			apellido = request.GET['apellido']
 			if apellido is not None and apellido != '':
-			    apellido = request.GET.get('apellido')
-			    args_list.insert(0,Q(user__last_name__contains=apellido))
+				apellido = request.GET.get('apellido')
+				args_list.insert(0,Q(user__last_name__contains=apellido))
 
 		else:
 			print 'no buscar apellido'
 		if 'correo' in request.GET:
 			correo = request.GET['correo']
 			if correo is not None and correo != '':
-			    correo = request.GET.get('correo')
-			    args_list.insert(0,Q(user__email=correo))
+				correo = request.GET.get('correo')
+				args_list.insert(0,Q(user__email=correo))
 			
 			print correo
 
 		else:
 			print 'No buscar correo'
-		if 'ar_exp' in request.GET:
-			ar_exp = request.GET.get('ar_exp')
-			areaid2 =  Area.objects.get(titulo=ar_exp)
-			print areaid2
+		
+		if 'named' in request.GET:
+			nombre = request.GET['named']
+			if nombre is not None and nombre != '':
+				nombre = request.GET.get('named')
+				args_list.insert(0,Q(user__first_name__contains=nombre))
+			
 
 		else:
-			print 'no buscar area interes 2'
+			print 'sin nombre'
 
 		if 'carrera' in request.GET:
 			carrera = request.GET['carrera']
 			if carrera is not None and carrera != '':
-			    carrera = request.GET.get('carrera')
-			    area = Area.objects.filter(titulo=carrera)
-			    args_list.insert(0,Q(carrera=area))
+				carrera = request.GET.get('carrera')
+				args_list.insert(0,Q(carrera=carrera))
+				print carrera
 
 		else:
 			print 'carrera'
@@ -289,8 +285,27 @@ def companiass(request):
 		if 'idioma' in request.GET:
 			idioma = request.GET['idioma']
 			if idioma is not None and idioma != '':
-			    idioma = request.GET.get('idioma')
-			    args_list.insert(0,Q(idioma__contains=idioma))
+				idioma = request.GET.get('idioma')
+				args_list.insert(0,Q(idioma__contains=idioma))
+
+		else:
+			print 'no buscar area interes 2'
+
+
+		if 'localidad' in request.GET:
+			localidad = request.GET['localidad']
+			if localidad is not None and localidad != '':
+				localidad = request.GET.get('localidad')
+				args_list.insert(0,Q(localidad__contains=idioma))
+
+		else:
+			print 'no buscar area interes 2'
+
+		if 'universidad' in request.GET:
+			universidad = request.GET['universidad']
+			if universidad is not None and universidad != '':
+				universidad = request.GET.get('universidad')
+				args_list.insert(0,Q(universidad__contains=universidad))
 
 		else:
 			print 'no buscar area interes 2'
@@ -298,24 +313,22 @@ def companiass(request):
 		if 'edad' in request.GET:
 			edad = request.GET['edad']
 			if edad is not None and edad != '':
-			    edad = request.GET.get('edad')
-			    args_list.insert(0,Q(edad=edad))
+				edad = request.GET.get('edad')
+				args_list.insert(0,Q(edad=edad))
 		else:
 			print 'no buscar area interes 2'
 
 		if 'experiencia' in request.GET:
 			experiencia = request.GET['experiencia']
 			if experiencia is not None and experiencia != '':
-			    experiencia = request.GET.get('experiencia')
-			    args_list.insert(0,Q(experiencia=experiencia))
+				experiencia = request.GET.get('experiencia')
+				args_list.insert(0,Q(experiencia=experiencia))
 		else:
 			print 'no buscar area interes 2'
 
-		
-
 
 		lookups =  Q()
-        
+		
 		for campo in args_list:
 			lookups = lookups | campo
 
