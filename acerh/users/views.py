@@ -168,7 +168,7 @@ def register(request):
 		profile_form = UserPr()
 		area = Area.objects.all()
 		provincia = Provincia.objects.all()
-		return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form,'area':area,'areas':area.all(),'provincia':provincia,'provincias':provincia.all()})
+		return render (request,'registromaterial.html',{'user_form':user_form, 'profile_form': profile_form,'area':area,'areas':area.all(),'provincia':provincia,'provincias':provincia.all()})
 
 
 def register2(request):

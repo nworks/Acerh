@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assetsmaterial/img/apple-icon.png' %}" />
+    <link rel="icon" type="image/png" href="{% static 'assetsre/img/favicon.png' %}" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="icon" href="http://www.acerhrd.com/wp-content/uploads/2018/01/cropped-Identidad-02-32x32.png" sizes="32x32">
+    <title>ACERHGROUP - REGISTRO</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <!-- Bootstrap core CSS     -->
+    <link href="{% static 'assetsmaterial/css/bootstrap.min.css' %}" rel="stylesheet" />
+
+
+
+    <!--  Material Dashboard CSS    -->
+    <link href="{% static 'assetsmaterial/css/material-dashboard.css' %}" rel="stylesheet" />
+
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <link href="{% static 'assetsmaterial/css/demo.css' %}" rel="stylesheet" />
+
+
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body class="off-canvas-sidebar">
+    <nav class="navbar navbar-primary navbar-transparent navbar-absolute">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+                 <div class="logo-container">
+             <img height="70" width="200" src="{% static 'assets10/img/logo4.png' %}" alt="Home" />
+
+                <div class="brand">
+
+                </div>
+            </div>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                     <li class="">
+                        <a href="/idioma">
+                            <i class="material-icons">person_add</i> Registro
+                        </a>
+                    </li>
+                    <li class=" active ">
+                        <a href="login.html">
+                            <i class="material-icons">fingerprint</i> Login
+                        </a>
+                    </li>
+                    <li>
+                        <a  href="/account/reset_password" id="to-recover" class="nav-link">
+                                    <i class="material-icons">lock_open</i>
+                                    Recuperar contraseña
+                                <div class="ripple-container"></div></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="wrapper wrapper-full-page">
+        <div class="full-page register-page" filter-color="black" data-image="{% static 'assetsmaterial/img/rawpixel-378006-unsplash.jpg' %}">
+            <div class="container">
+                <div class="row" >
+                    <div class="col-md-10 col-md-offset-1">
+                   
+                        <div class="card card-signup">
+                            <h2 class="card-title text-center">Registro</h2>
+                             <!--Primer panel del registro -->
+                            <div class="row"   id="panel1">
+                                <div class="col-md-5 col-md-offset-1">
+                                    <div class="card-content">
+                                        <div class="info info-horizontal">
+                                            <div class="icon icon-rose">
+                                                <i class="material-icons">timeline</i>
+                                            </div>
+                                            <div class="description">
+                                                <h4 class="info-title">Optimizacion</h4>
+                                                <p class="description">
+                                                   Nuestra plataforma esta optimizada para ayudarte a encontrar tu empleo ideal en poco tiempo.
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="info info-horizontal">
+                                            <div class="icon icon-primary">
+                                                <i class="material-icons">code</i>
+                                            </div>
+                                            <div class="description">
+                                                <h4 class="info-title">Recordatorio</h4>
+                                                <p class="description">
+                                                    Recuerda no usar caracteres especiales, como acentos y entre otras cosas para agilizar.
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="info info-horizontal">
+                                            <div class="icon icon-info">
+                                                <i class="material-icons">group</i>
+                                            </div>
+                                            <div class="description">
+                                                <h4 class="info-title">Movimiento</h4>
+                                                <p class="description">
+                                                    Una vez registrado tu proceso empieza inmediatamente, aunque no te notifiquemos estamos trabajando contigo.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    
+
+                                    <form class="form" method="" action="">
+                                        <div class="card-content">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">face</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Nombre...">
+                                            </div>
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">face</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Apellido...">
+                                            </div>
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">email</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Correo...">
+                                            </div>
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">lock_outline</i>
+                                        </span>
+                                                <input type="password" placeholder="Contraseña..." class="form-control" />
+                                            </div>
+
+                                            <!-- If you want to add a checkbox to this form, uncomment this code -->
+
+                                          
+                                        </div>
+                                        <div class="footer text-center">
+                                            <a href="#pablo" class="btn btn-danger btn-round">Continuar registro</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            
+                            <!--Segundo panel del registro -->
+
+                            <div class="row"   id="panel2">
+                                
+                                <div class="col-md-5 col-md-offset-1">
+                                    <div class="card-content">
+                                         <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">group</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Sexo...">
+                                            </div>
+
+                                        <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">school</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Carrera...">
+                                            </div>
+
+                                         <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">credit_card</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Cedula...">
+                                            </div>
+
+                                         <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">attach_money</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Salario(Aspiracion)...">
+                                            </div>
+
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    
+
+                                    <form class="form" method="" action="">
+                                        <div class="card-content">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">hearing</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Idiomas...">
+                                            </div>
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">work</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Area Interes...">
+                                            </div>
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">school</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Preparacion Academica...">
+                                            </div>
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">school</i>
+                                        </span>
+                                                <input type="password" placeholder="Universidad..." class="form-control" />
+                                            </div>
+
+                                            <!-- If you want to add a checkbox to this form, uncomment this code -->
+
+                                          
+                                        </div>
+                                        <div class="footer text-center">
+                                            <div style="text-align: center;">
+                                            <a href="#pablo" class="btn btn-danger btn-round">Siguiente</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!--Tercer panel del registro -->
+
+                            <div class="row"   id="panel3">
+
+                                <div style="text-align: center;">
+                                                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                                      <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                                        <img src="{% static 'assetsmaterial/img/default-avatar.png' %}" alt="...">
+                                                                      </div>
+                                                                      <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                                                      <div>
+                                                                        <span class="btn btn-default btn-file"><span class="fileinput-new">Selecciona Imagen</span><span class="fileinput-exists">Cambiar</span><input type="file" name="..."></span>
+                                                                        <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Quitar</a>
+                                                                      </div>
+                                                                    </div>
+                                                                </div>
+                                
+                                <div class="col-md-5 col-md-offset-1">
+                                    <div class="card-content">
+                                         <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">local_phone</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Telefonos...">
+                                            </div>
+
+                                        <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">explicit</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Experiencia...">
+                                            </div>
+
+                                         <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">date_range</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Edad...">
+                                            </div>
+
+                                         <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">golf_course</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder=Pais...">
+                                            </div>
+
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    
+
+                                    <form class="form" method="" action="">
+                                        <div class="card-content">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">hearing</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Licencia...">
+                                            </div>
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">work</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Area Interes...">
+                                            </div>
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">school</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Preparacion Academica...">
+                                            </div>
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">swap_horiz</i>
+                                        </span>
+                                                <input type="password" placeholder="Localidad..." class="form-control" />
+                                            </div>
+
+                                            <!-- If you want to add a checkbox to this form, uncomment this code -->
+
+                                          
+                                        </div>
+                                        <div class="footer text-center">
+                                            <div style="text-align: center;">
+                                            <a href="#pablo" class="btn btn-danger btn-round">Buscar Empleo</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer">
+                <div class="container">
+                    <nav class="pull-left">
+                        <ul>
+                            
+                        </ul>
+                    </nav>
+                    <p class="copyright pull-right">
+                        &copy;
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script> <a href="tutalentoacerh.com"> ACERHGROUP </a>, Top Talents, Top Companies
+                    </p>
+                </div>
+            </footer>
+
+        </div>
+
+    </div>
+</body>
+
+<!--   Core JS Files   -->
+<script src="{% static 'assetsmaterial/js/jquery.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assetsmaterial/js/bootstrap.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assetsmaterial/js/material.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assetsmaterial/js/perfect-scrollbar.jquery.min.js' %}" type="text/javascript"></script>
+
+<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+
+<!-- Library for adding dinamically elements -->
+<script src="{% static 'assetsmaterial/js/arrive.min.js' %}" type="text/javascript"></script>
+
+<!-- Forms Validations Plugin -->
+<script src="{% static 'assetsmaterial/js/jquery.validate.min.js' %}"></script>
+
+<!--  Plugin for Date Time Picker and Full Calendar Plugin-->
+<script src="{% static 'assetsmaterial/js/moment.min.js' %}"></script>
+
+<!--  Charts Plugin, full documentation here: https://gionkunz.github.io/chartist-js/ -->
+<script src="{% static 'assetsmaterial/js/chartist.min.js' %}"></script>
+
+<!--  Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+<script src="{% static 'assetsmaterial/js/jquery.bootstrap-wizard.js' %}"></script>
+
+<!--  Notifications Plugin, full documentation here: http://bootstrap-notify.remabledesigns.com/    -->
+<script src="{% static 'assetsmaterial/js/bootstrap-notify.js' %}"></script>
+
+<!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+<script src="{% static 'assetsmaterial/js/bootstrap-datetimepicker.js' %}"></script>
+
+<!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
+<script src="{% static 'assetsmaterial/js/jquery-jvectormap.js' %}"></script>
+
+<!-- Sliders Plugin, full documentation here: https://refreshless.com/nouislider/ -->
+<script src="{% static 'assetsmaterial/js/nouislider.min.js' %}"></script>
+
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+
+<!--  Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+<script src="{% static 'assetsmaterial/js/jquery.select-bootstrap.js' %}"></script>
+
+<!--  DataTables.net Plugin, full documentation here: https://datatables.net/    -->
+<script src="{% static 'assetsmaterial/js/jquery.datatables.js' %}"></script>
+
+<!-- Sweet Alert 2 plugin, full documentation here: https://limonte.github.io/sweetalert2/ -->
+<script src="{% static 'assetsmaterial/js/sweetalert2.js' %}"></script>
+
+<!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+<script src="{% static 'assetsmaterial/js/jasny-bootstrap.min.js' %}"></script>
+
+<!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
+<script src="{% static 'assetsmaterial/js/fullcalendar.min.js' %}"></script>
+
+<!-- Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+<script src="{% static 'assetsmaterial/js/jquery.tagsinput.js' %}"></script>
+
+<!-- Material Dashboard javascript methods -->
+<script src="{% static 'assetsmaterial/js/material-dashboard.js' %}"></script>
+
+<!-- Material Dashboard DEMO methods, don't include it in your project! -->
+<script src="{% static 'assetsmaterial/js/demo.js' %}"></script>
+
+
+
+
+<script type="text/javascript">
+    $().ready(function() {
+        demo.checkFullPageBackgroundImage();
+
+        setTimeout(function() {
+            // after 1000 ms we add the class animated to the login/register card
+            $('.card').removeClass('card-hidden');
+        }, 700)
+    });
+</script>
+
+<script type="text/javascript">
+    function HideStep1() {
+        document.getElementById("panel1").style.display = 'none';
+        document.getElementById("panel2").style.display = 'inline';
+    }
+
+    function HideStep2() {
+        document.getElementById("panel2").style.display = 'none';
+        document.getElementById("panel3").style.display = 'inline';
+    }
+</script>
+
+
+
+
+</html>
