@@ -21,14 +21,21 @@
     <!--  Material Dashboard CSS    -->
     <link href="{% static 'assetsmaterial/css/material-dashboard.css' %}" rel="stylesheet" />
 
+    <link href="{% static 'pre/css/style2.css' %}" rel="stylesheet" />
+
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="{% static 'assetsmaterial/css/demo.css' %}" rel="stylesheet" />
 
+    <script src="{% static 'assetsre/js/jquery-2.2.4.min.js' %}" type="text/javascript"></script>
 
+
+    
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+
 
 </head>
 
@@ -129,32 +136,43 @@
 
                                     <form class="form" method="" action="">
                                         <div class="card-content">
+
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">face</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Nombre...">
+                                                <input type="text" class="form-control" placeholder="Usuario (para iniciar sesion)" id="username">
+                                            </div>
+                                            
+
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">face</i>
+                                        </span>
+                                                <input type="text" class="form-control" placeholder="Nombres..." id="nombre">
+
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">face</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Apellido...">
+                                                <input type="text" class="form-control" placeholder="Apellidos..." id="apellido">
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">email</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Correo...">
+                                                <input type="text" class="form-control" placeholder="Correo..." id="correo">
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">lock_outline</i>
                                         </span>
-                                                <input type="password" placeholder="Contraseña..." class="form-control" />
+                                                <input type="password" placeholder="Contraseña..." class="form-control" id="password">
                                             </div>
 
                                             <!-- If you want to add a checkbox to this form, uncomment this code -->
@@ -162,16 +180,32 @@
                                           
                                         </div>
                                         <div class="footer text-center">
-                                            <a href="#pablo" class="btn btn-danger btn-round">Continuar registro</a>
+                                            <a  class="btn btn-danger btn-round" onclick="HideStep1()">Continuar registro</a>
                                         </div>
                                     </form>
                                 </div>
                             </div>
 
-                            
-                            <!--Segundo panel del registro -->
+                            <!--Loader -->
+                            <div style="display: none;" id="loader" class="row">
+                                <div class="loading">
+                                    <div class="loading-text">
+                                        <span class="loading-text-words">C</span>
+                                        <span class="loading-text-words">A</span>
+                                        <span class="loading-text-words">R</span>
+                                        <span class="loading-text-words">G</span>
+                                        <span class="loading-text-words">A</span>
+                                        <span class="loading-text-words">N</span>
+                                        <span class="loading-text-words">D</span>
+                                        <span class="loading-text-words">O</span>
+                                    </div>
+                                </div>
+                                </div>
 
-                            <div class="row"   id="panel2">
+                            <!--Segundo panel del registro -->
+                            <div class="row"   id="panel2" style="display: none;">
+
+
                                 
                                 <div class="col-md-5 col-md-offset-1">
                                     <div class="card-content">
@@ -179,28 +213,39 @@
                                                 <span class="input-group-addon">
                                             <i class="material-icons">group</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Sexo...">
+                                               <select name="sexo" id="sexo" class="form-control">
+                                                        <option value="N/A" selected="">Seleccione su sexo</option>
+                                                        <option value="Masculino">Masculino</option>
+                                                        <option value="Femenino">Femenino </option>
+                                                    </select>
                                             </div>
 
                                         <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">school</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Carrera...">
+                                                
+                                                    <select name="carrera" id="carrera" class="form-control">
+                                                        <option value="N/A" selected="">Seleccione su carrera</option>
+                                                        {%for area in areas%}
+                                                        <option value="{{area.titulo}}">{{area.titulo}}</option>
+                                                        {%endfor%}
+
+                                                    </select>
                                             </div>
 
                                          <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">credit_card</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Cedula...">
+                                                <input id="cedula" name="cedula" type="text"  class="form-control" placeholder="cedula">
                                             </div>
 
                                          <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">attach_money</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Salario(Aspiracion)...">
+                                                <input id="salario" name="Salario" placeholder="salario(aspira)"  type="text" class="form-control">
                                             </div>
 
                                        
@@ -215,28 +260,42 @@
                                                 <span class="input-group-addon">
                                             <i class="material-icons">hearing</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Idiomas...">
+                                                <input type="text" class="form-control" placeholder="Idiomas..." id="idioma">
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">work</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Area Interes...">
+                                               <select name="ar_int" class="form-control">
+                                                        <option value="N/A" id="ar_int" selected="">Seleccione el Area</option>
+                                                        {%for area in areas%}
+                                                        <option value="{{area.titulo}}">{{area.titulo}}</option>
+                                                        {%endfor%}
+
+
+                                                    </select>
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">school</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Preparacion Academica...">
+                                               <select name="estudio" id="estudio" class="form-control">
+                                                        <option value="N/A" selected="">Seleccione el nivel de estudios</option>
+                                                        <option value="N/A">Sin estudios</option>
+                                                        <option value="Basico">Basico </option>
+                                                        <option value="Bachillerato"> Bachillerato </option>
+                                                        <option value="Universitario(incompleto)"> Universitario(incompleto) </option>
+                                                        <option value="Profesional"> Profesional </option>
+                                                    </select>
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">school</i>
                                         </span>
-                                                <input type="password" placeholder="Universidad..." class="form-control" />
+                                                <input type="text" placeholder="Universidad..." class="form-control"  id="universidad">
                                             </div>
 
                                             <!-- If you want to add a checkbox to this form, uncomment this code -->
@@ -245,7 +304,7 @@
                                         </div>
                                         <div class="footer text-center">
                                             <div style="text-align: center;">
-                                            <a href="#pablo" class="btn btn-danger btn-round">Siguiente</a>
+                                            <a  class="btn btn-danger btn-round" onclick="HideStep2()">Siguiente</a>
                                             </div>
                                         </div>
                                     </form>
@@ -254,7 +313,7 @@
 
                             <!--Tercer panel del registro -->
 
-                            <div class="row"   id="panel3">
+                            <div class="row"   id="panel3" style="display: none;">
 
                                 <div style="text-align: center;">
                                                                     <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -275,28 +334,53 @@
                                                 <span class="input-group-addon">
                                             <i class="material-icons">local_phone</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Telefonos...">
+                                                <input type="text" id="telefono" class="form-control" placeholder="Telefonos...">
                                             </div>
 
                                         <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">explicit</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Experiencia...">
+                                                <select name="experiencia" class="form-control">
+                                                        <option disabled value="N/A"> Seleccione su nivel de experiencia </option>
+                                                        <option value="1-2"> Sin experiencia </option>
+                                                        <option value="1-2"> 1-2 </option>
+                                                        <option value="2-5"> 2-5 </option>
+                                                        <option value="5-10"> 5-10 </option>
+                                                        <option value="10-15"> 10-15 </option>
+                                                        <option value="15+"> 15+ </option>
+                                                    </select>
                                             </div>
 
                                          <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">date_range</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Edad...">
+                                               <select name="edad" class="form-control">
+                                                        <option  value="N/A"> Seleccione su rango de edad </option>
+                                                        <option value="18-25"> 18-25 </option>
+                                                        <option value="25-30"> 25-30 </option>
+                                                        <option value="30-35"> 30-35 </option>
+                                                        <option value="35-40"> 35-40 </option>
+                                                        <option value="40+"> 40+ </option>
+                                                    </select>
                                             </div>
 
                                          <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">golf_course</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder=Pais...">
+                                              <select name="pais_apli" class="form-control">
+                                                                                                    <option  value="El Salvador">Seleccione el pais</option>
+                                                                                                    <option value="El Salvador">El Salvador</option>
+                                                                                                    <option value="Guatemala">Guatemala</option>
+                                                                                                    <option value="Honduras">Honduras</option>
+                                                                                                    <option value="Jamaica">Jamaica</option>
+                                                                                                    <option value="Nicaragua">Nicaragua</option>
+                                                                                                    <option value="Republica Dominicana">Republica Dominicana</option>
+                                                                                                    <option value="Trinidad y Tobago">Trinidad y Tobago</option>
+
+                                                                                                </select>
                                             </div>
 
                                        
@@ -307,32 +391,46 @@
 
                                     <form class="form" method="" action="">
                                         <div class="card-content">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                            <i class="material-icons">hearing</i>
-                                        </span>
-                                                <input type="text" class="form-control" placeholder="Licencia...">
-                                            </div>
-
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                            <i class="material-icons">work</i>
-                                        </span>
-                                                <input type="text" class="form-control" placeholder="Area Interes...">
-                                            </div>
+                                           
 
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">school</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Preparacion Academica...">
+                                                <input type="text" id="nacionalidad" class="form-control" placeholder="Nacionalidad...">
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">swap_horiz</i>
                                         </span>
-                                                <input type="password" placeholder="Localidad..." class="form-control" />
+                                                <input type="text" placeholder="Localidad..." class="form-control" />
+                                            </div>
+
+                                             <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">hearing</i>
+                                        </span>
+                                               <select onchange="Cambio();" id="licencia" name="licencia" class="form-control">
+                                                        <option value="N/A"> Tienes Licencia de conducir? </option>
+                                                        <option value="No tengo"> No tengo </option>
+                                                        <option value="Si tengo"> Si tengo </option>
+                                                    </select>
+                                            </div>
+
+                                            <div class="input-group" id="cat_div" style="display: none;">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">work</i>
+                                        </span>
+                                                <select  id="cat_licen" name="cat_licen" class="form-control">
+                                                        <option value="Categoria 1"> Seleccione categoria(Licencia) </option>
+                                                        <option value="Categoria 1"> Sin, Categoria </option>
+                                                        <option value="Categoria 1"> Categoria 1 </option>
+                                                        <option value="Categoria 2"> Categoria 2 </option>
+                                                        <option value="Categoria 3"> Categoria 3 </option>
+                                                        <option value="Categoria 4"> Categoria 4 </option>
+                                                        <option value="Categoria 5"> Categoria 5 </option>
+                                                    </select>
                                             </div>
 
                                             <!-- If you want to add a checkbox to this form, uncomment this code -->
@@ -341,7 +439,7 @@
                                         </div>
                                         <div class="footer text-center">
                                             <div style="text-align: center;">
-                                            <a href="#pablo" class="btn btn-danger btn-round">Buscar Empleo</a>
+                                            <a  class="btn btn-danger btn-round">Buscar Empleo</a>
                                             </div>
                                         </div>
                                     </form>
@@ -372,8 +470,9 @@
     </div>
 </body>
 
+<script src="https://unpkg.com/imask"></script>
 <!--   Core JS Files   -->
-<script src="{% static 'assetsmaterial/js/jquery.min.js' %}" type="text/javascript"></script>
+
 <script src="{% static 'assetsmaterial/js/bootstrap.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'assetsmaterial/js/material.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'assetsmaterial/js/perfect-scrollbar.jquery.min.js' %}" type="text/javascript"></script>
@@ -408,9 +507,6 @@
 <!-- Sliders Plugin, full documentation here: https://refreshless.com/nouislider/ -->
 <script src="{% static 'assetsmaterial/js/nouislider.min.js' %}"></script>
 
-<!--  Google Maps Plugin    -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-
 <!--  Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
 <script src="{% static 'assetsmaterial/js/jquery.select-bootstrap.js' %}"></script>
 
@@ -435,6 +531,14 @@
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="{% static 'assetsmaterial/js/demo.js' %}"></script>
 
+<script src="{% static 'pre/js/index.js' %}"></script>
+
+<script src="{% static 'assets10/js/sweetalert2.js' %}"></script>
+
+
+
+
+
 
 
 
@@ -447,21 +551,212 @@
             $('.card').removeClass('card-hidden');
         }, 700)
     });
+
+
 </script>
 
 <script type="text/javascript">
     function HideStep1() {
-        document.getElementById("panel1").style.display = 'none';
-        document.getElementById("panel2").style.display = 'inline';
+        var nombre = document.getElementById("nombre").value;
+        var apellido = document.getElementById("apellido").value;
+        var password = document.getElementById("password").value;
+        var correo = document.getElementById("correo").value;
+
+        
+
+
+
+        if (nombre == "" ) 
+        {
+          document.getElementById("nombre").focus();
+        }
+        
+        if (apellido == "" ) 
+        {
+          document.getElementById("apellido").focus();
+        }
+
+        if (password == "" ) 
+        {
+         document.getElementById("password").focus();
+        }
+
+        if (correo == "" ) 
+        {
+         document.getElementById("correo").focus();
+        }
+        else{
+             if (correo.includes("@") ) 
+        {
+         
+        }
+        else{
+             swal({
+          type: 'error',
+          title: 'Campo Correo...',
+          text: 'Esta direccion de correo no es valida'
+          })
+
+          document.getElementById("correo").value = "";
+
+        }
+        }
+
+        
+
+        
+
+        if (nombre != "" && apellido != "" && password != "" && correo != "" && correo.includes("@") )
+        {
+            document.getElementById("panel1").style.display = 'none';
+            document.getElementById("loader").style.display = 'inline';
+            setTimeout(function(){ document.getElementById("panel2").style.display = 'inline';  document.getElementById("loader").style.display = 'none';}, 3000);
+
+        }
+
+
+
+        
+       // document.getElementById("panel2").style.display = 'inline';
     }
 
     function HideStep2() {
-        document.getElementById("panel2").style.display = 'none';
-        document.getElementById("panel3").style.display = 'inline';
+        var e = document.getElementById("sexo");
+        var sexo =  e.options[e.selectedIndex].value;
+        var carrera = document.getElementById("carrera").value;
+        var cedula = document.getElementById("cedula").value;
+        var salario = document.getElementById("salario").value;
+        var idioma = document.getElementById("idioma").value;
+        var ar_int = document.getElementById("ar_int").value;
+        var estudio = document.getElementById("estudio").value;
+        var universidad = document.getElementById("universidad").value;
+
+
+        if (sexo == "" ) 
+        {
+          document.getElementById("sexo").focus();
+        }
+        
+        if (carrera == "" ) 
+        {
+          document.getElementById("carrera").focus();
+        }
+
+        if (cedula == "" ) 
+        {
+          document.getElementById("cedula").focus();
+        }
+
+        if (salario == "" ) 
+        {
+          document.getElementById("salario").focus();
+        }
+
+        if (idioma == "" ) 
+        {
+          document.getElementById("idioma").focus();
+        }
+
+        if (ar_int == "" ) 
+        {
+          document.getElementById("ar_int").focus();
+        }
+
+        if (estudio == "" ) 
+        {
+          document.getElementById("estudio").focus();
+        }
+
+        if (universidad == "" ) 
+        {
+          document.getElementById("educacion").focus();
+        }
+
+        if (sexo != "" && carrera != "" && cedula != "" && salario != "" && idioma != "" && ar_int != "" && estudio != "" && universidad != "")
+        {
+            document.getElementById("panel2").style.display = 'none';
+            document.getElementById("loader").style.display = 'inline';
+            setTimeout(function(){ document.getElementById("panel3").style.display = 'inline';  document.getElementById("loader").style.display = 'none';}, 3000);
+
+        }
+
+
+        function register() {
+
+
+
+        $.ajax({
+            data: {'ajax': consulta},
+            url: '/registroajax/',
+            type: 'POST',
+            success : function(data) {
+
+                    console.log(data[0]);
+                    html += '<center>'+'<div class="alert alert-danger">'+ data.responseText  +" "+'</div>'+'</center>';
+                    document.getElementById("error").innerHTML = data[0];
+                    var myElement = document.querySelector("#testo");
+                    myElement.style.display = "block";
+            },
+            error : function(message) {
+                   console.log(message);
+
+            }
+             });
+                        
+        }
+
+
+
+
+
+
+
+
+        
     }
 </script>
 
+<script type="text/javascript">
+    $(document).ready(function(){
+      var element = document.getElementById('cedula');
+      var salario = document.getElementById('salario');
 
+      var maskOptions = {
+        mask: '000-0000000-0'
+      };
+      var mask = new IMask(element, maskOptions);
+
+
+
+      var salario = document.getElementById('telefono');
+
+      var maskOptions2 = {
+        mask: '(000) 000-0000)'
+      };
+      var mask2 = new IMask(salario, maskOptions2);
+
+
+     
+
+    });
+
+    function Cambio() {
+            var select_id = document.getElementById("licencia");
+
+            var opcion = select_id.options[select_id.selectedIndex].value;
+
+            if (opcion == 'Si tengo'){
+                
+                document.getElementById('cat_div').style.display = 'inherit';
+
+            }
+            else{
+                 document.getElementById('cat_div').style.display = 'none';
+
+            }
+                        
+        }
+</script>
 
 
 </html>

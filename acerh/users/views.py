@@ -27,6 +27,7 @@ import io
 import os
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import sys
+import unicodedata
 # sys.setdefaultencoding() does not exist, here!
 reload(sys)  # Reload does the trick!
 sys.setdefaultencoding('UTF8')
@@ -98,6 +99,8 @@ def LogoutRequest(request):
 	return HttpResponseRedirect('/login')
 
 
+
+
 def register(request):
 	context = RequestContext(request)
 	registered = False
@@ -141,22 +144,22 @@ def register(request):
 				else:
 					profile.picture = request.FILES['picture']
 
-				profile.cedula = request.POST['cedula'].encode('utf8')
-				profile.sexo = request.POST['sexo'].encode('utf8')
-				profile.idioma = request.POST['idioma'].encode('utf8')
-				profile.carrera = request.POST['carrera'].encode('utf8')
-				profile.ar_int = request.POST['ar_int'].encode('utf8')
-				profile.salario = request.POST['salario'].encode('utf8')
+				profile.cedula = unicodedata.normalize('NFKD', request.POST['cedula']).encode('ascii', 'ignore')
+				profile.sexo = unicodedata.normalize('NFKD', request.POST['sexo']).encode('ascii', 'ignore')
+				profile.idioma = unicodedata.normalize('NFKD', request.POST['idioma']).encode('ascii', 'ignore')
+				profile.carrera = unicodedata.normalize('NFKD', request.POST['carrera']).encode('ascii', 'ignore')
+				profile.ar_int = unicodedata.normalize('NFKD', request.POST['ar_int']).encode('ascii', 'ignore')
+				profile.salario = unicodedata.normalize('NFKD', request.POST['salario']).encode('ascii', 'ignore')
 				profile.telefono = request.POST['telefono'].encode('utf8')
-				profile.localidad = request.POST['localidad'].encode('utf8')
-				profile.estudio = request.POST['estudio'].encode('utf8')
-				profile.edad = request.POST['edad'].encode('utf8')
-				profile.experiencia = request.POST['experiencia'].encode('utf8')
-				profile.nacionalidad = request.POST['nacionalidad'].encode('utf8')
-				profile.universidad = request.POST['universidad'].encode('utf8')
-				profile.licencia = request.POST['licencia'].encode('utf8')
-				profile.cat_licen = request.POST['cat_licen'].encode('utf8')
-				profile.pais_apli = request.POST['pais_apli'].encode('utf8')
+				profile.localidad = unicodedata.normalize('NFKD', request.POST['localidad']).encode('ascii', 'ignore')
+				profile.estudio = unicodedata.normalize('NFKD', request.POST['estudio']).encode('ascii', 'ignore')
+				profile.edad = unicodedata.normalize('NFKD', request.POST['edad']).encode('ascii', 'ignore')
+				profile.experiencia = unicodedata.normalize('NFKD', request.POST['experiencia']).encode('ascii', 'ignore')
+				profile.nacionalidad = unicodedata.normalize('NFKD', request.POST['nacionalidad']).encode('ascii', 'ignore')
+				profile.universidad = unicodedata.normalize('NFKD', request.POST['universidad']).encode('ascii', 'ignore')
+				profile.licencia = unicodedata.normalize('NFKD', request.POST['licencia']).encode('ascii', 'ignore')
+				profile.cat_licen = unicodedata.normalize('NFKD', request.POST['cat_licen']).encode('ascii', 'ignore')
+				profile.pais_apli = unicodedata.normalize('NFKD', request.POST['pais_apli']).encode('ascii', 'ignore')
 
 				profile.save()
 				usuario = authenticate(username=username,password=password)
@@ -168,7 +171,7 @@ def register(request):
 		profile_form = UserPr()
 		area = Area.objects.all()
 		provincia = Provincia.objects.all()
-		return render (request,'registromaterial.html',{'user_form':user_form, 'profile_form': profile_form,'area':area,'areas':area.all(),'provincia':provincia,'provincias':provincia.all()})
+		return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form,'area':area,'areas':area.all(),'provincia':provincia,'provincias':provincia.all()})
 
 
 def register2(request):
