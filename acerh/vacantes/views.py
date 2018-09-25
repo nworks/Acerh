@@ -22,6 +22,7 @@ from rest_framework.authtoken.models import Token
 def vacantelist(request):
 	if request.user.is_staff:
 		return redirect('/compania')
+    
 	result1 = serializers.serialize("json",Aplicado.objects.filter(usuario=request.user.id))
 	decoded_data = json.loads(result1)
 	array = []
@@ -47,6 +48,35 @@ def vacantelist(request):
 	cantidad = Aplicado.objects.filter(usuario=request.user.id).count()
 	area = Area.objects.all()
 	noficacion = notify.objects.all()
+
+
+	if 'busqueda' in request.GET:
+		busqueda = request.GET['busqueda']
+		result1 = serializers.serialize("json",Aplicado.objects.filter(usuario=request.user.id))
+		decoded_data = json.loads(result1)
+		array = []
+		for i in decoded_data:
+			array.insert(0,i["fields"]["aplico"])
+		
+		post = Vacante.objects.exclude(pk__in=array).filter(pais=request.user.userp.pais_apli).filter(titulo__contains=busqueda) or Vacante.objects.filter(titulo__contains=busqueda)
+
+		paginator = Paginator(post, 15) # Show 25 contacts per page
+
+		page = request.GET.get('page')
+		try:
+			posts = paginator.page(page)
+		except PageNotAnInteger:
+			# If page is not an integer, deliver first page.
+			posts = paginator.page(1)
+		except EmptyPage:
+			# If page is out of range (e.g. 9999), deliver last page of results.
+			posts = paginator.page(paginator.num_pages)
+
+		postall = post.all()
+		post2 = Aplicado.objects.all()
+		cantidad = Aplicado.objects.filter(usuario=request.user.id).count()
+		area = Area.objects.all()
+		noficacion = notify.objects.all()
 
 
 

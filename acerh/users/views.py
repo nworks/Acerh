@@ -110,16 +110,16 @@ def register(request):
 	if request.method == 'POST':
 		user_form = UsuarioForm2(data=request.POST)
 		profile_form = UserPr(data=request.FILES)
-		data2 = request.POST['username']
+		data2 = request.POST.get('username')
 		if User.objects.filter(username=data2).exists():
 			message = "Este Username ya se encuentra en uso, intente otro"
-			return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form, 'message':message})
+			return render (request,'registromaterial.html',{'user_form':user_form, 'profile_form': profile_form, 'message':message})
 
 
 		data = request.POST['email']
 		if User.objects.filter(email=data).exists():
 			message = "Este correo electronico fue regustrado"
-			return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form, 'message':message})
+			return render (request,'registromaterial.html',{'user_form':user_form, 'profile_form': profile_form, 'message':message})
 
 
 
@@ -144,22 +144,26 @@ def register(request):
 				else:
 					profile.picture = request.FILES['picture']
 
-				profile.cedula = unicodedata.normalize('NFKD', request.POST['cedula']).encode('ascii', 'ignore')
-				profile.sexo = unicodedata.normalize('NFKD', request.POST['sexo']).encode('ascii', 'ignore')
-				profile.idioma = unicodedata.normalize('NFKD', request.POST['idioma']).encode('ascii', 'ignore')
-				profile.carrera = unicodedata.normalize('NFKD', request.POST['carrera']).encode('ascii', 'ignore')
-				profile.ar_int = unicodedata.normalize('NFKD', request.POST['ar_int']).encode('ascii', 'ignore')
-				profile.salario = unicodedata.normalize('NFKD', request.POST['salario']).encode('ascii', 'ignore')
-				profile.telefono = request.POST['telefono'].encode('utf8')
-				profile.localidad = unicodedata.normalize('NFKD', request.POST['localidad']).encode('ascii', 'ignore')
-				profile.estudio = unicodedata.normalize('NFKD', request.POST['estudio']).encode('ascii', 'ignore')
-				profile.edad = unicodedata.normalize('NFKD', request.POST['edad']).encode('ascii', 'ignore')
-				profile.experiencia = unicodedata.normalize('NFKD', request.POST['experiencia']).encode('ascii', 'ignore')
-				profile.nacionalidad = unicodedata.normalize('NFKD', request.POST['nacionalidad']).encode('ascii', 'ignore')
-				profile.universidad = unicodedata.normalize('NFKD', request.POST['universidad']).encode('ascii', 'ignore')
-				profile.licencia = unicodedata.normalize('NFKD', request.POST['licencia']).encode('ascii', 'ignore')
-				profile.cat_licen = unicodedata.normalize('NFKD', request.POST['cat_licen']).encode('ascii', 'ignore')
-				profile.pais_apli = unicodedata.normalize('NFKD', request.POST['pais_apli']).encode('ascii', 'ignore')
+				profile.cedula = unicodedata.normalize('NFKD', request.POST.get('cedula')).encode('ascii', 'ignore')
+				profile.sexo = unicodedata.normalize('NFKD', request.POST.get('sexo')).encode('ascii', 'ignore')
+				profile.idioma = request.GET.getlist('idioma')
+
+				print dict(request.POST)["idioma"]	
+				profile.idioma = dict(request.POST)["idioma"]				
+				profile.carrera = unicodedata.normalize('NFKD', request.POST.get('carrera')).encode('ascii', 'ignore')
+				print dict(request.POST)["carrera"]	
+				profile.ar_int = dict(request.POST)["ar_int"]	
+				profile.salario = unicodedata.normalize('NFKD', request.POST.get('salario')).encode('ascii', 'ignore')
+				profile.telefono = request.POST.get('telefono').encode('utf8')
+				profile.localidad = unicodedata.normalize('NFKD', request.POST.get('localidad')).encode('ascii', 'ignore')
+				profile.estudio = unicodedata.normalize('NFKD', request.POST.get('estudio')).encode('ascii', 'ignore')
+				profile.edad = unicodedata.normalize('NFKD', request.POST.get('edad')).encode('ascii', 'ignore')
+				profile.experiencia = unicodedata.normalize('NFKD', request.POST.get('experiencia')).encode('ascii', 'ignore')
+				profile.nacionalidad = unicodedata.normalize('NFKD', request.POST.get('nacionalidad')).encode('ascii', 'ignore')
+				profile.universidad = unicodedata.normalize('NFKD', request.POST.get('universidad')).encode('ascii', 'ignore')
+				profile.licencia = unicodedata.normalize('NFKD', request.POST.get('licencia')).encode('ascii', 'ignore')
+				profile.cat_licen = unicodedata.normalize('NFKD', request.POST.get('cat_licen')).encode('ascii', 'ignore')
+				profile.pais_apli = unicodedata.normalize('NFKD', request.POST.get('pais_apli')).encode('ascii', 'ignore')
 
 				profile.save()
 				usuario = authenticate(username=username,password=password)
@@ -171,7 +175,7 @@ def register(request):
 		profile_form = UserPr()
 		area = Area.objects.all()
 		provincia = Provincia.objects.all()
-		return render (request,'registerbeta.html',{'user_form':user_form, 'profile_form': profile_form,'area':area,'areas':area.all(),'provincia':provincia,'provincias':provincia.all()})
+		return render (request,'registromaterial.html',{'user_form':user_form, 'profile_form': profile_form,'area':area,'areas':area.all(),'provincia':provincia,'provincias':provincia.all()})
 
 
 def register2(request):
@@ -488,7 +492,7 @@ from django.db.models.query_utils import Q
 
 class ResetPasswordRequestView(FormView):
 	template_name = "test_template.html"    #code for template is given below the view's code
-	success_url = '/account/login'
+	success_url = '/vacantes'
 	form_class = PasswordResetRequestForm
 	@staticmethod
 	def validate_email_address(email):
@@ -527,10 +531,10 @@ class ResetPasswordRequestView(FormView):
 						email = loader.render_to_string(email_template_name, c)
 						send_mail(subject, email, DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
 				result = self.form_valid(form)
-				messages.success(request, 'An email has been sent to ' + data +". Please check its inbox to continue reseting password.")
+				messages.success(request, 'Email a sido enviado a ' + data +". direccion de correo. por favor revise su imbox para continuar con el registro.")
 				return result
 			result = self.form_invalid(form)
-			messages.error(request, 'No user is associated with this email address')
+			messages.error(request, 'Este Username no existe en el sistema')
 			return result
 		else:
 			'''
@@ -566,7 +570,7 @@ class ResetPasswordRequestView(FormView):
 
 class PasswordResetConfirmView(FormView):
 	template_name = "test_template.html"
-	success_url = '/admin/'
+	success_url = '/login'
 	form_class = SetPasswordForm
 
 	def post(self, request, uidb64=None, token=None, *arg, **kwargs):
@@ -764,3 +768,9 @@ def usermov(request):
 
 
 	return JsonResponse(pickup_response, safe=False)
+
+
+
+def calculate_age(born):
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))

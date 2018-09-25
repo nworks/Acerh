@@ -1,195 +1,197 @@
 {% extends 'base.html' %} {% load staticfiles %} {% load widget_tweaks %} {% block content %}
-<div class="row">
-    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Modulo de busqueda avanzada vacantes</button>
+<div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-icon" data-background-color="red">
+                                    <i class="material-icons">assignment</i>
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">Candidatos Aplicados</h4>
+                                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Modulo de busqueda avanzada vacantes</button>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        <center><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Busqueda Avanzada</center>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal form-material" method="GET" id="role-form">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Foto</th>
+                                                    <th>Nombre</th>
+                                                    <th>Edad</th>
+                                                    <th class="text-right">Carrera</th>
+                                                    <th class="text-right">Ciudad</th>
+                                                    <th class="text-right">Universidad</th>
+                                                    <th class="text-right">Aplico</th>
+                                                    <th class="text-right">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                              {% for app in apps %}
+                                             
+                                                <tr>
+                                                    <td>  <div class="user"><div class="photo">
+                                                    {% if app.usuario.userp.picture %}
+                                                    <img style="width:50px !important;height:45px !important;" src="{{app.usuario.userp.picture.url}}" alt="user-img"> {% else %}
+                                                    <img style="width:50px !important;height:45px !important;" src="{% static 'assets10/img/default-avatar.png' %}" alt="user-img"> {% endif %}
+                                                    </div>  </div> </td>
+
+                                                    <td>{{app.usuario.first_name}} {{app.usuario.last_name}}</td>
+                                                    <td>{{app.usuario.userp.edad}}</td>
+                                                    <td class="text-right">{{app.usuario.userp.carrera}}</td>
+                                                    <td class="text-right">{{app.usuario.userp.localidad}}</td>
+                                                    <td class="text-right">{{app.usuario.userp.universidad}}</td>
+                                                    <td class="td-actions text-right">
+                                                        {{app.aplico.titulo}}
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <a class="btn btn-danger btn-round" href="#{{app.id}}modal" data-toggle="modal"  data-target="#{{app.id}}modal"><i class="material-icons">info</i> Ver Candidato</a>
+                                                        
+                                                    </td>
+                                                </tr>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="{{app.id}}modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                  <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Vacante ID {{app.id}} - Ultimo Login: {{app.usuario.last_login}}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                          <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                      </div>
+                                                      <div class="modal-body " id="table">
+                                                       
+                                                       <div class="card card-profile" >
+                                                                        <h5 class="modal-title" ><b> Curriculum Vitae</b></h5>
+                                                                         {% if app.usuario.userp.picture %}
+                                                                         <img style="width:100px !important;height:100px !important;" src="{{app.usuario.userp.picture.url}}" alt="user-img"> {% else %}
+                                                                         <img style="width:100px !important;height:100px !important;" src="{% static 'assets10/img/default-avatar.png' %}" alt="user-img"> {% endif %}
+                                                                      
+                                                                       <div class="card-content">
+                                                                           <h6 class="category text-gray">{{app.usuario.email}}</h6>
+                                                                           <h4 class="card-title">{{app.usuario.first_name}} {{app.usuario.last_name}}</h4>
+                                                                           <p><b>
+                                                                               Datos Generales
+                                                                           </b></p>
+
+                                                                           <p >
+                                                                               Nivel Academico: {{app.usuario.userp.estudio}} 
+                                                                           </p>
+
+                                                                           <p >
+                                                                               Titulacion Obtenida : {{app.usuario.userp.carrera}} 
+                                                                           </p>
+
+                                                                           <p >
+                                                                               Area Profesional : {{app.usuario.userp.carrera}} 
+                                                                           </p>
+
+                                                                           <p >
+                                                                               Area Profesional : {{app.usuario.userp.carrera}} 
+                                                                           </p>
+
+                                                                           <p><b>
+                                                                               Formacion Academida
+                                                                           </b></p>
+
+                                                                            <p >
+                                                                               Bachillerato tecnico en administracion
+                                                                           </p>
+
+                                                                           <p><b>
+                                                                               Experiencia Profesional
+                                                                           </b></p>
+
+                                                                           <p >
+                                                                               ALTERNAGROUP SRL - DESARROLLADOR WEB
+                                                                               CONSTRUCTORA CBP - SOPORTE TECNICO
+                                                                               ARSRESERAS - ANALISTA DE DESARROLLO DE APLICACIONES
+                                                                           </p>
+
+                                                                           <p><b>
+                                                                               Conocimientos Informatica
+                                                                           </b></p>
+
+                                                                           <p >
+                                                                               WORD EXCEL AUTOCAD
+                                                                           </p>
+
+                                                                           <p><b>
+                                                                              Cursos y Seminarios
+                                                                           </b></p>
+                                                                           
+                                                                           <p >
+                                                                               TECNICO EN INFORMATICA ITLTA
+                                                                           </p>
+
+                                                                           <p><b>
+                                                                              Idiomas
+                                                                           </b></p>
+
+                                                                           <p >
+                                                                               Ingles Español
+                                                                           </p>
+
+                                                                            <p><b>
+                                                                              Comentarios
+                                                                           </b></p>
+
+                                                                           <p >
+                                                                               Ninguno
+                                                                           </p>
+
+                                                                           <p><b>
+                                                                              Clasificacion ISCO (OIT)
+                                                                           </b></p>
+
+                                                                           <p >
+                                                                               Ninguno
+                                                                           </p>
 
 
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">Nombre</label>
-                            <div class="col-sm-10">
-                                <input name="named" class="form-control" type="text" placeholder="Nombre para busqueda" />
+                                                                           <a href="/media/CV/1/VICTORIA_V.mpp" class="btn btn-danger btn-round">Ver CV</a> 
+                                                                           <button type="button" class="btn btn-danger btn-round" onclick="return xepOnline.Formatter.Format('table',{embedLocalImages : 'true'});" >CV</button>
+                                                                       </div>
+                                                                   </div>
+
+
+
+
+                                                      </div>
+                                                      <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger">Save changes</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                       
 
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">Apellido</label>
-                            <div class="col-sm-10">
-                                <input name="apellido" class="form-control" type="text" placeholder="Apellido para busqueda" />
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Busqueda Avanzada de vacantes</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                ...
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-danger">Save changes</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
                             </div>
+                          </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">Correo</label>
-                            <div class="col-sm-10">
-                                <input name="correo" class="form-control" type="text" placeholder="Correo para busqueda" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">Universidad</label>
-                            <div class="col-sm-10">
-                                <input name="universidad" class="form-control" type="text" placeholder="universidad para busqueda" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">Localidad</label>
-                            <div class="col-sm-10">
-                                <input name="localidad" class="form-control" type="text" placeholder="Localidad para busqueda" />
-                            </div>
-                        </div>
-
-                        <div class="form-group ">
-                            <label class="col-sm-2 control-label">Experiencia</label>
-                            <div class="col-sm-10">
-                                <select name="experiencia" class="form-control">
-                                <option value=""></option>
-                                <option value="1-2"> 1-2 </option>
-                                <option value="2-5"> 2-5 </option>
-                                <option value="5-10"> 5-10 </option>
-                                <option value="10-15"> 10-15 </option>
-                                <option value="15+"> 15+ </option>
-                            </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email" class="col-sm-2 control-label">Carrera</label>
-                            <div class="col-sm-10">
-                                <select name="carrera" class="form-control">
-                               <option  selected=""> </option>
-                               {% for are in areas %}
-                               <option value="{{are.titulo}}">{{are.titulo}}</option>
-                               {%endfor%}
-                             </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">Idioma</label>
-                            <div class="col-sm-10">
-                                <input name="idioma" class="form-control" type="text" placeholder="Idiomas para busqueda" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Edad</label>
-                            <div class="col-sm-10">
-                                <select name="edad" class="form-control">
-                               <option  selected=""></option>
-                               <option value="18-25"> 18-25 </option>
-                               <option value="25-30"> 25-30 </option>
-                               <option value="30-35"> 30-35 </option>
-                               <option value="35-40"> 35-40 </option>
-                               <option value="40+"> 40+ </option>
-
-                             </select>
-                            </div>
-                        </div>
-
-
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-danger">Iniciar Busqueda</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    {% for app in apps %}
-    <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card card-stats">
-            <div class="card-header" data-background-color="red">
-                <i class="material-icons">person</i>
-            </div>
-            <div class="card-content">
-                <h3 class="category">{{app.usuario.first_name}} {{app.usuario.last_name}}</h3>
-                <p class="card-title">{{app.usuario.email}}</p>
-                <p class="card-title">{{app.aplico.titulo}}</p>
-
-            </div>
-            <div class="card-footer">
-                <div class="stats">
-                    <button type="button" href="#{{app.pk}}" class="btn btn-danger btn-rounded" data-toggle="modal" data-target="#delete{{app.id}}"><i class="fa fa-check-square"></i> Procesar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div id="delete{{app.id}}" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <center>
-                        <h4 class="modal-title">Procesar Aplicacion <strong>{{app.usuario.first_name}} {{app.usuario.last_name}} #ID {{app.pk}}</strong> </h4>
-                    </center>
-                </div>
-                <div class="modal-body">
-                    <form id="msform{{app.id}}" role="form" method="POST" class="form-material" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <center>
-                            {%if app.usuario.userp.picture %}
-                            <img src="{{app.usuario.userp.picture.url}}" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
-                            {% else %}
-                            <img src="{% static 'assets/img/user.png' %}" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
-                            {% endif %}
-                            <h3 class="media-heading"><strong><a href="{% url 'user_detail' id=app.usuario.id %}">{{app.usuario.first_name}} {{app.usuario.last_name}}</a></strong></h3>
-                            <span><strong>Aplico para: </strong></span>
-                            <span class="label label-success">{{app.aplico.titulo}}</span>
-                            <p class="text-left"><strong><center>{%if app.usuario.userp.file %}<a href="{{app.usuario.userp.file.url}}"><span class="label label-danger">Ver su CV</span></a>{% else %}<span class="label label-danger">No tiene CV</span>{%endif%}</center></strong>
-                        </center>
-                        <hr>
-                        <center>
-                            <br>
-
-                            <div class="">
-                                <input name="id" type="hidden" class="form-control" value="{{ app.id }}" style="display: none;">
-                            </div>
-
-                            {%if entreform %}
-                            <div class="">
-                                <label>Comentario para el usuario</label> {{ entreform.comentario|add_class:'form-control' }}
-                                <label>Comentario para uso interno</label> {{ entreform.com_interno|add_class:'form-control' }} {{ entreform.entrevista|add_class:'btn btn-danger btn-rounded' }}
-                            </div>
-                            {% endif %}
-
-
-
-                        </center>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-rounded" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-danger btn-rounded">Procesar Solicitud</button>
-
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-
-</div>
-
-<ul class="pager"> {% if apps.has_previous %}
-    <li><a href="?page={{ posts.previous_page_number }}">Previous</a></li>{% endif %}{% if apps.has_next %}
-    <li><a href="?page={{ apps.next_page_number }}">Next</a></li>{% endif %}</ul>
+<script src="{% static 'assetsmaterial/js/xepOnline.jqPlugin.js' %}"></script>
 {% endblock %}

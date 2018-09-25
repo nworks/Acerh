@@ -12,8 +12,10 @@
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
-
+    
+    <link href="{% static 'pre/css/style2.css' %}" rel="stylesheet" />
     <!-- Bootstrap core CSS     -->
+    <link href="{% static 'assetsmaterial/css/bootstrap.min.css' %}" rel="stylesheet" />
     <link href="{% static 'assetsmaterial/css/bootstrap.min.css' %}" rel="stylesheet" />
 
 
@@ -21,7 +23,12 @@
     <!--  Material Dashboard CSS    -->
     <link href="{% static 'assetsmaterial/css/material-dashboard.css' %}" rel="stylesheet" />
 
-    <link href="{% static 'pre/css/style2.css' %}" rel="stylesheet" />
+
+    <link href="{% static 'assetsmaterial/css/fastselect.css' %}" rel="stylesheet" />
+
+    <link href="{% static 'assetsmaterial/css/chosen.css' %}" rel="stylesheet" />
+
+    
 
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="{% static 'assetsmaterial/css/demo.css' %}" rel="stylesheet" />
@@ -81,10 +88,16 @@
         </div>
     </nav>
 
-
+  <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
     <div class="wrapper wrapper-full-page">
         <div class="full-page register-page" filter-color="black" data-image="{% static 'assetsmaterial/img/rawpixel-378006-unsplash.jpg' %}">
             <div class="container">
+
+                {% if message %}
+                <center><div class="alert alert-danger">{{message}}</div></center>
+                {% endif %}
+
+
                 <div class="row" >
                     <div class="col-md-10 col-md-offset-1">
                    
@@ -134,14 +147,15 @@
                                 <div class="col-md-5">
                                     
 
-                                    <form class="form" method="" action="">
+
+                            
                                         <div class="card-content">
 
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">face</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Usuario (para iniciar sesion)" id="username">
+                                                <input type="text" name="username" class="form-control" placeholder="Usuario (para iniciar sesion)" id="username">
                                             </div>
                                             
 
@@ -150,7 +164,7 @@
                                                 <span class="input-group-addon">
                                             <i class="material-icons">face</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Nombres..." id="nombre">
+                                                <input type="text" class="form-control" name="first_name" placeholder="Nombres..." id="nombre">
 
                                             </div>
 
@@ -158,21 +172,21 @@
                                                 <span class="input-group-addon">
                                             <i class="material-icons">face</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Apellidos..." id="apellido">
+                                                <input type="text" class="form-control" name="last_name" placeholder="Apellidos..." id="apellido">
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">email</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Correo..." id="correo">
+                                                <input type="text" class="form-control" name="email" placeholder="Correo..." id="correo">
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">lock_outline</i>
                                         </span>
-                                                <input type="password" placeholder="Contraseña..." class="form-control" id="password">
+                                                <input type="password" placeholder="Contraseña..." name="password" class="form-control" id="password">
                                             </div>
 
                                             <!-- If you want to add a checkbox to this form, uncomment this code -->
@@ -182,7 +196,6 @@
                                         <div class="footer text-center">
                                             <a  class="btn btn-danger btn-round" onclick="HideStep1()">Continuar registro</a>
                                         </div>
-                                    </form>
                                 </div>
                             </div>
 
@@ -224,9 +237,7 @@
                                                 <span class="input-group-addon">
                                             <i class="material-icons">school</i>
                                         </span>
-                                                
-                                                    <select name="carrera" id="carrera" class="form-control">
-                                                        <option value="N/A" selected="">Seleccione su carrera</option>
+                                                    <select  id="carrera" class="form-control" name="carrera">
                                                         {%for area in areas%}
                                                         <option value="{{area.titulo}}">{{area.titulo}}</option>
                                                         {%endfor%}
@@ -245,7 +256,15 @@
                                                 <span class="input-group-addon">
                                             <i class="material-icons">attach_money</i>
                                         </span>
-                                                <input id="salario" name="Salario" placeholder="salario(aspira)"  type="text" class="form-control">
+                                                <input id="salario" name="salario" placeholder="Rango Salarial(Aspiracion)"  type="text" class="form-control">
+                                            </div>
+
+
+                                             <div class="input-group">
+                                                <span class="input-group-addon">
+                                            <i class="material-icons">attach_money</i>
+                                        </span>
+                                                <textarea rows="4" name="experiencia" cols="50" class="form-control" placeholder="experiencias Anteriores"></textarea>
                                             </div>
 
                                        
@@ -254,21 +273,27 @@
                                 <div class="col-md-5">
                                     
 
-                                    <form class="form" method="" action="">
                                         <div class="card-content">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">hearing</i>
                                         </span>
-                                                <input type="text" class="form-control" placeholder="Idiomas..." id="idioma">
+                                                <select  id="idioma" class="multipleSelect" multiple name="idioma" >
+                                                        <option value="N/A" selected="">Seleccione los idiomas</option>
+                                                        <option value="English">English</option>
+                                                        <option value="Espanol">Español</option>
+                                                        <option value="Francais">Français</option>
+                                                    
+                                                </select>
+                                            
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">work</i>
                                         </span>
-                                               <select name="ar_int" class="form-control">
-                                                        <option value="N/A" id="ar_int" selected="">Seleccione el Area</option>
+                                               <select  id="ar_int" class="multipleSelect" multiple name="ar_int" >
+                                                        <option value="N/A" id="ar_int" selected="">Seleccione el Area de interes</option>
                                                         {%for area in areas%}
                                                         <option value="{{area.titulo}}">{{area.titulo}}</option>
                                                         {%endfor%}
@@ -285,9 +310,12 @@
                                                         <option value="N/A" selected="">Seleccione el nivel de estudios</option>
                                                         <option value="N/A">Sin estudios</option>
                                                         <option value="Basico">Basico </option>
-                                                        <option value="Bachillerato"> Bachillerato </option>
+                                                        <option value="Bachillerato"> Bachillerato</option>
+                                                        <option value="Estudiante Universitario"> Estudiante Universitario </option>
                                                         <option value="Universitario(incompleto)"> Universitario(incompleto) </option>
-                                                        <option value="Profesional"> Profesional </option>
+                                                        <option value="Licenciatura"> Licenciatura </option>
+                                                        <option value="Post-Grado"> Post-Grado </option>
+                                                        <option value="Maestrias"> Maestrias </option>
                                                     </select>
                                             </div>
 
@@ -295,10 +323,12 @@
                                                 <span class="input-group-addon">
                                             <i class="material-icons">school</i>
                                         </span>
-                                                <input type="text" placeholder="Universidad..." class="form-control"  id="universidad">
+                                                <input type="text" placeholder="Universidad..." name="universidad" class="form-control"  id="universidad">
                                             </div>
 
                                             <!-- If you want to add a checkbox to this form, uncomment this code -->
+
+
 
                                           
                                         </div>
@@ -307,7 +337,7 @@
                                             <a  class="btn btn-danger btn-round" onclick="HideStep2()">Siguiente</a>
                                             </div>
                                         </div>
-                                    </form>
+                                    
                                 </div>
                             </div>
 
@@ -322,7 +352,7 @@
                                                                       </div>
                                                                       <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
                                                                       <div>
-                                                                        <span class="btn btn-default btn-file"><span class="fileinput-new">Selecciona Imagen</span><span class="fileinput-exists">Cambiar</span><input type="file" name="..."></span>
+                                                                        <span class="btn btn-default btn-file"><span class="fileinput-new">Selecciona Imagen</span><span class="fileinput-exists">Cambiar</span><input type="file" name="picture"></span>
                                                                         <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Quitar</a>
                                                                       </div>
                                                                     </div>
@@ -334,7 +364,7 @@
                                                 <span class="input-group-addon">
                                             <i class="material-icons">local_phone</i>
                                         </span>
-                                                <input type="text" id="telefono" class="form-control" placeholder="Telefonos...">
+                                                <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Telefonos...">
                                             </div>
 
                                         <div class="input-group">
@@ -389,7 +419,7 @@
                                 <div class="col-md-5">
                                     
 
-                                    <form class="form" method="" action="">
+                                    
                                         <div class="card-content">
                                            
 
@@ -397,14 +427,14 @@
                                                 <span class="input-group-addon">
                                             <i class="material-icons">school</i>
                                         </span>
-                                                <input type="text" id="nacionalidad" class="form-control" placeholder="Nacionalidad...">
+                                                <input type="text" id="nacionalidad" name="nacionalidad" class="form-control" placeholder="Nacionalidad...">
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                             <i class="material-icons">swap_horiz</i>
                                         </span>
-                                                <input type="text" placeholder="Localidad..." class="form-control" />
+                                                <input type="text" placeholder="Localidad..." name="localidad" class="form-control" />
                                             </div>
 
                                              <div class="input-group">
@@ -413,8 +443,8 @@
                                         </span>
                                                <select onchange="Cambio();" id="licencia" name="licencia" class="form-control">
                                                         <option value="N/A"> Tienes Licencia de conducir? </option>
-                                                        <option value="No tengo"> No tengo </option>
-                                                        <option value="Si tengo"> Si tengo </option>
+                                                        <option value="No tengo">NO</option>
+                                                        <option value="Si tengo">SI</option>
                                                     </select>
                                             </div>
 
@@ -439,15 +469,17 @@
                                         </div>
                                         <div class="footer text-center">
                                             <div style="text-align: center;">
-                                            <a  class="btn btn-danger btn-round">Buscar Empleo</a>
+                                            <input type='submit' class='btn btn-finish btn-fill btn-danger btn-wd' value='BUSCAR EMPLEO' />
                                             </div>
                                         </div>
-                                    </form>
+                                    
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                </form>
             </div>
             <footer class="footer">
                 <div class="container">
@@ -516,6 +548,14 @@
 <!-- Sweet Alert 2 plugin, full documentation here: https://limonte.github.io/sweetalert2/ -->
 <script src="{% static 'assetsmaterial/js/sweetalert2.js' %}"></script>
 
+
+<script src="{% static 'assetsmaterial/js/fastselect.js' %}"></script>
+<script src="{% static 'assetsmaterial/js/fastselect.standalone.js' %}"></script>
+
+<script src="{% static 'assetsmaterial/js/chosen.jquery.js' %}"></script>
+<script src="{% static 'assetsmaterial/js/chosen.proto.js' %}"></script>
+
+
 <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
 <script src="{% static 'assetsmaterial/js/jasny-bootstrap.min.js' %}"></script>
 
@@ -542,6 +582,7 @@
 
 
 
+
 <script type="text/javascript">
     $().ready(function() {
         demo.checkFullPageBackgroundImage();
@@ -551,9 +592,12 @@
             $('.card').removeClass('card-hidden');
         }, 700)
     });
+ 
 
 
 </script>
+
+4
 
 <script type="text/javascript">
     function HideStep1() {
@@ -758,5 +802,15 @@
         }
 </script>
 
+<script type="text/javascript">
+     $('.multipleSelect').fastselect();
+</script>
+
+<script type="text/javascript">
+     $(".chosen-select").chosen({width: "100%"});
+</script>
+
+
 
 </html>
+
