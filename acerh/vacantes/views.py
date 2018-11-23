@@ -288,7 +288,7 @@ from itertools import chain
 
 @login_required
 def companiass(request):
-	app = Aplicado.objects.filter(~Q(estatus2='Procesado')).filter(pais=request.user.userp.pais_apli)
+	app = Aplicado.objects.filter(~Q(estatus2='Procesado')).filter(pais=request.user.userp.pais_apli).order_by('-last_login')
 	are = Area.objects.all()
 	prov = Provincia.objects.all()
 	entreform = EntrevistaForm(data=request.FILES)

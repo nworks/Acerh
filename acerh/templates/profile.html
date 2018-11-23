@@ -124,12 +124,21 @@
                                                 <input type="file" name="picture" value="{{request.user.userp.picture.url}}">
                                                 <label>Nombres</label>
                                                 <input type="text" name="first_name" class="form-control" value="{{request.user.first_name}}">
+
                                                 <label>Apellidos</label>
                                                 <input type="text" name="last_name" class="form-control" value="{{request.user.last_name}}">
                                                 <label>Email</label>
-                                                <input type="text" name="email" class="form-control" value="{{request.user.email}}" <label>Localidad</label>
+                                                <input type="text" name="email" class="form-control" value="{{request.user.email}}">
+                                                 <label>Telefono</label>
+                                                <input type="text" name="telefono" class="form-control" value="{{request.user.userp.telefono}}">
+
+
+                                                 <label>Localidad</label>
+                                                 
                                                 <select name="localidad" class="form-control">
-                            <option value="sin seleccion" selected="">Seleccione una provincia</option>
+
+                                              
+                                               <option value="sin seleccion" selected="">Seleccione una provincia</option>
                                                     {%for provincia in provincias%}
                                                     <option value="{{provincia.provincia}}">{{provincia.provincia}}</option>
                                                     {%endfor%}
