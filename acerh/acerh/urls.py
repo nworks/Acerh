@@ -28,8 +28,8 @@ from django.contrib.auth.views import login, logout
 
 
 # Routers provide an easy way of automatically determining the URL conf.
-router = routers.DefaultRouter()
-router.register(r'vacantesapi', VacanteViewSet, 'vacantesapi')
+#router = routers.DefaultRouter()
+#router.register(r'vacantesapi', VacanteViewSet, 'vacantesapi')
 
 
 
@@ -49,7 +49,7 @@ except:
 	from django.conf.urls import include, url
 
 	urlpatterns = [
-	url(r'^', include(router.urls)),
+	#url(r'^', include(router.urls)),
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^account/reset_password_confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
 			PasswordResetConfirmView.as_view(), name='reset_password_confirm'),
