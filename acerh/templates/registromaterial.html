@@ -73,7 +73,7 @@
                         </a>
                     </li>
                     <li class=" active ">
-                        <a href="login.html">
+                        <a href="/login">
                             <i class="material-icons">fingerprint</i> Login
                         </a>
                     </li>
@@ -386,14 +386,7 @@
                                                 <span class="input-group-addon">
                                             <i class="material-icons">date_range</i>
                                         </span>
-                                               <select name="edad" class="form-control">
-                                                        <option  value="N/A"> Seleccione su rango de edad </option>
-                                                        <option value="18-25"> 18-25 </option>
-                                                        <option value="25-30"> 25-30 </option>
-                                                        <option value="30-35"> 30-35 </option>
-                                                        <option value="35-40"> 35-40 </option>
-                                                        <option value="40+"> 40+ </option>
-                                                    </select>
+                                                <input id="edad" name="edad" type="text"  class="form-control" placeholder="Fecha Nacimiento(DD-MM-YYYY)">
                                             </div>
 
                                          <div class="input-group">
@@ -764,6 +757,7 @@
     $(document).ready(function(){
       var element = document.getElementById('cedula');
       var salario = document.getElementById('salario');
+      var fecha = document.getElementById('edad');
 
       var maskOptions = {
         mask: '000-0000000-0'
@@ -778,6 +772,11 @@
         mask: '(000) 000-0000)'
       };
       var mask2 = new IMask(salario, maskOptions2);
+
+      var maskOptions3 = {
+        mask: '00-00-0000'
+      };
+      var mask2 = new IMask(fecha, maskOptions3);
 
 
      

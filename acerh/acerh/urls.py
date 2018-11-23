@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from users.views import LoginRequest ,LogoutRequest, register, register2,email, ResetPasswordRequestView,PasswordResetConfirmView,consulta, consultauser, user_detail, consultaur,export_excel, export_excel2, logouttk,usermov,idioma
-from vacantes.views import vacantedit, vacantelist,vacantelist2, aplicado,aplicado2, solicitud, remover,removerc, compania,companiass,companiaus, solicitudcompania, passwordrecovery, proceso, preguntas,registerusers, list_vacant,vacantejson,solcomjs,aplicadomov,removermov, actualizapais
+from vacantes.views import VacanteViewSet , vacantedit, vacantelist,vacantelist2, aplicado,aplicado2, solicitud, remover,removerc, compania,companiass,companiaus, solicitudcompania, passwordrecovery, proceso, preguntas,registerusers, list_vacant,vacantejson,solcomjs,aplicadomov,removermov, actualizapais
 from users.views import userdetail
 from django.conf import settings
 from django.conf.urls.static import static
@@ -27,20 +27,9 @@ from django.contrib.auth.views import login, logout
 
 
 
-# Serializers define the API representation.
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'is_staff')
-
-# ViewSets define the view behavior.
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
+router.register(r'vacantesapi', VacanteViewSet, 'vacantesapi')
 
 
 
@@ -60,6 +49,7 @@ except:
 	from django.conf.urls import include, url
 
 	urlpatterns = [
+	url(r'^', include(router.urls)),
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^account/reset_password_confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
 			PasswordResetConfirmView.as_view(), name='reset_password_confirm'),

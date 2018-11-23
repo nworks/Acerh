@@ -17,7 +17,7 @@ class UserP(models.Model):
 	edad = models.CharField(max_length=100, blank=True)
 	experiencia = models.TextField(blank=True)
 	idioma = models.TextField(blank=True)
-	ar_exp = models.CharField(max_length=100, blank=True)
+	ar_exp = models.TextField(blank=True)
 	ar_int = models.TextField(blank=True)
 	carrera = models.CharField(max_length=100, blank=True)
 	sexo = models.CharField(max_length=100, blank=True)
@@ -29,6 +29,8 @@ class UserP(models.Model):
 	cat_licen = models.CharField(max_length=100, blank=True)
 	pais_apli = models.CharField(max_length=100, blank=True)
 	telefono = models.CharField(max_length=100, blank=True)
+	fec_nac = models.CharField(max_length=20, blank=True)
+	edad2 = models.CharField(max_length=10, blank=True)
 
 	def __unicode__(self):
 		return self.user.username

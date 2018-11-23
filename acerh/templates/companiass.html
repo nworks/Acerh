@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load staticfiles %} {% load widget_tweaks %} {% block content %}
+{% extends 'base.html' %} {% load staticfiles %} {% load widget_tweaks %} {% block content %} {% load calculate_age %}
 <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header card-header-icon" data-background-color="red">
@@ -19,31 +19,26 @@
                                              </div>
                                              <div class="modal-body">
                                                <form  class="form-horizontal form-material" method="GET" id="role-form">
-                                                     <div class="form-group">
-                                                         <label for="name" class="col-sm-2 control-label">Localidad</label>
-                                                         <div class="col-sm-10">
-                                                           <select name="localidad" class="form-control">
-                                                                   <option  selected=""> </option>
-                                                                   {% for prov in provincias %}
-                                                                   <option value="{{prov.provincia}}">{{prov.provincia}}</option>
-                                                                   {%endfor%}
-                                                                 </select>
-                                                         </div>
-                                                     </div>
+                                                     
+
+
                                                      <div class="form-group">
                                                          <label class="col-sm-2 control-label">Area experiencia</label>
                                                              <div class="col-sm-10">
                                                                   <select name="ar_exp" class="form-control">
+                                                                    <option value=""> </option>
                                                                     {% for are in areas %}
                                                                    <option value="{{are.titulo}}">{{are.titulo}}</option>
                                                                    {%endfor%}
                                                                  </select>
                                                              </div>
                                                          </div>
+                                                         
                                                      <div class="form-group">
                                                          <label class="col-sm-2 control-label">Area interes</label>
                                                              <div class="col-sm-10">
                                                                   <select name="ar_int" class="form-control">
+                                                                   <option value=""> </option>
                                                                    {% for are in areas %}
                                                                    <option value="{{are.titulo}}">{{are.titulo}}</option>
                                                                    {%endfor%}
@@ -91,8 +86,8 @@
                                                              <div class="col-sm-10">
                                                                   <select name="sexo" class="form-control">
                                                                    <option disabled="" selected=""> </option>
-                                                                   <option value="masculino">Masculino</option>
-                                                                   <option value="femenino">Femenino</option>
+                                                                   <option value="Masculino">Masculino</option>
+                                                                   <option value="Femenino">Femenino</option>
                                                                  </select>
                                                              </div>
                                                          </div>
@@ -100,6 +95,7 @@
                                                                                      <label class="col-sm-2 control-label">Pais para el que aplica</label>
                                                                                      <div class="col-sm-10">
                                                                                      <select name="pais_apli" class="form-control">
+                                                                                           <option value=""> </option>
                                                                                            <option value="Republica Dominicana">Republica Dominicana</option>
                                                                                            <option value="Guatemala">Guatemala</option>
                                                                                            <option value="Nicaragua">Nicaragua</option>
@@ -145,7 +141,7 @@
                                                     </div>  </div> </td>
 
                                                     <td>{{app.usuario.first_name}} {{app.usuario.last_name}}</td>
-                                                    <td>{{app.usuario.userp.edad}}</td>
+                                                    <td>{{app.usuario.userp.edad | age}}</td>
                                                     <td class="text-right">{{app.usuario.userp.carrera}}</td>
                                                     <td class="text-right">{{app.usuario.userp.localidad}}</td>
                                                     <td class="text-right">{{app.usuario.userp.universidad}}</td>
@@ -171,7 +167,7 @@
                                                           <span aria-hidden="true">&times;</span>
                                                         </button>
                                                       </div>
-                                                      <div class="modal-body " id="table">
+                                                      <div class="modal-body " id="table{{app.id}}">
                                                        
                                                        <div class="card card-profile" >
                                                                         <h5 class="modal-title" ><b> Curriculum Vitae</b></h5>
@@ -195,19 +191,15 @@
                                                                            </p>
 
                                                                            <p >
-                                                                               Area Profesional : {{app.usuario.userp.carrera}} 
+                                                                               Area Interes : {{app.usuario.userp.ar_int}} 
+                                                                           </p>
+
+                                                                            <p>
+                                                                               Edad :  {{app.usuario.userp.edad | age}} 
                                                                            </p>
 
                                                                            <p >
-                                                                               Area Profesional : {{app.usuario.userp.carrera}} 
-                                                                           </p>
-
-                                                                           <p><b>
-                                                                               Formacion Academida
-                                                                           </b></p>
-
-                                                                            <p >
-                                                                               Bachillerato tecnico en administracion
+                                                                              Sexo :  {{app.usuario.userp.sexo}} 
                                                                            </p>
 
                                                                            <p><b>
@@ -215,54 +207,23 @@
                                                                            </b></p>
 
                                                                            <p >
-                                                                               ALTERNAGROUP SRL - DESARROLLADOR WEB
-                                                                               CONSTRUCTORA CBP - SOPORTE TECNICO
-                                                                               ARSRESERAS - ANALISTA DE DESARROLLO DE APLICACIONES
+                                                                               {{app.usuario.userp.ar_exp}} 
                                                                            </p>
-
-                                                                           <p><b>
-                                                                               Conocimientos Informatica
-                                                                           </b></p>
-
-                                                                           <p >
-                                                                               WORD EXCEL AUTOCAD
-                                                                           </p>
-
-                                                                           <p><b>
-                                                                              Cursos y Seminarios
-                                                                           </b></p>
-                                                                           
-                                                                           <p >
-                                                                               TECNICO EN INFORMATICA ITLTA
-                                                                           </p>
+                                                                    
 
                                                                            <p><b>
                                                                               Idiomas
                                                                            </b></p>
 
                                                                            <p >
-                                                                               Ingles Español
+                                                                               {{app.usuario.userp.idioma}}
                                                                            </p>
 
-                                                                            <p><b>
-                                                                              Comentarios
-                                                                           </b></p>
-
-                                                                           <p >
-                                                                               Ninguno
-                                                                           </p>
-
-                                                                           <p><b>
-                                                                              Clasificacion ISCO (OIT)
-                                                                           </b></p>
-
-                                                                           <p >
-                                                                               Ninguno
-                                                                           </p>
+                                                                        
 
 
-                                                                           <a href="/media/CV/1/VICTORIA_V.mpp" class="btn btn-danger btn-round">Ver CV</a> 
-                                                                           <button type="button" class="btn btn-danger btn-round" onclick="return xepOnline.Formatter.Format('table',{embedLocalImages : 'true'});" >CV</button>
+                                                                           <a href="{{app.usuario.userp.file.url}}" class="btn btn-danger btn-round">Subido por el usuario</a> 
+                                                                           <button type="button" class="btn btn-danger btn-round" onclick="return xepOnline.Formatter.Format('table{{app.id}}',{embedLocalImages : 'true'});" >Crear CV</button>
                                                                        </div>
                                                                    </div>
 
@@ -271,7 +232,7 @@
 
                                                       </div>
                                                       <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger">Save changes</button>
+                                                        
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                       </div>
                                                     </div>

@@ -18,11 +18,48 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
 
+from rest_framework import viewsets
+
+from serializers import VacanteSerializer
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+
+
+
+@permission_classes((IsAuthenticated, ))
+class VacanteViewSet(viewsets.ModelViewSet):
+	"""
+	API endpoint that allows users to be viewed or edited.
+	"""
+	serializer_class = VacanteSerializer 
+	authentication_classes = (BasicAuthentication,)
+
+	def get_queryset(self):
+
+		user = self.request.user
+		result1 = serializers.serialize("json",Aplicado.objects.filter(usuario=user))
+		decoded_data = json.loads(result1)
+		array = []
+		for i in decoded_data:
+			array.insert(0,i["fields"]["aplico"])
+		print array
+		vjs = list(Vacante.objects.exclude(pk__in=array).order_by('-creatd_date'))
+		print user
+		lookup_field = 'titulo'
+		return vjs
+
+   
+	
+
+
 @login_required
 def vacantelist(request):
 	if request.user.is_staff:
 		return redirect('/compania')
-    
+	
 	result1 = serializers.serialize("json",Aplicado.objects.filter(usuario=request.user.id))
 	decoded_data = json.loads(result1)
 	array = []
@@ -58,7 +95,7 @@ def vacantelist(request):
 		for i in decoded_data:
 			array.insert(0,i["fields"]["aplico"])
 		
-		post = Vacante.objects.exclude(pk__in=array).filter(pais=request.user.userp.pais_apli).filter(titulo__contains=busqueda) or Vacante.objects.filter(titulo__contains=busqueda)
+		post = Vacante.objects.exclude(pk__in=array).filter(pais=request.user.userp.pais_apli).filter(titulo__contains=busqueda ) or Vacante.objects.filter(descripcion__contains=busqueda)
 
 		paginator = Paginator(post, 15) # Show 25 contacts per page
 
@@ -272,35 +309,50 @@ def companiass(request):
 
 	if request.method == 'GET':
 		args_list = []
+
+		if 'ar_exp' in request.GET:
+			carrera = request.GET['ar_exp']
+			if carrera is not None and carrera != '':
+				carrera = request.GET.get('ar_exp')
+				args_list.insert(0,Q(carrera__contains=carrera))
+				print carrera
+
+		else:
+			print 'carrera'
+
+
+		if 'pais_apli' in request.GET:
+			pais_apli = request.GET['pais_apli']
+			if pais_apli is not None and pais_apli != '':
+				pais_apli = request.GET.get('pais_apli')
+				args_list.insert(0,Q(pais_apli=pais_apli))
+				print pais_apli
+
+		else:
+			print 'pais_apli'
+
+		if 'sexo' in request.GET:
+			sexo = request.GET['sexo']
+			if sexo is not None and sexo != '':
+				sexo = request.GET.get('sexo')
+				args_list.insert(0,Q(sexo=sexo))
+				print sexo
+
+		else:
+			print 'sexo'
+
+
+		if 'ar_int' in request.GET:
+			ar_int = request.GET['ar_int']
+			if ar_int is not None and ar_int != '':
+				ar_int = request.GET.get('ar_int')
+				args_list.insert(0,Q(ar_int__contains=ar_int))
+				print ar_int
+
+		else:
+			print 'ar_int'
 		
-		if 'apellido' in request.GET:
-			apellido = request.GET['apellido']
-			if apellido is not None and apellido != '':
-				apellido = request.GET.get('apellido')
-				args_list.insert(0,Q(user__last_name__contains=apellido))
-
-		else:
-			print 'no buscar apellido'
-		if 'correo' in request.GET:
-			correo = request.GET['correo']
-			if correo is not None and correo != '':
-				correo = request.GET.get('correo')
-				args_list.insert(0,Q(user__email=correo))
-			
-			print correo
-
-		else:
-			print 'No buscar correo'
 		
-		if 'named' in request.GET:
-			nombre = request.GET['named']
-			if nombre is not None and nombre != '':
-				nombre = request.GET.get('named')
-				args_list.insert(0,Q(user__first_name__contains=nombre))
-			
-
-		else:
-			print 'sin nombre'
 
 		if 'carrera' in request.GET:
 			carrera = request.GET['carrera']
@@ -346,7 +398,7 @@ def companiass(request):
 				edad = request.GET.get('edad')
 				args_list.insert(0,Q(edad=edad))
 		else:
-			print 'no buscar area interes 2'
+			print 'no buscar edad'
 
 		if 'experiencia' in request.GET:
 			experiencia = request.GET['experiencia']
@@ -360,8 +412,9 @@ def companiass(request):
 		lookups =  Q()
 		
 		for campo in args_list:
-			lookups = lookups | campo
-
+			lookups = lookups & campo
+		
+		print "PARAMETROS DE BUSQUEDA"
 		print lookups
 
 	
@@ -713,6 +766,7 @@ def companiapag(request):
 @csrf_exempt
 def vacantejson(request):
 	data3 = json.loads(request.body)
+	print data3
 	mouser = Token.objects.get(key=data3["token"])
 	print mouser
 	print mouser.user.id
@@ -722,7 +776,7 @@ def vacantejson(request):
 	for i in decoded_data:
 		array.insert(0,i["fields"]["aplico"])
 	print array
-	vjs = Vacante.objects.exclude(pk__in=array)
+	vjs = Vacante.objects.exclude(pk__in=array).filter(pais=request.user.userp.pais_apli)
 	#print vjs
 	Vacantes = []
 	for tmpPickUp in vjs:

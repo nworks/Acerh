@@ -1,5 +1,4 @@
-{% extends 'base.html' %} {% load staticfiles %} {% block content %}
-<div class="container-fluid">
+{% extends 'base.html' %} {% load staticfiles %} {% block content %} {% load calculate_age %}
     <div class="row">
         <div class="col-md-8">
             <div class="card">
@@ -55,7 +54,7 @@
                                     <h4 class="card-title">{{request.user.userp.localidad}}</h4>
 
                                     <h6 class="category text-gray">Edad</h6>
-                                    <h4 class="card-title">{{request.user.userp.edad}}</h4>
+                                    <h4 class="card-title">{{ request.user.userp.edad | age}}</h4>
 
                                     <h6 class="category text-gray">Sexo</h6>
                                     <h4 class="card-title">{{request.user.userp.sexo}}</h4>

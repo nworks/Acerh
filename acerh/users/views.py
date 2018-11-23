@@ -28,11 +28,18 @@ import os
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import sys
 import unicodedata
+from django.utils.dateparse import parse_date
+import datetime
+from django.utils.timezone import now
 # sys.setdefaultencoding() does not exist, here!
 reload(sys)  # Reload does the trick!
 sys.setdefaultencoding('UTF8')
 
+from django import template
 # Create your views here.
+
+
+
 
 
 def idioma(request):
@@ -158,6 +165,10 @@ def register(request):
 				profile.localidad = unicodedata.normalize('NFKD', request.POST.get('localidad')).encode('ascii', 'ignore')
 				profile.estudio = unicodedata.normalize('NFKD', request.POST.get('estudio')).encode('ascii', 'ignore')
 				profile.edad = unicodedata.normalize('NFKD', request.POST.get('edad')).encode('ascii', 'ignore')
+
+				#profile.edad = calculate_age(datetime.datetime.strptime(request.POST.get('edad'), "%d-%m-%Y").date())
+				profile.edad = unicodedata.normalize('NFKD', request.POST['edad']).encode('ascii', 'ignore')
+				
 				profile.experiencia = unicodedata.normalize('NFKD', request.POST.get('experiencia')).encode('ascii', 'ignore')
 				profile.nacionalidad = unicodedata.normalize('NFKD', request.POST.get('nacionalidad')).encode('ascii', 'ignore')
 				profile.universidad = unicodedata.normalize('NFKD', request.POST.get('universidad')).encode('ascii', 'ignore')
@@ -770,7 +781,3 @@ def usermov(request):
 	return JsonResponse(pickup_response, safe=False)
 
 
-
-def calculate_age(born):
-    today = date.today()
-    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
