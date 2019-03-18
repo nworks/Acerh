@@ -769,15 +769,106 @@ def usermov(request):
 	mouser = Token.objects.get(key=data3["token"])
 	print "mouser" , mouser.user.id
 	userbasic = User.objects.get(id=mouser.user.id)
-	userpro = UserP.objects.get(id=mouser.user.id)
+	print userbasic
+	userpro = UserP.objects.get(user=userbasic)
 	vacante_dict = {}
 	Registros=[]
-	record = { "id":userbasic.id, "user":userbasic.username, "first_name":userbasic.first_name, "last_name":userbasic.last_name, "email":userbasic.email, "picture":userpro.picture.url,"localidad":userpro.localidad, "estudio":userpro.estudio,"edad":userpro.edad,"experiencia":userpro.experiencia,"idioma":userpro.idioma,"ar_int":userpro.ar_int,"carrera":userpro.carrera,"sexo":userpro.sexo,"cedula":userpro.cedula, "nacionalidad":userpro.nacionalidad,"universidad":userpro.universidad,"pais_apli":userpro.pais_apli}
+	domain = request.get_host()
+	record = { "id":userbasic.id, "user":userbasic.username, "first_name":userbasic.first_name, "last_name":userbasic.last_name, "email":userbasic.email, "picture":domain+userpro.picture.url,"localidad":userpro.localidad, "estudio":userpro.estudio,"edad":userpro.edad,"experiencia":userpro.experiencia,"idioma":userpro.idioma,"ar_int":userpro.ar_int,"carrera":userpro.carrera,"sexo":userpro.sexo,"cedula":userpro.cedula, "nacionalidad":userpro.nacionalidad,"universidad":userpro.universidad,"pais_apli":userpro.pais_apli}
 	Registros.append(record)
 	pickup_records = json.dumps(Registros)
 	pickup_response={"registros":Registros}
 
 
+	return JsonResponse(pickup_response, safe=False)
+
+@csrf_exempt
+def loginmov(request):
+	#Obtener el usuario del json movil
+	print "PRINT JSON"
+	print request.body
+	data3 = json.loads(request.body)
+	print json.loads(request.body)
+	usuario = authenticate(username=data3["username"],password=data3["password"])
+	if usuario is not None:
+		print usuario
+		print usuario.username
+		user = Token.objects.get(user=usuario)
+		print user
+		print user.key
+		return HttpResponse(json.dumps({"Token":user.key}), content_type='application/json')
+	else:
+		return HttpResponse(json.dumps("Rejected"), content_type='application/json')
+
+
+
+
+from django.contrib.auth.hashers import make_password
+
+@csrf_exempt
+def registermov(request):
+	data3 = json.loads(request.body)
+	print json.loads(request.body)
+	print data3["username"]
+	print data3["first_name"]
+	print data3["last_name"]
+	print data3["password"]
+	print data3["email"]
+	print data3["cedula"]
+	print data3["sexo"]
+	print data3["idioma"]
+	print data3["carrera"]
+	print data3["ar_int"]
+	print data3["salario"]
+	print data3["telefono"]
+	print data3["localidad"]
+	print data3["estudio"]
+	print data3["edad"]
+	print data3["experiencia"]
+	print data3["nacionalidad"]
+	print data3["universidad"]
+	print data3["licencia"]
+	print data3["cat_licen"]
+	print data3["pais_apli"]
+
+	if User.objects.filter(username=data3["username"]).exists():
+		message = "Este Username:" + " " + data3["username"] + " " + " ya se encuentra en uso, intente otro"  
+		return HttpResponse(json.dumps(message), content_type='application/json')
+
+
+	if User.objects.filter(email=data3["email"]).exists():
+		message = "Este correo electronico fue registrado"
+		return HttpResponse(json.dumps(message), content_type='application/json')
+	
+	user = User.objects.create_user(username=data3["username"],first_name=data3["first_name"],last_name=data3["last_name"],email=data3["email"],password=data3["password"],is_active=True).save()
+	
+	user2 = User.objects.get(username=data3["username"])
+	
+	print user2
+
+	user3 = Token.objects.create(user=user2)
+	
+	print user3
+	print user3.key
+
+
+	userp = UserP.objects.create(user=user2,cedula=data3["cedula"],sexo=data3["sexo"],idioma=data3["idioma"],carrera=data3["carrera"],ar_int=data3["ar_int"],salario=data3["salario"],telefono=data3["telefono"],localidad=data3["localidad"],estudio=data3["estudio"],edad=data3["edad"],experiencia=data3["experiencia"],nacionalidad=data3["nacionalidad"],universidad=data3["universidad"],licencia=data3["licencia"],cat_licen=data3["cat_licen"],pais_apli=data3["pais_apli"])
+
+	return HttpResponse(json.dumps("Registered"), content_type='application/json')
+
+
+@csrf_exempt
+def registerconmov(request):
+	#Obtener el usuario del json movil
+	area_dict = {}
+	Areas=[]
+	vjs = Area.objects.all()
+	print vjs
+	for tmpPickUp in vjs:
+		record = {"titulo":tmpPickUp.titulo, "id":tmpPickUp.id}
+		Areas.append(record)
+		pickup_records = json.dumps(Areas)
+		pickup_response={"areas":Areas}
 	return JsonResponse(pickup_response, safe=False)
 
 

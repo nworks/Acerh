@@ -768,7 +768,7 @@ def vacantejson(request):
 	data3 = json.loads(request.body)
 	print data3
 	mouser = Token.objects.get(key=data3["token"])
-	print mouser
+	print mouser.user.username
 	print mouser.user.id
 	result1 = serializers.serialize("json",Aplicado.objects.filter(usuario=mouser.user))
 	decoded_data = json.loads(result1)
@@ -776,31 +776,35 @@ def vacantejson(request):
 	for i in decoded_data:
 		array.insert(0,i["fields"]["aplico"])
 	print array
-	vjs = Vacante.objects.exclude(pk__in=array).filter(pais=request.user.userp.pais_apli)
+	vjs = Vacante.objects.exclude(pk__in=array).filter(pais=mouser.user.userp.pais_apli)
 	#print vjs
 	Vacantes = []
-	for tmpPickUp in vjs:
-		titulo=tmpPickUp.titulo
-		descripcion=tmpPickUp.descripcion
-		postid = tmpPickUp.id
-		requisitos = tmpPickUp.requisitos
-		pregunta1 = tmpPickUp.pregunta1
-		pregunta2 = tmpPickUp.pregunta2
-		pregunta3 = tmpPickUp.pregunta3
-		pregunta4 = tmpPickUp.pregunta4
-		pregunta5 = tmpPickUp.pregunta5
-		pregunta6 = tmpPickUp.pregunta6
-		pregunta7 = tmpPickUp.pregunta7
-		pregunta8 = tmpPickUp.pregunta8
-		#print titulo,descripcion,requisitos, postid
-		record = {"titulo":titulo, "descripcion":descripcion,"requisitos":requisitos,"postid":postid,  "pregunta2":pregunta2, "pregunta3":pregunta3, "pregunta4":pregunta4 , "pregunta5":pregunta5, "pregunta6":pregunta6, "pregunta7":pregunta7 ,"pregunta8":pregunta8 }
-		#print record
-		Vacantes.append(record)
-
-		#pickup_records = json.dumps(pickup_records)
-		pickup_records = json.dumps(Vacantes)
-		pickup_response={"vacantes":Vacantes}
-	return JsonResponse(pickup_response , safe=False)
+	try:
+	    for tmpPickUp in vjs:
+	    	titulo=tmpPickUp.titulo
+	    	descripcion=tmpPickUp.descripcion
+	    	postid = tmpPickUp.id
+	    	requisitos = tmpPickUp.requisitos
+	    	pregunta1 = tmpPickUp.pregunta1
+	    	pregunta2 = tmpPickUp.pregunta2
+	    	pregunta3 = tmpPickUp.pregunta3
+	    	pregunta4 = tmpPickUp.pregunta4
+	    	pregunta5 = tmpPickUp.pregunta5
+	    	pregunta6 = tmpPickUp.pregunta6
+	    	pregunta7 = tmpPickUp.pregunta7
+	    	pregunta8 = tmpPickUp.pregunta8
+	    	#print titulo,descripcion,requisitos, postid
+	    	record = {"titulo":titulo, "descripcion":descripcion,"requisitos":requisitos,"postid":postid, "pregunta1":pregunta1, "pregunta2":pregunta2, "pregunta3":pregunta3, "pregunta4":pregunta4 , "pregunta5":pregunta5, "pregunta6":pregunta6, "pregunta7":pregunta7 ,"pregunta8":pregunta8 }
+	    	#print record
+	    	Vacantes.append(record)
+    
+	    	#pickup_records = json.dumps(pickup_records)
+	    	pickup_records = json.dumps(Vacantes)
+	    	pickup_response={"vacantes":Vacantes}
+	    return JsonResponse(pickup_response , safe=False)
+	except:
+		pickup_response="No Resultados"
+		return JsonResponse(pickup_response, safe=False)
 
 
 
@@ -812,11 +816,59 @@ def solcomjs(request):
 	print data1
 	data3 = json.loads(request.body)
 	print data3["post"]
-	print data3["estatus"]
 	print data3["token"]
 	mouser = Token.objects.get(key=data3["token"])
 	print mouser.user
-	solicit =  Aplicado.objects.create(usuario=mouser.user, aplico_id=data3["post"], estatus_id=2)
+	if 'pregunta1' in data3:
+		pregunta1 = data3["pregunta1"]
+	else:
+		pregunta1 = ''
+
+	if 'pregunta2' in data3:
+		pregunta2 = data3["pregunta2"]
+	else:
+		pregunta2 = ''
+
+	if 'pregunta3' in data3:
+		pregunta3 = data3["pregunta3"]
+	else:
+		pregunta3 = ''
+	if 'pregunta4' in data3:
+		pregunta4 = data3["pregunta4"]
+	else:
+		pregunta4 = ''
+
+	if 'pregunta5' in data3:
+		pregunta5 = data3["pregunta5"]
+	else:
+		pregunta5 = ''
+
+	if 'pregunta6' in data3:
+		pregunta6 = data3["pregunta6"]
+	else:
+		pregunta6 = ''
+
+	if 'pregunta7' in data3:
+		pregunta7 = data3["pregunta7"]
+	else:
+		pregunta7 = ''
+	
+	if 'pregunta8' in data3:
+		pregunta8 = data3["pregunta8"]
+	else:
+		pregunta8 = ''
+
+
+	print pregunta1
+	print pregunta2
+	print pregunta3
+	print pregunta4
+	print pregunta5
+	print pregunta6
+	print pregunta7
+	print pregunta8
+
+	solicit =  Aplicado.objects.create(usuario=mouser.user, aplico_id=data3["post"],respuesta=pregunta1,respuesta2=pregunta2,respuesta3=pregunta3,respuesta4=pregunta4,respuesta5=pregunta5,respuesta6=pregunta6,respuesta7=pregunta7,respuesta8=pregunta8, estatus_id=2,pais=mouser.user.userp.pais_apli)
 	solicit.save()
 	return HttpResponse(json.dumps("ok estatus"), content_type='application/json')
 
@@ -831,21 +883,24 @@ def aplicadomov(request):
 	Aplicados=[]
 	vjs = Aplicado.objects.filter(usuario=mouser.user)
 	print Aplicado.objects.filter(usuario=mouser.user)
-	for tmpPickUp in vjs:
-		vacan = Vacante.objects.get(id=tmpPickUp.aplico.id)
-		titulo = vacan.titulo
-		descripcion = vacan.descripcion
+	try:
+		for tmpPickUp in vjs:
+		    vacan = Vacante.objects.get(id=tmpPickUp.aplico.id)
+		    titulo = vacan.titulo
+		    descripcion = vacan.descripcion
+		    idpost = tmpPickUp.id
+		    print idpost
+		    record = { "idpost":idpost, "titulo":titulo, "descripcion":descripcion}
+		    print record
+		    Aplicados.append(record)
+		    pickup_records = json.dumps(Aplicados)
+		    pickup_response={"aplicados":Aplicados}
+		return JsonResponse(pickup_response, safe=False)
+	except:
+		pickup_response="No Resultados"
+		return JsonResponse(pickup_response, safe=False)
+	
 
-		idpost = tmpPickUp.id
-		print idpost
-		record = { "idpost":idpost, "titulo":titulo, "descripcion":descripcion}
-		print record
-		Aplicados.append(record)
-		pickup_records = json.dumps(Aplicados)
-		pickup_response={"aplicados":Aplicados}
-
-
-	return JsonResponse(pickup_response, safe=False)
 
 @csrf_exempt
 def removermov(request):

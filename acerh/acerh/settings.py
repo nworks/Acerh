@@ -25,7 +25,7 @@ SECRET_KEY = '%3x%n9)ty94-6_x3ixx($a@xs9hscojjzi_3ll(@v$7s)5c3(m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['45.55.203.222','172.23.72.83','www.tutalentoacerh.com','tutalentoacerh.com', '10.0.0.2','127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['45.55.203.222','192.168.0.100','www.tutalentoacerh.com','tutalentoacerh.com', '10.0.0.2','10.0.0.4','127.0.0.1', 'localhost']
 
 
 LOGIN_REDIRECT_URL = ('/users') 
@@ -36,6 +36,7 @@ LOGIN_REDIRECT_URL = ('/users')
 ACCOUNT_LOGOUT_ON_GET = True
         
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -66,6 +67,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_auth.registration',
     'allauth.socialaccount',
+    'corsheaders'
 
     
     
@@ -75,7 +77,7 @@ INSTALLED_APPS = [
 ]
 SITE_ID = 1
 
-
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 REST_FRAMEWORK = {
