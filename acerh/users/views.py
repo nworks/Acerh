@@ -774,7 +774,7 @@ def usermov(request):
 	vacante_dict = {}
 	Registros=[]
 	domain = request.get_host()
-	record = { "id":userbasic.id, "user":userbasic.username, "first_name":userbasic.first_name, "last_name":userbasic.last_name, "email":userbasic.email, "picture":domain+userpro.picture.url,"localidad":userpro.localidad, "estudio":userpro.estudio,"edad":userpro.edad,"experiencia":userpro.experiencia,"idioma":userpro.idioma,"ar_int":userpro.ar_int,"carrera":userpro.carrera,"sexo":userpro.sexo,"cedula":userpro.cedula, "nacionalidad":userpro.nacionalidad,"universidad":userpro.universidad,"pais_apli":userpro.pais_apli}
+	record = { "id":userbasic.id, "user":userbasic.username, "first_name":userbasic.first_name, "last_name":userbasic.last_name, "email":userbasic.email, "picture":"http://"+domain+userpro.picture.url,"localidad":userpro.localidad, "estudio":userpro.estudio,"edad":userpro.edad,"experiencia":userpro.experiencia,"idioma":userpro.idioma,"ar_int":userpro.ar_int,"carrera":userpro.carrera,"sexo":userpro.sexo,"cedula":userpro.cedula, "nacionalidad":userpro.nacionalidad,"universidad":userpro.universidad,"pais_apli":userpro.pais_apli}
 	Registros.append(record)
 	pickup_records = json.dumps(Registros)
 	pickup_response={"registros":Registros}
