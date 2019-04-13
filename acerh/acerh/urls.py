@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from users.views import LoginRequest ,LogoutRequest, register, register2,email, ResetPasswordRequestView,PasswordResetConfirmView,consulta, consultauser, user_detail, consultaur,export_excel, export_excel2, logouttk,usermov,idioma,loginmov,registermov, registerconmov
+from users.views import LoginRequest ,LogoutRequest, register, register2,email, ResetPasswordRequestView,PasswordResetConfirmView,consulta, consultauser, user_detail, consultaur,export_excel, export_excel2, logouttk,usermov,idioma,loginmov,registermov, registerconmov,avatarmov
 from vacantes.views import VacanteViewSet , vacantedit, vacantelist,vacantelist2, aplicado,aplicado2, solicitud, remover,removerc, compania,companiass,companiaus, solicitudcompania, passwordrecovery, proceso, preguntas,registerusers, list_vacant,vacantejson,solcomjs,aplicadomov,removermov, actualizapais
 from users.views import userdetail
 from django.conf import settings
@@ -100,6 +100,7 @@ except:
 	url(r'^loginmov/',loginmov),
 	url(r'^registermov/',registermov,name="registermov"),
 	url(r'^registerconmov/',registerconmov,name="registerconmov"),
+	url(r'^avatarmov/',avatarmov,name="avatarmov"),
 	
 	url(r'^actualizapais/',actualizapais),
 	url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
