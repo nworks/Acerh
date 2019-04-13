@@ -774,13 +774,14 @@ def usermov(request):
 	vacante_dict = {}
 	Registros=[]
 	domain = request.get_host()
-	record = { "id":userbasic.id, "user":userbasic.username, "first_name":userbasic.first_name, "last_name":userbasic.last_name, "email":userbasic.email, "picture":"http://"+domain+userpro.picture.url,"localidad":userpro.localidad, "estudio":userpro.estudio,"edad":userpro.edad,"experiencia":userpro.experiencia,"idioma":userpro.idioma,"ar_int":userpro.ar_int,"carrera":userpro.carrera,"sexo":userpro.sexo,"cedula":userpro.cedula, "nacionalidad":userpro.nacionalidad,"universidad":userpro.universidad,"pais_apli":userpro.pais_apli}
+	record = { "id":userbasic.id, "user":userbasic.username, "first_name":userbasic.first_name, "last_name":userbasic.last_name, "email":userbasic.email, "picture":"http://"+domain+userpro.picture.url,"localidad":userpro.localidad, "estudio":userpro.estudio,"edad":userpro.edad,"experiencia":userpro.experiencia,"idioma":userpro.idioma,"ar_int":userpro.ar_int,"carrera":userpro.carrera,"sexo":userpro.sexo,"cedula":userpro.cedula, "nacionalidad":userpro.nacionalidad,"universidad":userpro.universidad,"pais_apli":userpro.pais_apli,"telefono":userpro.telefono}
 	Registros.append(record)
 	pickup_records = json.dumps(Registros)
 	pickup_response={"registros":Registros}
 
 
 	return JsonResponse(pickup_response, safe=False)
+
 
 @csrf_exempt
 def loginmov(request):
@@ -872,3 +873,48 @@ def registerconmov(request):
 	return JsonResponse(pickup_response, safe=False)
 
 
+
+from django.http.multipartparser import MultiPartParser
+import base64,uuid
+from django.core.files.base import ContentFile
+
+
+@csrf_exempt
+def avatarmov(request):
+	print 'request cvmov'
+	img64 = request.POST['file']
+	cv64 = request.POST['cv']
+	typefile = request.POST['type']
+	token = request.POST['token']
+	print request.POST.keys()
+	print typefile
+	print token
+
+	try:
+		#Conversion de Base64 a la imagen
+		format, imgstr = img64.split(';base64,') 
+		ext = format.split('/')[-1] 
+		id = uuid.uuid4()
+
+		data = ContentFile(base64.b64decode(imgstr), name=id.urn[9:] + '.' + ext)
+
+		usuario = Token.objects.get(key=token)
+
+		print usuario
+
+		userpro = UserP.objects.get(user=usuario.user)
+		userpro.picture = data
+
+
+		#Conversion de Bas64 a el archivo
+		format, cvstr = cv64.split(';base64,') 
+		id2 = uuid.uuid4()
+
+		data2 = ContentFile(base64.b64decode(cvstr), name=id2.urn[9:] + '.' + typefile)
+
+		userpro.file = data2
+		userpro.save()
+
+		return HttpResponse(json.dumps({"msg":'done'}), content_type='application/json')
+	except:
+		return HttpResponse(json.dumps({"msg":'error'}), content_type='application/json')
